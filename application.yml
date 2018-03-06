@@ -1,0 +1,70 @@
+spring:
+  activemq:
+    broker-url: >-
+      failover://(tcp://localhost:61616,tcp://localhost:61617)?persistent=true&schedulerSupport=true&useExponentialBackOff=true&warnAfterReconnectAttempts=5
+    user: admin
+    password: admin
+    in-memory: false
+db:
+  url: 'jdbc:oracle:thin:@127.0.0.1:1521:XE'
+  driver: oracle.jdbc.OracleDriver
+  username: system
+  password: 123456
+  datasource:
+    initial-size: 5
+    max-active: 10
+    max-idle: 5
+    min-idle: 1
+    max-wait: 20000
+    test-while-idle: true
+    test-on-borrow: true
+    validation-query: SELECT 1 FROM DUAL
+    time-between-eviction-runs-millis: 5000
+    min-evictable-idle-time-millis: 60000
+    remove-abandoned: true
+    remove-abandoned-timeout: 30
+    abandon-when-percentage-full: 50
+    jdbcInterceptors: ResetAbandonedTimer
+logging:
+  level:
+    com.arterh.esocial: DEBUG
+    com.arkhi.esocial.util: DEBUG
+    org.apache.activemq: WARN
+  file: esocial.log
+certificado:
+  servidor:
+    chave: ./02_2018.jks
+    senha: 123456
+serpro:
+  url_producao:
+    envio: >-
+      https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+    consulta: >-
+      https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+  url_pre_producao:
+    envio: >-
+      https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+    consulta: >-
+      https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+esocial:
+  evento:
+    naoprocessado: L
+    extraidoparaenvio: X
+    recebidopelogoverno: R
+    extraidoparaconsulta: C
+  tamanhoMaximoPacote: 750
+  maximoEventosPorPacote: 50
+  empregadores:
+    - codigo: 12345678
+      chave: ./Certificado.pfx
+      senha: password1233
+      tipo-transmissor: 1
+      numero-transmissor: '23246515000171'
+    - codigo: 87654321
+      chave: ./Certificado2.pfx
+      senha: password1233
+      tipo-transmissor: 1
+      numero-transmissor: 05319244000171
+  consulta.governo: 0 */1 * * * *
+  envio.governo: '*/30 * * * * * '
+  s1000: '*/30 * * * * *'

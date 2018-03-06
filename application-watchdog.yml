@@ -1,0 +1,93 @@
+# Configuracao do banco de dados Oracle
+# URL do Oracle: jdbc:oracle:thin:@127.0.0.1:1521:XE
+# Driver Oracle:  oracle.jdbc.OracleDriver
+# Validation Query pode ser: SELECT 1 FROM DUAL
+#
+# Configuração do banco de daados SQL Server
+# URL do SQL Server:  jdbc:sqlserver://127.0.0.1:1433;databaseName=arterh
+# Driver do SQL Server:  com.microsoft.sqlserver.jdbc.SQLServerDriver
+# Validation Query: SELECT 1
+
+db:
+  url: jdbc:oracle:thin:@127.0.0.1:1521:XE
+  driver: oracle.jdbc.OracleDriver
+  username: system
+  password: 123456
+  datasource:
+    initial-size: 5
+    max-active: 10
+    max-idle: 5
+    min-idle: 1
+    max-wait: 20000
+    test-while-idle: true
+    test-on-borrow: true
+    validation-query: SELECT 1 FROM DUAL
+    time-between-eviction-runs-millis: 5000
+    min-evictable-idle-time-millis: 60000
+    remove-abandoned: true
+    remove-abandoned-timeout: 30
+    abandon-when-percentage-full: 50
+    jdbcInterceptors: ResetAbandonedTimer
+
+# Parametros de log
+# Log de eventos da fila de mensagens: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+logging:
+  level:
+    com.arterh.esocial: INFO
+    com.arkhi.esocial.util: INFO
+    org.apache.activemq: FATAL
+
+
+  #Periodicidade de consulta ao SERPRO 
+
+
+  #Sintax CronTab
+  #* * * * * *
+  #| | | | | |
+  #| | | | | +-- Dia da semana  (faixa: 1-7 ou três primeiras letras do dia da semana em inglês)
+  #| | | | +---- Mes  (faixa: 1-12 ou três primeiras letras do mês em inglês)
+  #| | | +------ Dia (faixa: 1-30)
+  #| | +-------- Hora  (faixa: 0-23)
+  #| +---------- Minuto              (faixa: 0-23)
+  #+------------ Segundo            (faixa: 0-59)
+  # Tempo
+  # Exemplos uteis:
+  # A cada 30 segundos: */30 * * * * *
+  # Cada 1 minuto: 0 */1 * * * *
+  # Cada 5 minutos: 0 */5 * * * *
+  # Cada 30 minutos: 0 */30 * * * *
+  # Toda hora: 0 0 * * * *
+  # Cada 3 horas: 0 0 */3 * * *
+  # Exatamento 10 horas da manha: 0 0 10 * * *
+  # Exatamento 22 horas da noite: 0 0 22 * * * 
+  # Referência completa para Cron - http://docs.netkernel.org/book/view/book:mod:cron/doc:mod:cron:cronexpression
+
+watchdog:
+  frequencia:
+    db: "*/30 * * * * *"
+    mensageria: "*/30 * * * * *"
+    esocial: "*/30 * * * * *"
+    serpro: "*/30 * * * * *"
+
+
+#Enderecos para monitorar e parametro de timeout para o estabelecimento de conexoes HTTP
+esocial:
+  leitor.endereco: http://localhost:5555/healthcheck
+  integrador.endereco: http://localhost:5556/healthcheck
+  mensagens.endereco: http://localhost:8161/
+  serpro:
+     producao:
+       envio: https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+       consulta: https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+     pre_producao:
+       envio: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+       consulta: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+ 
+  http_timeout: 1000  
+  
+  
+spring:
+  output:
+    ansi: 
+      enabled: always
+ 
