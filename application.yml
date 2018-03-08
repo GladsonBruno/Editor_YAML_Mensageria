@@ -6,10 +6,10 @@ spring:
     password: admin
     in-memory: false
 db:
-  url: 'jdbc:oracle:thin:@127.0.0.1:1521:XE'
+  url: 192.168.0.1
   driver: oracle.jdbc.OracleDriver
-  username: system
-  password: 123456
+  username: root
+  password: root
   datasource:
     initial-size: 5
     max-active: 10
@@ -55,14 +55,14 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: 12345678
-      chave: ./Certificado.pfx
-      senha: password1233
+    - codigo: '123456'
+      chave: 123.pfx
+      senha: '123'
       tipo-transmissor: 1
       numero-transmissor: '23246515000171'
-    - codigo: 87654321
-      chave: ./Certificado2.pfx
-      senha: password1233
+    - codigo: '123456'
+      chave: 321.pfx
+      senha: '123'
       tipo-transmissor: 1
       numero-transmissor: 05319244000171
   consulta.governo: 0 */1 * * * *

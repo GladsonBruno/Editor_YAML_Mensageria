@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Config YML</title>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/config-yml.js"></script>
+    
+</head>
+<body>
+    <h1>Configurar Application.yml</h1>
+    <div>
+        <!--Caminho Application.yml-->
+        <label>Caminho application.yml</label>
+        <input type="text" id="arquivo-yml">
+        <p/>
+
+        <!--Configuração Base de Dados-->
+        <h2>Configuração Base de Dados</h2>
+
+        <label>URL base de dados</label>
+        <input type="text" id="url-base-de-dados">
+        <p/>
+
+        <label>Driver Banco de Dados</label>
+        <select id="driver-base-de-dados">
+            <option value="oracle.jdbc.OracleDriver">Oracle</option>
+            <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
+        </select>
+        <p/>
+
+        <label>Username</label>
+        <input type="text" id="username">
+        <p/>
+
+        <label>Password</label>
+        <input type="password" id="password">
+        <p/>
+
+        <!--Configuração Empregadores-->
+        <h2>Configuração Empregadores</h2>
+        <label>Código Empregador 1</label>
+        <input type="number" id="codigo_empregador_1">
+        <p/>
+
+        <label>Caminho Certificado</label>
+        <input type="text" id="caminho-certificado-1">
+        <p/>
+
+        <label>Senha Certificado</label>
+        <input type="password" id="senha-certificado-1">
+        <p/>
+
+        <label>Tipo Transmissor</label>
+        <select id="tipo-transmissor-1">
+            <option value="1">CPF</option>
+            <option value="2">CNPJ</option>
+        </select>
+        <p/>
+
+        <label>Número Transmissor</label>
+        <input type="number" id="numero-transmissor-1">
+        <p/>
+        
+        <!--Configuração Empregador 2-->
+        <h2>Configuração Empregadores</h2>
+        <label>Código Empregador 2</label>
+        <input type="number" id="codigo_empregador_2">
+        <p/>
+
+        <label>Caminho Certificado</label>
+        <input type="text" id="caminho-certificado-2">
+        <p/>
+
+        <label>Senha Certificado</label>
+        <input type="password" id="senha-certificado-2">
+        <p/>
+
+        <label>Tipo Transmissor</label>
+        <select id="tipo-transmissor-2">
+            <option value="1">CPF</option>
+            <option value="2">CNPJ</option>
+        </select>
+        <p/>
+
+        <label>Número Transmissor</label>
+        <input type="number" id="numero-transmissor-2">
+
+        </p>
+        <button onclick="salvarInformacoes()">Salvar</button>
+    </div>
+    
+    
+</body>
+</html>
