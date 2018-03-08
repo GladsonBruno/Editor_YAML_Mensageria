@@ -14,6 +14,9 @@ function salvarInformacoes(){
     
     //Informações Base de Dados
     var url_db = $("#url-base-de-dados").val();
+    var porta_db = $("#porta-base-de-dados").val();
+    var nome_db = $("#nome-base-de-dados").val();
+    var sid_db = $("#db_sid").val();
     var driver_db = $("#driver-base-de-dados").val();
     var user_name_db = $("#username").val().replace("'", "");
     var password_db = $("#password").val().replace("'", "");
@@ -32,29 +35,28 @@ function salvarInformacoes(){
     var transmissor_2 = $("#tipo-transmissor-2").val();
     var numero_transmissor_2 = $("#numero-transmissor-2").val().toString();
     
-    try {
-        //Iniciando leitura do arquivo. Formato de Resposta = JSON | ARRAY - Não sei ao certo.
-        var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
-    
-        //Alterando informações do arquivo
 
+    try {
+        //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
+        var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+        
+        //Alterando informações do arquivo
         //---------------------------------------------------------------------------//
         //Configurando Base de Dados
 
-        //Url base de dados
+        //Url base de dados e Validation Query
         doc.db.url = url_db;
+        if(driver_db == "oracle.jdbc.OracleDriver"){
+            doc.db.url = "jdbc:oracle:thin:@" + url_db + ":" + porta_db + ":" + sid_db;
+            doc.db.datasource["validation-query"] = "SELECT 1 FROM DUAL";
+        } else {
+            doc.db.url = "jdbc:sqlserver://" + url_db + ":" + porta_db + ";databaseName=" + nome_db + "";
+            doc.db.datasource["validation-query"] = "SELECT 1";
+        }
         
         //Driver base de dados
         doc.db.driver = driver_db;
 
-    //Validation Query
-    /*
-    if(driver_db == "oracle.jdbc.OracleDriver"){
-        doc.db.datasource.validation-query = "SELECT 1 FROM DUAL";
-    } else {
-        doc.db.datasource.validation-query = "SELECT 1";
-    }
-    */
         //Usuario base de dados
         doc.db.username = user_name_db;
 
@@ -75,10 +77,10 @@ function salvarInformacoes(){
         doc.esocial.empregadores[0].senha = senha_certificado_1;
         
         //Tipo transmissor 1
-        //doc.esocial.empregadores[0].tipo-transmissor = transmissor_1;
+        doc.esocial.empregadores[0]["tipo-transmissor"] = transmissor_1;
 
         //Numero Transmissor 1
-        //doc.esocial.empregadores[0].numero-transmissor = numero_transmissor_1;
+        doc.esocial.empregadores[0]["numero-transmissor"] = numero_transmissor_1;
 
         //---------------------------------------------------------------------------//
         //Configurando Empregador 2
@@ -93,18 +95,18 @@ function salvarInformacoes(){
         doc.esocial.empregadores[1].senha = senha_certificado_2;
         
         //Tipo transmissor 2
-        //doc.esocial.empregadores[1].tipo-transmissor = transmissor_2;
+        doc.esocial.empregadores[1]["tipo-transmissor"] = transmissor_2;
 
         //Numero Transmissor 2
-        //doc.esocial.empregadores[1].numero-transmissor = numero_transmissor_2;
+        doc.esocial.empregadores[1]["numero-transmissor"] = numero_transmissor_2;
 
        yaml_writer.sync(arquivo_yml, doc);
-
+        console.log(yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8')));
         console.log('ok');
     } catch(e) {
         console.log(e);
     }
-    
+
 }
 
 /*
@@ -113,6 +115,7 @@ try {
     doc.esocial.empregadores[0].codigo = 12345678;
     doc.esocial.empregadores[1].codigo = 87654321;
     yaml_writer.sync('application.yml', doc);
+    doc.db.datasource.validation-query
     
 } catch(e) {
     console.log(e);
