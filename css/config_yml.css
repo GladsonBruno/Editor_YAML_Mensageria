@@ -1,7 +1,15 @@
 .col-md-3, .col-md-4 {
     float: right;
+    margin-bottom: 10px;
 }
 
-.div-info-db {
-    margin-bottom: 30px;
+.div-info-db, .div-info-certificado, .col-md-12 {
+    margin-bottom: 10px;
+}
+
+body {
+    background-color: #82cfff;
+}
+ul li {
+    background-color: #d3d3d3;
 }

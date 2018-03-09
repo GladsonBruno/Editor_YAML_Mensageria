@@ -11,7 +11,7 @@ app.on('ready', () => {
         height: 600
     });
     TelaInicial.loadURL(url.format({
-        pathname: path.join(__dirname, 'config_yml.html'),
+        pathname: path.join(__dirname, 'config_application_yml.html'),
         protocol: 'file:'
     }));
 
@@ -23,43 +23,35 @@ let menuTemplate = [
         label: 'File',
         submenu: [
             {
-                label: 'Configurar YML',
+                label: 'Configurar Aplication.yml',
                 click: () => {
-                    var arquivo = dialog.showOpenDialog(TelaInicial, {
-                        title: 'Selecione o Arquivo YML',
-                        properties: ['openFile'],
-                        callback: (filePaths) => {
-                            return filePaths;
-                        }
-                    });
-                    var contarBarras = 0;
-                    var letraAtual = "";
-                    var caminhoFormatado = "";
-                    for(var i = 0; i < arquivo[0].length; i++){
-                        letraAtual = arquivo.substring(i, i + 1);
-                        if(letraAtual == "\\"){
-                            contarBarras++;
-                            if(contarBarras % 2 != 0){
-                                caminhoFormatado += letraAtual;
-                            }
-                        }
-                    }
-                    console.log(caminhoFormatado);
-                    /*
-                    var telaConfigYML = new BrowserWindow({
+                    let TelaApplication;
+                    TelaApplication = new BrowserWindow({
                         width: 800,
                         height: 600
                     });
-                    telaConfigYML.loadURL(url.format({
-                        pathname: path.join(__dirname, 'config_yml.html'),
+                    TelaApplication.loadURL(url.format({
+                        pathname: path.join(__dirname, 'config_application_yml.html'),
                         protocol: 'file:'
                     }));
-                    */                    
+                }
+            }, {
+                label: 'Configurar Application-watchdog.yml',
+                click: () => {
+                    let TelaApplicationWatchdog;
+                    TelaApplicationWatchdog = new BrowserWindow({
+                        width: 800,
+                        height: 600
+                    });
+                    TelaApplicationWatchdog.loadURL(url.format({
+                        pathname: path.join(__dirname, 'config_application_watchdog_yml.html'),
+                        protocol: 'file:'
+                    }));
                 }
             }
         ]
     }
 ]
 
-//const menu = Menu.buildFromTemplate(menuTemplate);
-//Menu.setApplicationMenu(menu);
+const menu = Menu.buildFromTemplate(menuTemplate);
+Menu.setApplicationMenu(menu);
