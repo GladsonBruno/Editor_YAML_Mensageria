@@ -6,17 +6,63 @@ const $ = require('jquery');
 
 
 //IMPLEMENTAR CARREGAMENTO DE INFORMAÇÕES DA BASE DE DADOS.
-function carregarInformações(arquivo){
+function carregarInformacoes(arquivo){
     //Arquivo a ser configurado
     var arquivo_yml = $("#arquivo-yml").val();
 
     try {
         //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
         var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+
+        var url_db_completa;
+        var url_banco;
+        var porta_banco;
+
+        //Carregando Informações DB
+        //Informações DB SqlServer
+        if(doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver"){
+            
+            var databaseName;
+
+            url_db_completa = doc.db.url.toString().substr(17, doc.db.url.toString().length);
+            
+            url_banco = url_db_completa.split(";")[0].split(":")[0];
+            porta_banco = url_db_completa.split(";")[0].split(":")[1];
+            databaseName = url_db_completa.split(";")[1].split("=")[1];
+
+            $("#url-base-de-dados").val(url_banco);
+            $("#porta-base-de-dados").val(porta_banco);
+            $("#nome-base-de-dados").prop("disable", false);
+            $("#nome-base-de-dados").val(databaseName);
+            $("#db_sid").val("");
+            $("#db_sid").prop("disabled", true);
+            $("#driver-base-de-dados").val(doc.db.driver);
+            $("#username").val(doc.db.username);
+            $("#password").val(doc.db.password);
+
         
-        if(arquivo == "application-watchdog"){
-            //Implementar busca de dados no  arquivo. Muito complicado
-        }else {
+        } else {
+            //Informações Oracle Driver 
+            var sid_db;
+            url_db_completa = doc.db.url.toString().substr(18, doc.db.url.toString().length);
+
+            url_banco = url_db_completa.split(":")[0];
+            porta_banco = url_db_completa.split(":")[1];
+            sid_db = url_db_completa.split(":")[2];
+
+
+            $("#url-base-de-dados").val(url_banco);
+            $("#porta-base-de-dados").val(porta_banco);
+            $("#nome-base-de-dados").val("");
+            $("#nome-base-de-dados").prop("disabled", true);
+            $("#db_sid").val(sid_db);
+            $("#driver-base-de-dados").val(doc.db.driver);
+            $("#username").val(doc.db.username);
+            $("#password").val(doc.db.password);
+        }
+
+        if(arquivo == "application"){
+
             $("#codigo_empregador_1").val(doc.esocial.empregadores[0].codigo);
             $("#caminho-certificado-1").val(doc.esocial.empregadores[0].chave);
             $("#senha-certificado-1").val(doc.esocial.empregadores[0].senha);
@@ -30,13 +76,13 @@ function carregarInformações(arquivo){
             $("#numero-transmissor-2").val(doc.esocial.empregadores[1]["numero-transmissor"]);
         }
 
-        alert("Configurações Carregadas com Sucesso\n Pendente Informações DB");
+        alert("Configurações Carregadas com Sucesso");
         
     } catch(e) {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
             alert('Não é possivel abrir o arquivo ou diretório especificado');
         } else {
-            alert(e.toString());
+            console.log(e.toString());
         }
     }
 }
