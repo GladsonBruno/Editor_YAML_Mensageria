@@ -1,18 +1,32 @@
 {
   "name": "electron_yaml_teste",
+  "productName": "EditorVisualYML",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fazer alterações em arquivos YML graficamente.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/arkhi-logo.ico --prune=true --out=release-builds --version-string.CompanyName=Arkhi --version-string.FileDescription=CE --version-string.ProductName=\"Projeto Arkhi YML\"",
+    "criar-instalador-windows": "node ./installers/windows/createinstaller.js",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "create-installer-mac": "electron-installer-dmg ./release-builds/ EditorVisualYML-darwin-x64/ EditorVisualYML.app EditorVisualYML --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns --debug"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.0.0",
-    "electron": "^1.8.3",
     "jquery": "^3.3.1",
+    "js-sha512": "^0.7.1",
     "node-yaml": "^3.1.1",
     "write-yaml": "^1.0.0"
+  },
+  "devDependencies": {
+    "devtron": "1.4.0",
+    "electron": "1.7.9",
+    "electron-debug": "1.4.0",
+    "electron-devtools-installer": "2.2.1",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-packager": "9.1.0",
+    "electron-winstaller": "^2.6.4"
   }
 }

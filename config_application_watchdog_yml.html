@@ -35,37 +35,29 @@
                   
 
             <div>
-                <div id="form-base-de-dados">
+                <div id="form-base-de-dados" class="tab-pane in active">
                     <!--Configuração Base de Dados-->
                     <h3>Configuração Base de Dados</h3>
                     <div class="div-info-db col-md-12">
-                        <div class="col-md-3">
-                            <label>SID</label>
-                            <input type="text" class="form-control" id="db_sid">
+                        <div class="col-md-3 col-sm-12">
+                                <label>URL base de dados</label>
+                                <input type="text" class="form-control" id="url-base-de-dados">
                         </div>
-                        <div class="col-md-3">
-                            <label>Nome Base de Dados</label>
-                            <input type="text" class="form-control" id="nome-base-de-dados">
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-4">
                                 <label>Porta de Acesso</label>
                                 <input type="text" class="form-control" id="porta-base-de-dados">
                         </div>
-                        <div class="col-md-3">
-                                <label>URL base de dados</label>
-                                <input type="text" class="form-control" id="url-base-de-dados">
+                        <div class="col-md-3 col-sm-4">
+                            <label>Nome Base de Dados</label>
+                            <input type="text" class="form-control" id="nome-base-de-dados">
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <label>SID</label>
+                            <input type="text" class="form-control" id="db_sid">
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="col-md-4">
-                            <label>Password</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Username</label>
-                            <input type="text" class="form-control" id="username">
-                        </div>
                         <div class="col-md-4">
                                 <label>Driver Banco de Dados</label>
                                 <select class="form-control" id="driver-base-de-dados">
@@ -73,8 +65,18 @@
                                     <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
                                 </select>
                         </div>
+                        <div class="col-md-4">
+                            <label>Username</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
                     </div>
-                    <button onclick="configurar_db('application-watchdog')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
+                    <div class="col-md-12">
+                        <button onclick="configurar_db('application')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
+                    </div>                    
                 </div>
 
             </div>

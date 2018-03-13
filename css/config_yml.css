@@ -1,10 +1,22 @@
 .col-md-3, .col-md-4 {
-    float: right;
+    
     margin-bottom: 10px;
+}
+
+#div-info-db .col-md-3, .col-md-4 {
+    float: left;
 }
 
 .div-info-db, .div-info-certificado, .col-md-12 {
     margin-bottom: 10px;
+}
+
+#form-empregador-1 .col-md-3, #form-empregador-1 {
+    float: left;
+}
+
+#form-empregador-2 .col-md-3, #form-empregador-2 {
+    float: left;
 }
 
 body {

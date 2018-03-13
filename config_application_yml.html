@@ -44,33 +44,25 @@
                     <!--Configuração Base de Dados-->
                     <h3>Configuração Base de Dados</h3>
                     <div class="div-info-db col-md-12">
-                        <div class="col-md-3">
-                            <label>SID</label>
-                            <input type="text" class="form-control" id="db_sid">
+                        <div class="col-md-3 col-sm-12">
+                                <label>URL base de dados</label>
+                                <input type="text" class="form-control" id="url-base-de-dados">
                         </div>
-                        <div class="col-md-3">
-                            <label>Nome Base de Dados</label>
-                            <input type="text" class="form-control" id="nome-base-de-dados">
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-4">
                                 <label>Porta de Acesso</label>
                                 <input type="text" class="form-control" id="porta-base-de-dados">
                         </div>
-                        <div class="col-md-3">
-                                <label>URL base de dados</label>
-                                <input type="text" class="form-control" id="url-base-de-dados">
+                        <div class="col-md-3 col-sm-4">
+                            <label>Nome Base de Dados</label>
+                            <input type="text" class="form-control" id="nome-base-de-dados">
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <label>SID</label>
+                            <input type="text" class="form-control" id="db_sid">
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="col-md-4">
-                            <label>Password</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Username</label>
-                            <input type="text" class="form-control" id="username">
-                        </div>
                         <div class="col-md-4">
                                 <label>Driver Banco de Dados</label>
                                 <select class="form-control" id="driver-base-de-dados">
@@ -78,8 +70,20 @@
                                     <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
                                 </select>
                         </div>
+                        <div class="col-md-4">
+                            <label>Username</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
                     </div>
-                    <button onclick="configurar_db('application')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
+                    <p></p>
+                    <p></p>
+                    <div class="col-md-12">
+                        <button onclick="configurar_db('application')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
+                    </div>                    
                 </div>
 
                 <div id="form-empregador-1" class="tab-pane fade">
@@ -91,17 +95,17 @@
                             <input type="text" class="form-control" id="caminho-certificado-1">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Código Empregador</label>
                             <input type="number" class="form-control" id="codigo_empregador_1">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Senha Certificado</label>
                             <input type="password" class="form-control" id="senha-certificado-1">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Tipo Transmissor</label>
                             <select class="form-control" id="tipo-transmissor-1">
                                 <option value="1">CPF</option>
@@ -109,12 +113,16 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Número Transmissor</label>
                             <input type="number" class="form-control" id="numero-transmissor-1">
                         </div>
                     </div>
-                    <button onclick="configurar_empregador_1()" class="btn btn-large btn-primary">Salvar Configurações Empregador 1</button>
+                    <p></p>
+                    <p></p>
+                    <div class="col-md-12">
+                        <button onclick="configurar_empregador_1()" class="btn btn-large btn-primary">Salvar Configurações Empregador 1</button>
+                    </div>
                 </div> 
 
                 <div id="form-empregador-2" class="tab-pane fade">
@@ -126,17 +134,17 @@
                             <input type="text" class="form-control" id="caminho-certificado-2">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Código Empregador</label>
                             <input type="number" class="form-control" id="codigo_empregador_2">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Senha Certificado</label>
                             <input type="password" class="form-control" id="senha-certificado-2">
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Tipo Transmissor</label>
                             <select class="form-control" id="tipo-transmissor-2">
                                 <option value="1">CPF</option>
@@ -144,12 +152,16 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <label>Número Transmissor</label>
                             <input type="number" class="form-control" id="numero-transmissor-2">
                         </div>
                     </div>
-                    <button onclick="configurar_empregador_2()" class="btn btn-large btn-primary">Salvar Configurações Empregador 2</button>
+                    <p></p>
+                    <p></p>
+                    <div class="col-md-12">
+                        <button onclick="configurar_empregador_2()" class="btn btn-large btn-primary">Salvar Configurações Empregador 2</button>
+                    </div>
                 </div>
             </div>
 

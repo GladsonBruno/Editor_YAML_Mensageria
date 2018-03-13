@@ -1,6 +1,8 @@
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
 const fs = require('fs');
+const sha512 = require('js-sha512').sha512;
+
 //Importando JQUERY
 const $ = require('jquery');
 
@@ -38,7 +40,7 @@ function carregarInformacoes(arquivo){
             $("#db_sid").prop("disabled", true);
             $("#driver-base-de-dados").val(doc.db.driver);
             $("#username").val(doc.db.username);
-            $("#password").val(doc.db.password);
+            //$("#password").val(doc.db.password);
 
         
         } else {
@@ -58,20 +60,20 @@ function carregarInformacoes(arquivo){
             $("#db_sid").val(sid_db);
             $("#driver-base-de-dados").val(doc.db.driver);
             $("#username").val(doc.db.username);
-            $("#password").val(doc.db.password);
+            //$("#password").val(doc.db.password);
         }
 
         if(arquivo == "application"){
 
             $("#codigo_empregador_1").val(doc.esocial.empregadores[0].codigo);
             $("#caminho-certificado-1").val(doc.esocial.empregadores[0].chave);
-            $("#senha-certificado-1").val(doc.esocial.empregadores[0].senha);
+            //$("#senha-certificado-1").val(doc.esocial.empregadores[0].senha);
             $("#tipo-transmissor-1").val(doc.esocial.empregadores[0]["tipo-transmissor"]);
             $("#numero-transmissor-1").val(doc.esocial.empregadores[0]["numero-transmissor"]);
 
             $("#codigo_empregador_2").val(doc.esocial.empregadores[1].codigo);
             $("#caminho-certificado-2").val(doc.esocial.empregadores[1].chave);
-            $("#senha-certificado-2").val(doc.esocial.empregadores[1].senha);
+            //$("#senha-certificado-2").val(doc.esocial.empregadores[1].senha);
             $("#tipo-transmissor-2").val(doc.esocial.empregadores[1]["tipo-transmissor"]);
             $("#numero-transmissor-2").val(doc.esocial.empregadores[1]["numero-transmissor"]);
         }
@@ -104,6 +106,8 @@ function configurar_db(arquivo){
         var driver_db = $("#driver-base-de-dados").val();
         var user_name_db = $("#username").val().replace("'", "");
         var password_db = $("#password").val().replace("'", "");
+        //Criptografando Senha Para Sha512
+        password_db = sha512(password_db);
 
         var error = "";
 
@@ -178,7 +182,11 @@ function configurar_empregador_1(){
         //Informações Certificado 1
         var codigo_empregador_1 = $("#codigo_empregador_1").val().toString();
         var path_certificado_1 = $("#caminho-certificado-1").val();
+        
         var senha_certificado_1 = $("#senha-certificado-1").val();
+        //Criptografando senha
+        senha_certificado_1 = sha512(senha_certificado_1);
+
         var transmissor_1 = $("#tipo-transmissor-1").val();
         var numero_transmissor_1 = $("#numero-transmissor-1").val().toString();
 
@@ -246,7 +254,11 @@ function configurar_empregador_2(){
         //Informações Certificado 2
         var codigo_empregador_2 = $("#codigo_empregador_2").val().toString();
         var path_certificado_2 = $("#caminho-certificado-2").val();
+        
         var senha_certificado_2 = $("#senha-certificado-2").val();
+        //Criptografando senha certificado 2
+        senha_certificado_2 = sha512(senha_certificado_2);
+        
         var transmissor_2 = $("#tipo-transmissor-2").val();
         var numero_transmissor_2 = $("#numero-transmissor-2").val().toString();
         
@@ -307,6 +319,7 @@ function configurar_empregador_2(){
 
 /*
 try {
+    //Base para leitura e escrita em yml
     var doc = yaml.safeLoad(fs.readFileSync('application.yml', 'utf8'));
     doc.esocial.empregadores[0].codigo = 12345678;
     doc.esocial.empregadores[1].codigo = 87654321;
