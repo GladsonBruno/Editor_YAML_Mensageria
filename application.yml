@@ -6,11 +6,10 @@ spring:
     password: admin
     in-memory: false
 db:
-  url: 'jdbc:oracle:thin:@192.168.1.50:1886:tanger'
+  url: 'jdbc:oracle:thin:@localhost:8080:arte'
   driver: oracle.jdbc.OracleDriver
   username: root
-  password: >-
-    99adc231b045331e514a516b4b7680f588e3823213abe901738bc3ad67b2f6fcb3c64efb93d18002588d3ccc1a49efbae1ce20cb43df36b38651f11fa75678e8
+  password: U2FsdGVkX18zUrAJbBpwFUtu0W2+1QT/c4SMAVFablM=
   datasource:
     initial-size: 5
     max-active: 10
@@ -56,14 +55,14 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '10251900681'
+    - codigo: '12345678'
       chave: cert1.pfx
-      senha: '12321'
-      tipo-transmissor: '1'
-      numero-transmissor: '10251900681'
+      senha: U2FsdGVkX1+mZklGPx00xXdO7Awazbas09A6bC0wO50=
+      tipo-transmissor: '2'
+      numero-transmissor: '12345678901234'
     - codigo: '99251900681'
       chave: certificado2.pfx
-      senha: '12789'
+      senha: U2FsdGVkX18zUrAJbBpwFUtu0W2+1QT/c4SMAVFablM=
       tipo-transmissor: '2'
       numero-transmissor: '99251900681'
   consulta.governo: 0 */1 * * * *

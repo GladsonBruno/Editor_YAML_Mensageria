@@ -12,9 +12,11 @@
         window.jQuery = window.$ = require('jquery');
     </script>
     <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jquery.mask.min.js"></script>
     <script type="text/javascript" src="scripts/config-yml.js"></script>
     <script type="text/javascript" src="scripts/bootstrap-3.min.js"></script>
-    
+    <script type="text/javascript" src="scripts/limitar-campos.js"></script>
+
     
 </head>
 <body>
@@ -97,7 +99,7 @@
 
                         <div class="col-md-3 col-sm-3">
                             <label>Código Empregador</label>
-                            <input type="number" class="form-control" id="codigo_empregador_1">
+                            <input type="text" class="form-control" id="codigo_empregador_1">
                         </div>
 
                         <div class="col-md-3 col-sm-3">
@@ -115,7 +117,7 @@
 
                         <div class="col-md-3 col-sm-3">
                             <label>Número Transmissor</label>
-                            <input type="number" class="form-control" id="numero-transmissor-1">
+                            <input type="text" class="form-control" id="numero-transmissor-1">
                         </div>
                     </div>
                     <p></p>
@@ -136,7 +138,7 @@
 
                         <div class="col-md-3 col-sm-3">
                             <label>Código Empregador</label>
-                            <input type="number" class="form-control" id="codigo_empregador_2">
+                            <input type="text" class="form-control" id="codigo_empregador_2">
                         </div>
 
                         <div class="col-md-3 col-sm-3">
@@ -147,14 +149,14 @@
                         <div class="col-md-3 col-sm-3">
                             <label>Tipo Transmissor</label>
                             <select class="form-control" id="tipo-transmissor-2">
-                                <option value="1">CPF</option>
-                                <option value="2">CNPJ</option>
+                                    <option value="1">CPF</option>
+                                    <option value="2">CNPJ</option>
                             </select>
                         </div>
 
                         <div class="col-md-3 col-sm-3">
                             <label>Número Transmissor</label>
-                            <input type="number" class="form-control" id="numero-transmissor-2">
+                            <input type="text" class="form-control" id="numero-transmissor-2">
                         </div>
                     </div>
                     <p></p>
@@ -167,6 +169,40 @@
 
         </form>
     </div>
+
+    <!--  Inicio Modal Erro  -->
+    <div id="modalErro" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Erro</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Fim Modal Erro  -->
+
+    <!--  Inicio Modal Sucesso  -->
+    <div id="modalSucesso" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Sucesso</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Fim Modal Sucesso  -->
 
 </body>
 </html>

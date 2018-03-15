@@ -12,8 +12,10 @@
         window.jQuery = window.$ = require('jquery');
     </script>
     <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/jquery.mask.min.js"></script>
     <script type="text/javascript" src="scripts/config-yml.js"></script>
     <script type="text/javascript" src="scripts/bootstrap-3.min.js"></script>
+    
     
     
 </head>
@@ -75,7 +77,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button onclick="configurar_db('application')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
+                        <button onclick="configurar_db('application-watchdog')" class="btn btn-large btn-primary">Salvar Configurações Base de Dados</button>
                     </div>                    
                 </div>
 
@@ -83,6 +85,40 @@
 
         </form>
     </div>
+
+    <!--  Inicio Modal Erro  -->
+    <div id="modalErro" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Erro</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Fim Modal Erro  -->
+
+    <!--  Inicio Modal Sucesso  -->
+    <div id="modalSucesso" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Sucesso</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Fim Modal Sucesso  -->
 
 </body>
 </html>
