@@ -3,6 +3,8 @@ const yaml_writer = require('write-yaml');
 const fs = require('fs');
 const cryptoJS = require("crypto-js");
 
+//Chave usada para criptografia.
+const chave_de_criptografia = "12345";
 //Importando JQUERY
 const $ = require('jquery');
 
@@ -49,7 +51,7 @@ function carregarInformacoes(arquivo){
                 $("#db_sid").prop("disabled", true);
                 $("#driver-base-de-dados").val(doc.db.driver);
                 $("#username").val(doc.db.username);
-                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, "12345").toString(cryptoJS.enc.Utf8));
+                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             } else {
                 //Informações Oracle Driver 
                 var sid_db;
@@ -67,20 +69,20 @@ function carregarInformacoes(arquivo){
                 $("#db_sid").val(sid_db);
                 $("#driver-base-de-dados").val(doc.db.driver);
                 $("#username").val(doc.db.username);
-                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, "12345").toString(cryptoJS.enc.Utf8));
+                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             }
     
             if(arquivo == "application"){
     
                 $("#codigo_empregador_1").val(doc.esocial.empregadores[0].codigo);
                 $("#caminho-certificado-1").val(doc.esocial.empregadores[0].chave);
-                $("#senha-certificado-1").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[0].senha.toString(), "12345").toString(cryptoJS.enc.Utf8));
+                $("#senha-certificado-1").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[0].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
                 $("#tipo-transmissor-1").val(doc.esocial.empregadores[0]["tipo-transmissor"]);
                 $("#numero-transmissor-1").val(doc.esocial.empregadores[0]["numero-transmissor"]);
     
                 $("#codigo_empregador_2").val(doc.esocial.empregadores[1].codigo);
                 $("#caminho-certificado-2").val(doc.esocial.empregadores[1].chave);
-                $("#senha-certificado-2").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[1].senha.toString(), "12345").toString(cryptoJS.enc.Utf8));
+                $("#senha-certificado-2").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[1].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
                 $("#tipo-transmissor-2").val(doc.esocial.empregadores[1]["tipo-transmissor"]);
                 $("#numero-transmissor-2").val(doc.esocial.empregadores[1]["numero-transmissor"]);
             }
@@ -217,7 +219,7 @@ function configurar_empregador_1(){
         
         var senha_certificado_1 = $("#senha-certificado-1").val();
         //Criptografando senha para AES
-        senha_certificado_1 = cryptoJS.AES.encrypt(senha_certificado_1, "12345").toString();
+        senha_certificado_1 = cryptoJS.AES.encrypt(senha_certificado_1, chave_de_criptografia).toString();
 
         var transmissor_1 = $("#tipo-transmissor-1").val();
         var numero_transmissor_1 = $("#numero-transmissor-1").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
@@ -318,7 +320,7 @@ function configurar_empregador_2(){
         
         var senha_certificado_2 = $("#senha-certificado-2").val();
         //Criptografando senha certificado 2 para AES
-        senha_certificado_2 = cryptoJS.AES.encrypt(senha_certificado_2, "12345").toString();
+        senha_certificado_2 = cryptoJS.AES.encrypt(senha_certificado_2, chave_de_criptografia).toString();
         
         var transmissor_2 = $("#tipo-transmissor-2").val();
         var numero_transmissor_2 = $("#numero-transmissor-1").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
