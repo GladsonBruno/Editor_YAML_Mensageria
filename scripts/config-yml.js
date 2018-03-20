@@ -28,9 +28,6 @@ $(document).ready(function(){
         }
     });
 
-    //Validar campo do caminho para o arquivo yml
-    var arquivo_yml = $("#arquivo-yml");
-    verificarSeOCampoEstaVazio(arquivo_yml);
 
     //Validando campo URL Base de Dados
     var url_db = $("#url-base-de-dados");
@@ -56,34 +53,32 @@ $(document).ready(function(){
     var password_db = $("#password");
     verificarSeOCampoEstaVazio(password_db);
 
-    //Validando informações do empregador 1
-    var codigo_empregador_1 = $("#codigo_empregador_1");
+    //Validando informações do Cadastro de empregador
+    var codigo_empregador = $("#novo-codigo_empregador");
+    verificarSeOCampoEstaVazio(codigo_empregador);
+
+    var path_certificado = $("#novo-caminho-certificado");
+    verificarSeOCampoEstaVazio(path_certificado);
+
+    var senha_certificado = $("#novo-senha-certificado");
+    verificarSeOCampoEstaVazio(senha_certificado);
+
+    var numero_transmissor = $("#novo-numero-transmissor");
+    verificarSeOCampoEstaVazio(numero_transmissor);
+
+
+    //Validando informações da edição do Cadastro de empregador
+    var codigo_empregador_1 = $("#editar-codigo_empregador");
     verificarSeOCampoEstaVazio(codigo_empregador_1);
 
-    var path_certificado_1 = $("#caminho-certificado-1");
+    var path_certificado_1 = $("#editar-caminho-certificado");
     verificarSeOCampoEstaVazio(path_certificado_1);
 
-    var senha_certificado_1 = $("#senha-certificado-1");
+    var senha_certificado_1 = $("#editar-senha-certificado");
     verificarSeOCampoEstaVazio(senha_certificado_1);
 
-    var numero_transmissor_1 = $("#numero-transmissor-1");
+    var numero_transmissor_1 = $("#editar-numero-transmissor");
     verificarSeOCampoEstaVazio(numero_transmissor_1);
-    //verificarCodigoEmpregador(numero_transmissor_1, $("#tipo-transmissor-1").val());
-
-
-    //Validando informações do empregador 2
-    var codigo_empregador_2 = $("#codigo_empregador_2");
-    verificarSeOCampoEstaVazio(codigo_empregador_2);
-
-    var path_certificado_2 = $("#caminho-certificado-2");
-    verificarSeOCampoEstaVazio(path_certificado_2);
-
-    var senha_certificado_2 = $("#senha-certificado-2");
-    verificarSeOCampoEstaVazio(senha_certificado_2);
-
-    var numero_transmissor_2 = $("#numero-transmissor-2");  
-    verificarSeOCampoEstaVazio(numero_transmissor_2);
-    //verificarCodigoEmpregador(numero_transmissor_2, $("#tipo-transmissor-2").val());
 
 });
 
@@ -241,61 +236,67 @@ function carregarInformacoes(arquivo){
                 var elementos = "";
                 var empregador_atual;
 
-                for(var i = 0; i < QuantidadeEmpregadores; i++){
-                    empregador_atual = i + 1;
-                    
-                    //Montando Formulário de Empregadores
-                    elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
-                        elementos += "<h3>Empregador " + empregador_atual + "</h3>";
-                        elementos += "<div class='input-field col m12'>";
-                            elementos += "<label>Caminho Certificado</label>";
-                            elementos += "<input type='text' name='caminho-certificado' required>"
-                        elementos += "</div>";
-                        elementos += "<div class='input-field col m3 s3'>";
-                            elementos += "<label>Código Empregador</label>";
-                            elementos += "<input type='number' name='codigo_empregador' required>";
+                if(QuantidadeEmpregadores == 0){
+                    $(".empregadores").html("");
+                    $(".empregadores").append("<h4>Não Há empregadores Cadastrados!</h4>");
+                } else{
+
+                    for(var i = 0; i < QuantidadeEmpregadores; i++){
+                        empregador_atual = i + 1;
+                        
+                        //Montando Formulário de Empregadores
+                        elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
+                            elementos += "<h3>Empregador " + empregador_atual + "</h3>";
+                            elementos += "<div class='input-field col m12'>";
+                                elementos += "<label>Caminho Certificado</label>";
+                                elementos += "<input type='text' name='caminho-certificado' required disabled>"
                             elementos += "</div>";
                             elementos += "<div class='input-field col m3 s3'>";
-                            elementos += "<label>Senha Certificado</label>";
-                            elementos += "<input type='password' name='senha-certificado' required>";
+                                elementos += "<label>Código Empregador</label>";
+                                elementos += "<input type='number' name='codigo_empregador' required disabled>";
+                                elementos += "</div>";
+                                elementos += "<div class='input-field col m3 s3'>";
+                                elementos += "<label>Senha Certificado</label>";
+                                elementos += "<input type='password' name='senha-certificado' required disabled>";
+                            elementos += "</div>";
+                            elementos += "<div class='input-field col m3 s3'>";
+                                elementos += "<select name='tipo-transmissor' disabled>";
+                                    elementos += "<option value=' ' disabled selected>Tipo Transmissor</option>";
+                                    elementos += "<option value='1'>CPF</option>";
+                                    elementos += "<option value='2'>CNPJ</option>";
+                                elementos += "</select>";
+                            elementos += "</div>";
+                            elementos += "<div class='input-field col m3 s3'>";
+                                elementos += "<label>Número Transmissor</label>";
+                                elementos += "<input type='text' data-error='' class='validate' disabled name='numero-transmissor' required>";
+                            elementos += "</div>";
+                            elementos += "<button id='btn-editar' onclick='AbrirModalEditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
+                            elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
                         elementos += "</div>";
-                        elementos += "<div class='input-field col m3 s3'>";
-                            elementos += "<select name='tipo-transmissor'>";
-                                elementos += "<option value=' ' disabled selected>Tipo Transmissor</option>";
-                                elementos += "<option value='1'>CPF</option>";
-                                elementos += "<option value='2'>CNPJ</option>";
-                            elementos += "</select>";
-                        elementos += "</div>";
-                        elementos += "<div class='input-field col m3 s3'>";
-                            elementos += "<label>Número Transmissor</label>";
-                            elementos += "<input type='text' data-error='' class='validate' name='numero-transmissor' required>";
-                        elementos += "</div>";
-                        elementos += "<button id='btn-editar' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
-                        elementos += "<button id='btn-deletar' onclick='excluirEmpregador(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
-                    elementos += "</div>";
-                }
-
-                $("empregadores").html("");
-                $(".empregadores").append(elementos);
-                //Inicializando Elementos Select
-                $('select').material_select();
-
-                for(i = 0; i < QuantidadeEmpregadores; i++){
-                    $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
-                    $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
-                    $("[name='senha-certificado']:eq(" + i + ")").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
-                    
-                    //Função utilizada para mudar o valor do select_
-                    if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
-                        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
-                    } else {
-                        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
                     }
-
-                    $("[name='numero-transmissor']:eq(" + i + ")").val(doc.esocial.empregadores[i]["numero-transmissor"]);
-
-                }
-                    
+    
+                    $(".empregadores").html("");
+                    $(".empregadores").append(elementos);
+                    //Inicializando Elementos Select
+                    $('select').material_select();
+    
+                    for(i = 0; i < QuantidadeEmpregadores; i++){
+                        $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
+                        $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
+                        $("[name='senha-certificado']:eq(" + i + ")").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                        
+                        $("[name='numero-transmissor']:eq(" + i + ")").val(doc.esocial.empregadores[i]["numero-transmissor"]);
+    
+                        //Função utilizada para mudar o valor do select_
+                        if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+                            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+                            $("[name='numero-transmissor']:eq(" + i + ")").mask('000.000.000-00');
+                        } else {
+                            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+                            $("[name='numero-transmissor']:eq(" + i + ")").mask('00.000.000/0000-00');
+                        }
+                    }
+                }                
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append("Configurações Carregadas com Sucesso");
@@ -413,119 +414,18 @@ function configurar_db(arquivo){
         }
 }
 
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-//ALTERAR IMPLEMENTAÇÃO
-function configurar_empregador_1(){
-    //Arquivo a ser configurado
-    var arquivo_yml;
+function abrirModalExclusao(indexEmpregador){
+    var empregador_a_ser_excluido = parseInt(indexEmpregador) + 1;
+    localStorage.setItem("Index_Empregador_A_Excluir", indexEmpregador);
 
-    if(arquivo == "application"){
-
-        arquivo_yml = "application.yml";
-
-    } else{
-
-        arquivo_yml = "application-watchdog.yml";
-
-    }
-        //Informações Certificado 1
-        var codigo_empregador_1 = $("#codigo_empregador_1").val().toString();
-        var path_certificado_1 = $("#caminho-certificado-1").val();
-        
-        var senha_certificado_1 = $("#senha-certificado-1").val();
-
-        var transmissor_1 = $("#tipo-transmissor-1").val();
-        var numero_transmissor_1 = $("#numero-transmissor-1").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
-
-        var error = "";
-
-        if(path_certificado_1 == ""){
-            error += "Preencha o Campo Caminho Certificado </br>";
-        }
-        if(codigo_empregador_1 == ""){
-            error += "Preencha o Campo Código Empregador  </br>";
-        }
-        if(senha_certificado_1 == ""){
-            error += "Preencha o Campo Senha Certificado  </br>";
-        }
-        if(transmissor_1 == ""){
-            error += "Preencha o Campo Tipo Transmissor  </br>";
-        }
-        if(numero_transmissor_1 == ""){
-            error += "Preencha o Campo Número Transmissor  </br>";
-        }
-
-        if(codigo_empregador_1 != "" && codigo_empregador_1.length < 8){
-            error += "O Campo Código Empregador deve conter 8 dígitos </br>";
-        }
-
-        if(numero_transmissor_1 != "" && transmissor_1 == "1" && numero_transmissor_1.length < 11){
-            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
-        }
-
-        if(numero_transmissor_1 != "" && transmissor_1 == "2" && numero_transmissor_1.length < 14){
-            error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>";
-        }
-
-        if(numero_transmissor_1 != "" && transmissor_1 == "1" && numero_transmissor_1.length > 11){
-            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
-        }
-        
-        if(error != ""){
-            $("#modalErro").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(error);
-        } else{
-            try {
-                //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
-                var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
-    
-                //Configurando Empregador 1
-    
-                //Codigo Empregador 1
-                doc.esocial.empregadores[0].codigo = codigo_empregador_1;
-                
-                //Path Certificado 1
-                doc.esocial.empregadores[0].chave = path_certificado_1;
-    
-                //Senha certificado 1
-                //Criptografando senha para AES
-                senha_certificado_1 = cryptoJS.AES.encrypt(senha_certificado_1, chave_de_criptografia).toString();
-
-                doc.esocial.empregadores[0].senha = senha_certificado_1;
-                
-                //Tipo transmissor 1
-                doc.esocial.empregadores[0]["tipo-transmissor"] = transmissor_1;
-    
-                //Numero Transmissor 1
-                doc.esocial.empregadores[0]["numero-transmissor"] = numero_transmissor_1;
-    
-                yaml_writer.sync(arquivo_yml, doc);
-
-                $("#modalSucesso").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append("Configurações do Empregador 1 salvas com Sucesso!");                
-            } catch(e) {
-                if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
-                    $("#modalErro").modal("open");
-                    $(".modal-body").html('');
-                    $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
-                } else {
-                    $("#modalErro").modal("open");
-                    $(".modal-body").html('');
-                    $(".modal-body").append(e.toString());
-                }
-            }
-        }
+    $(".modal-body").html("").append("Deseja excluir o Empregador " + empregador_a_ser_excluido + " ?");
+    $("#modalExclusao").modal("open"); 
 }
 
-function excluirEmpregador(indexEmpregador){
+function excluirEmpregador() {
+    var indexEmpregador = localStorage.getItem('Index_Empregador_A_Excluir');
+    $("#modalExclusao").modal("close"); 
+
     try {
         //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
         var arquivo_yml = "application.yml";
@@ -533,7 +433,7 @@ function excluirEmpregador(indexEmpregador){
         doc.esocial.empregadores.splice(indexEmpregador, 1);
         yaml_writer.sync(arquivo_yml, doc);
 
-        var empregadorExcluido = indexEmpregador + 1;
+        var empregadorExcluido = parseInt(indexEmpregador) + 1;
 
         $("#modalSucesso").modal("open");
         $(".modal-body").html('');
@@ -552,102 +452,125 @@ function excluirEmpregador(indexEmpregador){
     }
 }
 
-/*
-function configurar_empregador_2(){
-    //Arquivo a ser configurado
-    var arquivo_yml;
+//Parâmetro i se refere ao index do empregador no objeto criado durante a leitura do arquivo yml.
+function AbrirModalEditarEmpregador(i){
+    var arquivo_yml = "application.yml";
+    var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+    var EmpregadorSendoEditado = parseInt(i) + 1;
 
-    if(arquivo == "application"){
+    $("#editar-caminho-certificado").val(doc.esocial.empregadores[i].chave);
+    $("#editar-codigo_empregador").val(doc.esocial.empregadores[i].codigo);
+    $("#editar-senha-certificado").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+     
+    $("#editar-numero-transmissor").val(doc.esocial.empregadores[i]["numero-transmissor"]);
 
-        arquivo_yml = "application.yml";
+    //Função utilizada para mudar o valor do select_
+    if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+        mudarValorSelect($("#editar-tipo-transmissor"), "CPF");
+        $("#editar-numero-transmissor").mask('000.000.000-00');
 
-    } else{
-
-        arquivo_yml = "application-watchdog.yml";
-
+    } else {
+        mudarValorSelect($("#editar-tipo-transmissor"), "CNPJ");
+        $("#editar-numero-transmissor").mask('00.000.000/0000-00');
     }
-        //Informações Certificado 2
-        var codigo_empregador_2 = $("#codigo_empregador_2").val().toString();
-        var path_certificado_2 = $("#caminho-certificado-2").val();
-        
-        var senha_certificado_2 = $("#senha-certificado-2").val();
 
-        var transmissor_2 = $("#tipo-transmissor-2").val();
-        var numero_transmissor_2 = $("#numero-transmissor-1").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
+    localStorage.setItem("Index_Empregador_Sendo_Editado", i);
+    $("#modal-header-edicao").html("").html("Editando Empregador " + EmpregadorSendoEditado);
+
+    $("#modalEdicao").modal("open");
+}
+
+
+function EditarEmpregador(){
+    var arquivo_yml = "application.yml";
+
+    //Variável i Se refere ao index do empregador no objeto que será editado.
+    var i = localStorage.getItem("Index_Empregador_Sendo_Editado");
+    var EmpregadorEditado = parseInt(i) + 1;
+
+        //Informações Certificado 
+        var codigo_empregador = $("#editar-codigo_empregador").val().toString();
+        var path_certificado = $("#editar-caminho-certificado").val();
         
+        var senha_certificado = $("#editar-senha-certificado").val();
+
+        var transmissor = $("#editar-tipo-transmissor").val();
+        var numero_transmissor = $("#editar-numero-transmissor").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
+
         var error = "";
 
-        if(path_certificado_2 == ""){
-            error += "Preencha o Campo Caminho Certificado  </br>";
+        if(path_certificado == ""){
+            error += "Preencha o Campo Caminho Certificado </br>";
         }
-        if(codigo_empregador_2 == ""){
+        if(codigo_empregador == ""){
             error += "Preencha o Campo Código Empregador  </br>";
         }
-        if(senha_certificado_2 == ""){
+        if(senha_certificado == ""){
             error += "Preencha o Campo Senha Certificado  </br>";
         }
-        if(transmissor_2 == ""){
+        if(transmissor == ""){
             error += "Preencha o Campo Tipo Transmissor  </br>";
         }
-        if(numero_transmissor_2 == ""){
+        if(numero_transmissor == ""){
             error += "Preencha o Campo Número Transmissor  </br>";
         }
 
-        if(numero_transmissor_2 != "" && transmissor_2 == "1" && numero_transmissor_2.length < 11){
-            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>"
+        if(codigo_empregador != "" && codigo_empregador.length < 8){
+            error += "O Campo Código Empregador deve conter 8 dígitos </br>";
         }
 
-        if(numero_transmissor_2 != "" && transmissor_2 == "2" && numero_transmissor_2.length < 14){
-            error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>"
-        }
-
-        if(numero_transmissor_2 != "" && transmissor_2 == "1" && numero_transmissor_2.length > 11){
+        if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
             error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
         }
 
+        if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
+            error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>";
+        }
+
+        if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
+            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+        }
+        
         if(error != ""){
             $("#modalErro").modal("open");
             $(".modal-body").html('');
             $(".modal-body").append(error);
-        } else {
+        } else{
             try {
-         
                 //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
                 var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
     
-                //Configurando Empregador 2
+                //Configurando Empregador
     
-                //Codigo Empregador 2
-                doc.esocial.empregadores[1].codigo = codigo_empregador_2;
+                //Codigo Empregador
+                doc.esocial.empregadores[i].codigo = codigo_empregador;
                 
-                //Path Certificado 2
-                doc.esocial.empregadores[1].chave = path_certificado_2;
+                //Path Certificado
+                doc.esocial.empregadores[i].chave = path_certificado;
     
-                //Senha certificado 2
-                //Criptografando senha certificado 2 para AES
-                senha_certificado_2 = cryptoJS.AES.encrypt(senha_certificado_2, chave_de_criptografia).toString();
+                //Senha certificado
+                //Criptografando senha para AES
+                senha_certificado = cryptoJS.AES.encrypt(senha_certificado, chave_de_criptografia).toString();
+
+                doc.esocial.empregadores[i].senha = senha_certificado;
                 
-                doc.esocial.empregadores[1].senha = senha_certificado_2;
-                
-                //Tipo transmissor 2
-                doc.esocial.empregadores[1]["tipo-transmissor"] = transmissor_2;
+                //Tipo transmissor
+                doc.esocial.empregadores[i]["tipo-transmissor"] = transmissor;
     
-                //Numero Transmissor 2
-                doc.esocial.empregadores[1]["numero-transmissor"] = numero_transmissor_2;
+                //Numero Transmissor
+                doc.esocial.empregadores[i]["numero-transmissor"] = numero_transmissor;
     
                 yaml_writer.sync(arquivo_yml, doc);
 
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Configurações do Empregador 2 salvas com Sucesso!");
-                 
-                
+                $(".modal-body").append("Configurações do Empregador " + EmpregadorEditado + " salvas com Sucesso!");                
+                window.location.reload();
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
                     $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
-                     
                 } else {
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
@@ -656,7 +579,96 @@ function configurar_empregador_2(){
             }
         }
 }
-*/
+
+function CadastrarEmpregador(){
+    var arquivo_yml = "application.yml";
+    //Informações Certificado 
+    var codigo_empregador = $("#novo-codigo_empregador").val().toString();
+    var path_certificado = $("#novo-caminho-certificado").val();
+    
+    var senha_certificado = $("#novo-senha-certificado").val();
+
+    var transmissor = $("#novo-tipo-transmissor").val();
+    var numero_transmissor = $("#novo-numero-transmissor").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
+
+    var error = "";
+
+    if(path_certificado == ""){
+        error += "Preencha o Campo Caminho Certificado </br>";
+    }
+    if(codigo_empregador == ""){
+        error += "Preencha o Campo Código Empregador  </br>";
+    }
+    if(senha_certificado == ""){
+        error += "Preencha o Campo Senha Certificado  </br>";
+    }
+    if(transmissor == ""){
+        error += "Preencha o Campo Tipo Transmissor  </br>";
+    }
+    if(numero_transmissor == ""){
+        error += "Preencha o Campo Número Transmissor  </br>";
+    }
+
+    if(codigo_empregador != "" && codigo_empregador.length < 8){
+        error += "O Campo Código Empregador deve conter 8 dígitos </br>";
+    }
+
+    if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
+        error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+    }
+
+    if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
+        error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>";
+    }
+
+    if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
+        error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+    }
+    
+    if(error != ""){
+        $("#modalErro").modal("open");
+        $(".modal-body").html('');
+        $(".modal-body").append(error);
+    } else{
+        try {
+            //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
+            var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+
+            //Senha certificado
+            //Criptografando senha para AES
+            senha_certificado = cryptoJS.AES.encrypt(senha_certificado, chave_de_criptografia).toString();
+
+            //Criando Objeto com o novo Empregador
+            var NovoEmpregador = {
+                "codigo": codigo_empregador,
+                "chave": path_certificado,
+                "senha": senha_certificado,
+                "tipo-transmissor": transmissor,
+                "numero-transmissor": numero_transmissor
+            };
+
+            //Adicionando novo Empregador ao Objeto
+            doc.esocial.empregadores.push(NovoEmpregador);
+
+            yaml_writer.sync(arquivo_yml, doc);
+
+            $("#modalSucesso").modal("open");
+            $(".modal-body").html('');
+            $(".modal-body").append("Configurações do novo Empregador cadastradas com Sucesso!");                
+            window.location.reload();
+        } catch(e) {
+            if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
+                $("#modalErro").modal("open");
+                $(".modal-body").html('');
+                $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+            } else {
+                $("#modalErro").modal("open");
+                $(".modal-body").html('');
+                $(".modal-body").append(e.toString());
+            }
+        }
+    }
+}
 
 /*
 try {

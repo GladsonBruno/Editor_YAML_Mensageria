@@ -30,8 +30,9 @@
         <div class="row">
             <div class="input-field col s12">
                 <ul class="tabs">
-                    <li class="tab col s6 m6"><a href="#form-base-de-dados">Base de Dados</a></li>
-                    <li class="tab col s6 m6"><a href="#empregadores">Empregadores</a></li>
+                    <li class="tab col s4 m4"><a href="#form-base-de-dados">Base de Dados</a></li>
+                    <li class="tab col s4 m4"><a href="#empregadores">Empregadores Cadastrados</a></li>
+                    <li class="tab col s4 m4"><a href="#cadastrarEmpregador">Cadastrar Empregador</a></li>
                 </ul>
             </div>
 
@@ -81,6 +82,38 @@
 
                 <div class="empregadores" id="empregadores"></div>
 
+                <div id="cadastrarEmpregador">
+                    <h3>Novo Empregador</h3>
+                    <div class="input-field col m12">
+                        <label>Caminho Certificado</label>
+                        <input type="text"  id="novo-caminho-certificado" required>
+                    </div>
+        
+                    <div class="input-field col m3 s3">
+                        <label>Código Empregador</label>
+                        <input type="number"  id="novo-codigo_empregador" required>
+                    </div>
+        
+                    <div class="input-field col m3 s3">
+                        <label>Senha Certificado</label>
+                        <input type="password"  id="novo-senha-certificado" required>
+                    </div>
+            
+                    <div class="input-field col m3 s3">
+                        <select id="novo-tipo-transmissor">
+                                <option value="" disabled selected>Tipo Transmissor</option>
+                                <option value="1">CPF</option>
+                                <option value="2">CNPJ</option>
+                        </select>
+                    </div>
+    
+                    <div class="input-field col m3 s3">
+                        <label>Número Transmissor</label>
+                        <input type="text" data-error="" class="validate" id="novo-numero-transmissor" required>
+                    </div>
+                    <button onclick="CadastrarEmpregador()" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Cadastrar</button>
+                </div>
+
         </form>
         </div>
     </div>
@@ -110,12 +143,71 @@
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Ok</a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Ok</a>
                 </div>
             </div>
     </div>
     <!--  Fim Modal Sucesso  -->
 
+    <!--  Inicio Modal Exclusão de Empregador  -->
+    <div id="modalExclusao" class="modal container">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+            <!-- Cabeçalho Modal -->
+                <div class="modal-header">
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Cancelar</a>
+                        <button onclick="excluirEmpregador()" class="modal-action modal-close waves-effect waves-red btn-flat red accent-3 white-text">Excluir</button>
+                </div>
+            </div>
+    </div>
+    <!--  Fim Modal Exclusão de Empregador  -->
+
+    <!--  Inicio Modal Edição de Empregador  -->
+    <div id="modalEdicao" class="modal container">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+            <!-- Cabeçalho Modal -->
+                <div id="modal-header-edicao" class="modal-header">
+                </div>
+                <div class="modal-body-edicao">
+                    <div class="input-field col m12">
+                        <label>Caminho Certificado</label>
+                        <input type="text"  id="editar-caminho-certificado" required>
+                    </div>
+
+                    <div class="input-field col m3 s3">
+                        <label>Código Empregador</label>
+                        <input type="number"  id="editar-codigo_empregador" required>
+                    </div>
+
+                    <div class="input-field col m3 s3">
+                        <label>Senha Certificado</label>
+                        <input type="password"  id="editar-senha-certificado" required>
+                    </div>
+    
+                    <div class="input-field col m3 s3">
+                        <select id="editar-tipo-transmissor">
+                                <option value="" disabled selected>Tipo Transmissor</option>
+                                <option value="1">CPF</option>
+                                <option value="2">CNPJ</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field col m3 s3">
+                        <label>Número Transmissor</label>
+                        <input type="text" data-error="" class="validate" id="editar-numero-transmissor" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat red accent-3 white-text">Cancelar</a>
+                        <button onclick="EditarEmpregador()" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Salvar Alterações</button>
+                </div>
+            </div>
+    </div>
+    <!--  Fim Modal Edição de Empregador  -->
 
 
     <script src="./scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>

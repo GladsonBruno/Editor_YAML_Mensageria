@@ -9,7 +9,7 @@ db:
   url: 'jdbc:sqlserver://localhost:8081;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: teste
-  password: U2FsdGVkX1801ETCnMExGtiIghuMKnv2zp2YhQ7Dj+U=
+  password: U2FsdGVkX19kGP9kRGITxnLtCxKN4Vr8wS2DkKtqZvE=
   datasource:
     initial-size: 5
     max-active: 10
@@ -57,9 +57,19 @@ esocial:
   empregadores:
     - codigo: '11111111'
       chave: cert1.pfx
-      senha: U2FsdGVkX19bJywNkQ9KcVOlDglYthYqsXVWA+6Dw9s=
+      senha: U2FsdGVkX1/NtYqgXuBjGxX1qU0yX3iHQuDtsjD2iKc=
       tipo-transmissor: '1'
       numero-transmissor: '11111111112'
+    - codigo: '32412345'
+      chave: certificado.pfx
+      senha: U2FsdGVkX19Zbym4QzoHI5Qjy1yPXAn9p76bNBqGwuc=
+      tipo-transmissor: null
+      numero-transmissor: 09876543212345
+    - codigo: '98765432'
+      chave: Empregador3.pfx
+      senha: U2FsdGVkX187svzokJPML0/dzRj2Akk35KXqG7/F8z0=
+      tipo-transmissor: '1'
+      numero-transmissor: '10251900681'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
