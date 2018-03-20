@@ -28,7 +28,7 @@ app.on('ready', () => {
         minWidth: 800
     });
     TelaInicial.loadURL(url.format({
-        pathname: path.join(__dirname, './testes-materialize/teste.html'),
+        pathname: path.join(__dirname, './config_application_yml.html'),
         protocol: 'file:'
     }));
 
@@ -50,7 +50,7 @@ let menuTemplate = [
                         minWidth: 800
                     });
                     TelaApplication.loadURL(url.format({
-                        pathname: path.join(__dirname, './testes-materialize/teste.html'),
+                        pathname: path.join(__dirname, '.config_application_yml.html'),
                         protocol: 'file:'
                     }));
                 }

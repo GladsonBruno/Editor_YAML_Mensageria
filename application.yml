@@ -60,11 +60,6 @@ esocial:
       senha: U2FsdGVkX19bJywNkQ9KcVOlDglYthYqsXVWA+6Dw9s=
       tipo-transmissor: '1'
       numero-transmissor: '11111111112'
-    - codigo: '99251900681'
-      chave: certificado2.pfx
-      senha: U2FsdGVkX1++DaGtL9iJHI5Hl4vRKNYXSP7cslWioGU=
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111112'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

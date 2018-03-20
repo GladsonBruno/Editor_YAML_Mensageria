@@ -18,10 +18,6 @@
     <script type="text/javascript" src="./scripts/jquery.mask.min.js"></script>
     <script type="text/javascript" src="./scripts/config-yml.js"></script>
     <script type="text/javascript" src="./scripts/limitar-campos.js"></script>
-
-    
-    
-
     
 </head>
 <body>
@@ -31,18 +27,11 @@
         </header>
         
         <form class="form-group">
-            <!--Caminho Application.yml-->
-            <div class="input-field col m12">
-                <label>Caminho application.yml</label>
-                <input type="text" class="form-control col m12 validate" id="arquivo-yml" required/>
-                <button onclick="carregarInformacoes('application')" class="waves-effect waves-light btn">Carregar Configurações do Arquivo</button>
-            </div> 
         <div class="row">
             <div class="input-field col s12">
                 <ul class="tabs">
-                    <li class="tab col s4"><a href="#form-base-de-dados">Base de Dados</a></li>
-                    <li class="tab col s4"><a href="#form-empregador-1">Empregador 1</a></li>
-                    <li class="tab col s4"><a href="#form-empregador-2">Empregador 2</a></li>
+                    <li class="tab col s6 m6"><a href="#form-base-de-dados">Base de Dados</a></li>
+                    <li class="tab col s6 m6"><a href="#empregadores">Empregadores</a></li>
                 </ul>
             </div>
 
@@ -90,79 +79,8 @@
                     </div>                    
                 </div>
 
-                <div id="form-empregador-1">
-                    <!--Configuração Empregadores-->
-                    <h3>Configuração Empregador 1</h3>
-                    <div class="div-info-certificado">
-                        <div class="input-field col m12">
-                            <label>Caminho Certificado</label>
-                            <input type="text"  id="caminho-certificado-1" required>
-                        </div>
+                <div class="empregadores" id="empregadores"></div>
 
-                        <div class="input-field col m3 s3">
-                            <label>Código Empregador</label>
-                            <input type="number"  id="codigo_empregador_1" required>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <label>Senha Certificado</label>
-                            <input type="password"  id="senha-certificado-1" required>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <select  id="tipo-transmissor-1">
-                                <option value="" disabled selected>Tipo Transmissor</option>
-                                <option value="1">CPF</option>
-                                <option value="2">CNPJ</option>
-                            </select>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <label>Número Transmissor</label>
-                            <input type="text" data-error=""  class="validate" id="numero-transmissor-1" required>
-                        </div>
-                    </div>
-                    <div class="input-field col m12">
-                        <button onclick="configurar_empregador_1()" class="waves-effect waves-light btn">Salvar Configurações Empregador 1</button>
-                    </div>
-                </div> 
-
-                <div id="form-empregador-2">
-                    <!--Configuração Empregador 2-->
-                    <h3>Configuração Empregador 2</h3>
-                    <div class="div-info-certificado">
-                        <div class="input-field col m12">
-                            <label>Caminho Certificado</label>
-                            <input type="text"  id="caminho-certificado-2" required>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <label>Código Empregador</label>
-                            <input type="number"  id="codigo_empregador_2" required>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <label>Senha Certificado</label>
-                            <input type="password"  id="senha-certificado-2" required>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <select id="tipo-transmissor-2">
-                                    <option value="" disabled selected>Tipo Transmissor</option>
-                                    <option value="1">CPF</option>
-                                    <option value="2">CNPJ</option>
-                            </select>
-                        </div>
-
-                        <div class="input-field col m3 s3">
-                            <label>Número Transmissor</label>
-                            <input type="text" data-error="" class="validate" id="numero-transmissor-2" required>
-                        </div>
-                    </div>
-                    <div class="input-field col m12">
-                        <button onclick="configurar_empregador_2()" class="waves-effect waves-light btn">Salvar Configurações Empregador 2</button>
-                    </div>
-                </div>
         </form>
         </div>
     </div>
@@ -177,7 +95,7 @@
                 </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat red accent-4">Voltar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat  red accent-3 white-text">Voltar</a>
             </div>
         </div>
     </div>
@@ -192,7 +110,7 @@
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-4">Ok</a>
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Ok</a>
                 </div>
             </div>
     </div>
@@ -200,18 +118,19 @@
 
 
 
-    <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
+    <script src="./scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
     <script type="text/javascript" src="./Materialize/js/materialize.min.js"></script>
     <script type="text/javascript" src="./node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     
     <script>
-            $(document).ready(function(){
-                $('ul.tabs').tabs();
-                $('select').material_select();
-                $('.modal').modal({
-                    dismissible: true
-                });
+        $(document).ready(function(){
+            $('ul.tabs').tabs();
+            $('select').material_select();
+            $('.modal').modal({
+                dismissible: true
             });
-        </script>
+            carregarInformacoes("application");
+        });
+    </script>
 </body>
 </html>

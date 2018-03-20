@@ -67,7 +67,8 @@ $(document).ready(function(){
     verificarSeOCampoEstaVazio(senha_certificado_1);
 
     var numero_transmissor_1 = $("#numero-transmissor-1");
-    verificarCodigoEmpregador(numero_transmissor_1, $("#tipo-transmissor-1").val());
+    verificarSeOCampoEstaVazio(numero_transmissor_1);
+    //verificarCodigoEmpregador(numero_transmissor_1, $("#tipo-transmissor-1").val());
 
 
     //Validando informações do empregador 2
@@ -81,7 +82,8 @@ $(document).ready(function(){
     verificarSeOCampoEstaVazio(senha_certificado_2);
 
     var numero_transmissor_2 = $("#numero-transmissor-2");  
-    verificarCodigoEmpregador(numero_transmissor_2, $("#tipo-transmissor-2").val());
+    verificarSeOCampoEstaVazio(numero_transmissor_2);
+    //verificarCodigoEmpregador(numero_transmissor_2, $("#tipo-transmissor-2").val());
 
 });
 
@@ -106,6 +108,7 @@ function verificarSeOCampoEstaVazio(seletor){
         }
     });
 }
+/*
 
 function verificarCodigoEmpregador(seletor, tipo_transmissor){
     //O Seletor é o seletor do elemento a ser verificado
@@ -148,7 +151,7 @@ function verificarCodigoEmpregador(seletor, tipo_transmissor){
         }
     });
 }
-
+*/
 
 //Função utilizada para mudar o valor do input select quando os dados forem caregador
 //Criada essa função pois o materialize gera um novo elemento quando usamos um input select
@@ -160,17 +163,17 @@ function mudarValorSelect (selector, value) {
 //CARREGAMENTO DE INFORMAÇÕES DA BASE DE DADOS.
 function carregarInformacoes(arquivo){
     //Arquivo a ser configurado
-    var arquivo_yml = $("#arquivo-yml").val();
+    var arquivo_yml;
 
-    if(arquivo_yml == "" && arquivo == "application"){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application.yml");
-    } else if(arquivo_yml == "" && arquivo == "application-watchdog"){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application-watchdog.yml");
+    if(arquivo == "application"){
+
+        arquivo_yml = "application.yml";
+
     } else{
+
+        arquivo_yml = "application-watchdog.yml";
+
+    }
         try {
             //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
             var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
@@ -233,39 +236,70 @@ function carregarInformacoes(arquivo){
             }
     
             if(arquivo == "application"){
-    
-                $("#codigo_empregador_1").val(doc.esocial.empregadores[0].codigo).focus();
-                $("#caminho-certificado-1").val(doc.esocial.empregadores[0].chave).focus();
-                $("#senha-certificado-1").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[0].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)).focus();
 
-                //Função utilizada para mudar o valor do select_
-                if(doc.esocial.empregadores[0]["tipo-transmissor"] == "1"){
-                    mudarValorSelect($("#tipo-transmissor-1"), "CPF");
-                } else {
-                    mudarValorSelect($("#tipo-transmissor-1"), "CNPJ");
+                var QuantidadeEmpregadores = doc.esocial.empregadores.length;
+                var elementos = "";
+                var empregador_atual;
+
+                for(var i = 0; i < QuantidadeEmpregadores; i++){
+                    empregador_atual = i + 1;
+                    
+                    //Montando Formulário de Empregadores
+                    elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
+                        elementos += "<h3>Empregador " + empregador_atual + "</h3>";
+                        elementos += "<div class='input-field col m12'>";
+                            elementos += "<label>Caminho Certificado</label>";
+                            elementos += "<input type='text' name='caminho-certificado' required>"
+                        elementos += "</div>";
+                        elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<label>Código Empregador</label>";
+                            elementos += "<input type='number' name='codigo_empregador' required>";
+                            elementos += "</div>";
+                            elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<label>Senha Certificado</label>";
+                            elementos += "<input type='password' name='senha-certificado' required>";
+                        elementos += "</div>";
+                        elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<select name='tipo-transmissor'>";
+                                elementos += "<option value=' ' disabled selected>Tipo Transmissor</option>";
+                                elementos += "<option value='1'>CPF</option>";
+                                elementos += "<option value='2'>CNPJ</option>";
+                            elementos += "</select>";
+                        elementos += "</div>";
+                        elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<label>Número Transmissor</label>";
+                            elementos += "<input type='text' data-error='' class='validate' name='numero-transmissor' required>";
+                        elementos += "</div>";
+                        elementos += "<button id='btn-editar' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
+                        elementos += "<button id='btn-deletar' onclick='excluirEmpregador(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
+                    elementos += "</div>";
                 }
 
-                $("#numero-transmissor-1").val(doc.esocial.empregadores[0]["numero-transmissor"]).focus();
-    
-                $("#codigo_empregador_2").val(doc.esocial.empregadores[1].codigo).focus();
-                $("#caminho-certificado-2").val(doc.esocial.empregadores[1].chave).focus();
-                $("#senha-certificado-2").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[1].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)).focus();
-                
-                //Função utilizada para mudar o valor do select_
-                if(doc.esocial.empregadores[1]["tipo-transmissor"] == "1"){
-                    mudarValorSelect($("#tipo-transmissor-2"), "CPF");
-                } else {
-                    mudarValorSelect($("#tipo-transmissor-2"), "CNPJ");
+                $("empregadores").html("");
+                $(".empregadores").append(elementos);
+                //Inicializando Elementos Select
+                $('select').material_select();
+
+                for(i = 0; i < QuantidadeEmpregadores; i++){
+                    $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
+                    $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
+                    $("[name='senha-certificado']:eq(" + i + ")").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                    
+                    //Função utilizada para mudar o valor do select_
+                    if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+                        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+                    } else {
+                        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+                    }
+
+                    $("[name='numero-transmissor']:eq(" + i + ")").val(doc.esocial.empregadores[i]["numero-transmissor"]);
+
                 }
-                
-                $("#numero-transmissor-2").val(doc.esocial.empregadores[1]["numero-transmissor"]).focus();
+                    
+                $("#modalSucesso").modal("open");
+                $(".modal-body").html('');
+                $(".modal-body").append("Configurações Carregadas com Sucesso");
             }
-    
-            $("#modalSucesso").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append("Configurações Carregadas com Sucesso");
-             
-            
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
@@ -278,22 +312,21 @@ function carregarInformacoes(arquivo){
                 $(".modal-body").append(e.toString());
             }
         }    
-    }
 }
 
 function configurar_db(arquivo){
     //Arquivo a ser configurado
-    var arquivo_yml = $("#arquivo-yml").val();
-    
-    if(arquivo_yml == "" && arquivo == "application"){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application.yml");
-    }else if(arquivo_yml == "" && arquivo == "application-watchdog"){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application-watchdog.yml");
-    } else {
+    var arquivo_yml;
+
+    if(arquivo == "application"){
+
+        arquivo_yml = "application.yml";
+
+    } else{
+
+        arquivo_yml = "application-watchdog.yml";
+
+    }
      //Informações Base de Dados
         var url_db = $("#url-base-de-dados").val();
         var porta_db = $("#porta-base-de-dados").val();
@@ -378,20 +411,29 @@ function configurar_db(arquivo){
                 }
             }
         }
-    }
-
-    
 }
 
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
+//ALTERAR IMPLEMENTAÇÃO
 function configurar_empregador_1(){
     //Arquivo a ser configurado
-    var arquivo_yml = $("#arquivo-yml").val();
+    var arquivo_yml;
 
-    if(arquivo_yml == ""){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application.yml");
-    }else {
+    if(arquivo == "application"){
+
+        arquivo_yml = "application.yml";
+
+    } else{
+
+        arquivo_yml = "application-watchdog.yml";
+
+    }
         //Informações Certificado 1
         var codigo_empregador_1 = $("#codigo_empregador_1").val().toString();
         var path_certificado_1 = $("#caminho-certificado-1").val();
@@ -481,19 +523,49 @@ function configurar_empregador_1(){
                 }
             }
         }
+}
+
+function excluirEmpregador(indexEmpregador){
+    try {
+        //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
+        var arquivo_yml = "application.yml";
+        var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+        doc.esocial.empregadores.splice(indexEmpregador, 1);
+        yaml_writer.sync(arquivo_yml, doc);
+
+        var empregadorExcluido = indexEmpregador + 1;
+
+        $("#modalSucesso").modal("open");
+        $(".modal-body").html('');
+        $(".modal-body").append("Empregador " + empregadorExcluido + " excluído com sucesso!");
+        window.location.reload();                
+    } catch(e) {
+        if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
+            $("#modalErro").modal("open");
+            $(".modal-body").html('');
+            $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+        } else {
+            $("#modalErro").modal("open");
+            $(".modal-body").html('');
+            $(".modal-body").append(e.toString());
+        }
     }
 }
 
+/*
 function configurar_empregador_2(){
     //Arquivo a ser configurado
-    var arquivo_yml = $("#arquivo-yml").val();
+    var arquivo_yml;
 
-    if(arquivo_yml == ""){
-        $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Especifique o arquivo application.yml");
-    } else {
-    
+    if(arquivo == "application"){
+
+        arquivo_yml = "application.yml";
+
+    } else{
+
+        arquivo_yml = "application-watchdog.yml";
+
+    }
         //Informações Certificado 2
         var codigo_empregador_2 = $("#codigo_empregador_2").val().toString();
         var path_certificado_2 = $("#caminho-certificado-2").val();
@@ -583,9 +655,8 @@ function configurar_empregador_2(){
                 }
             }
         }
-    }
-    
 }
+*/
 
 /*
 try {

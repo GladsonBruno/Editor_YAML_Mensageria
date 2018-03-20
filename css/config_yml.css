@@ -1,19 +1,7 @@
-#div-info-db {
-    float: left;
-}
-
-.div-info-db, .div-info-certificado {
-    margin-bottom: 10px;
-}
-
-#form-empregador-1 #form-empregador-1 {
-    float: left;
-}
-
-#form-empregador-2, #form-empregador-2 {
-    float: left;
-}
-
 ul li {
     background-color: #d3d3d3;
+}
+
+#btn-editar {
+    margin-right: 10px;
 }
