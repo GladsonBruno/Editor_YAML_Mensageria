@@ -55,21 +55,21 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '11111111'
-      chave: cert1.pfx
-      senha: U2FsdGVkX1/NtYqgXuBjGxX1qU0yX3iHQuDtsjD2iKc=
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111112'
+    - codigo: '11111112'
+      chave: cert1.pfxs
+      senha: U2FsdGVkX1+hXHc/o23pBEp8on7jBbyi3yoAi1vrIXE=
+      tipo-transmissor: null
+      numero-transmissor: '11111111113'
     - codigo: '32412345'
       chave: certificado.pfx
-      senha: U2FsdGVkX19Zbym4QzoHI5Qjy1yPXAn9p76bNBqGwuc=
+      senha: U2FsdGVkX1+sPkMzUfv00DS+N0g93a9gkzYHMURLk64=
       tipo-transmissor: null
       numero-transmissor: 09876543212345
     - codigo: '98765432'
-      chave: Empregador3.pfx
-      senha: U2FsdGVkX187svzokJPML0/dzRj2Akk35KXqG7/F8z0=
-      tipo-transmissor: '1'
-      numero-transmissor: '10251900681'
+      chave: NovoCertificado.pfx
+      senha: U2FsdGVkX1+kJ1TsZEHcFdFL5NYeDqGrGk2gDG/bd40=
+      tipo-transmissor: '2'
+      numero-transmissor: '10251900681212'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

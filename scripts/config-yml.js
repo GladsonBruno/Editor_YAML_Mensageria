@@ -270,11 +270,19 @@ function carregarInformacoes(arquivo){
                                 elementos += "<label>Número Transmissor</label>";
                                 elementos += "<input type='text' data-error='' class='validate' disabled name='numero-transmissor' required>";
                             elementos += "</div>";
-                            elementos += "<button id='btn-editar' onclick='AbrirModalEditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
-                            elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
+                            elementos += "<div class='botoes-padroes'>";
+                                elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
+                                elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
+                            elementos += "</div>";
+                            elementos += "<div class='botoes-edicao hide'>";
+                            elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Cancelar</button>"
+                            elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Salvar Alterações</button>";
+                            elementos += "</div>";
                         elementos += "</div>";
                     }
-    
+
+                    localStorage.setItem("leituraYML", JSON.stringify(doc));
+
                     $(".empregadores").html("");
                     $(".empregadores").append(elementos);
                     //Inicializando Elementos Select
@@ -452,50 +460,74 @@ function excluirEmpregador() {
     }
 }
 
-//Parâmetro i se refere ao index do empregador no objeto criado durante a leitura do arquivo yml.
-function AbrirModalEditarEmpregador(i){
-    var arquivo_yml = "application.yml";
-    var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
-    var EmpregadorSendoEditado = parseInt(i) + 1;
 
-    $("#editar-caminho-certificado").val(doc.esocial.empregadores[i].chave);
-    $("#editar-codigo_empregador").val(doc.esocial.empregadores[i].codigo);
-    $("#editar-senha-certificado").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
-     
-    $("#editar-numero-transmissor").val(doc.esocial.empregadores[i]["numero-transmissor"]);
+function IniciarEdicao(i){
+    var doc = JSON.parse(localStorage.getItem("leituraYML"));
 
+    $(".botoes-padroes:eq(" + i + ")").addClass("hide");
+    $(".botoes-edicao:eq(" + i + ")").removeClass("hide");
+    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", false);
+    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", false);
+    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", false);
+    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", false);
+    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", false);
+    
+    $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
+    
     //Função utilizada para mudar o valor do select_
     if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
-        mudarValorSelect($("#editar-tipo-transmissor"), "CPF");
-        $("#editar-numero-transmissor").mask('000.000.000-00');
-
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
     } else {
-        mudarValorSelect($("#editar-tipo-transmissor"), "CNPJ");
-        $("#editar-numero-transmissor").mask('00.000.000/0000-00');
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
     }
+    var nomeVariavelNumeroTransmissor = "numeroTransmissor" + i;
+    localStorage.setItem(nomeVariavelNumeroTransmissor, $("[name='numero-transmissor']:eq(" + i + ")").val());
+}
 
-    localStorage.setItem("Index_Empregador_Sendo_Editado", i);
-    $("#modal-header-edicao").html("").html("Editando Empregador " + EmpregadorSendoEditado);
+function CancelarEdicao(i) {
+    $(".botoes-padroes:eq(" + i + ")").removeClass("hide");
+    $(".botoes-edicao:eq(" + i + ")").addClass("hide");
+    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
 
-    $("#modalEdicao").modal("open");
+    var doc = JSON.parse(localStorage.getItem("leituraYML"));
+
+    $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
+    $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
+    $("[name='senha-certificado']:eq(" + i + ")").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+
+    var nomeVariavelNumeroTransmissor = "numeroTransmissor" + i;
+    
+    $("[name='numero-transmissor']:eq(" + i + ")").val(localStorage.getItem(nomeVariavelNumeroTransmissor));
+    
+    //Função utilizada para mudar o valor do select_
+    if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+    } else {
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+    }
 }
 
 
-function EditarEmpregador(){
+//O Parametro i Se refere ao index do empregador no objeto que será editado.
+function EditarEmpregador(i){
     var arquivo_yml = "application.yml";
 
-    //Variável i Se refere ao index do empregador no objeto que será editado.
-    var i = localStorage.getItem("Index_Empregador_Sendo_Editado");
+    
     var EmpregadorEditado = parseInt(i) + 1;
 
         //Informações Certificado 
-        var codigo_empregador = $("#editar-codigo_empregador").val().toString();
-        var path_certificado = $("#editar-caminho-certificado").val();
+        var codigo_empregador = $("[name='codigo_empregador']:eq(" + i + ")").val().toString();
+        var path_certificado = $("[name='caminho-certificado']:eq(" + i + ")").val();
         
-        var senha_certificado = $("#editar-senha-certificado").val();
+        var senha_certificado = $("[name='senha-certificado']:eq(" + i + ")").val();
 
-        var transmissor = $("#editar-tipo-transmissor").val();
-        var numero_transmissor = $("#editar-numero-transmissor").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
+        var transmissor = $("[name='tipo-transmissor']:eq(" + i + ")").val();
+        var numero_transmissor = $("[name='numero-transmissor']:eq(" + i + ")").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
 
         var error = "";
 
@@ -669,6 +701,7 @@ function CadastrarEmpregador(){
         }
     }
 }
+
 
 /*
 try {
