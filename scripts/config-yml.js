@@ -195,7 +195,13 @@ function carregarInformacoes(arquivo){
                 $("#nome-base-de-dados").val(databaseName);
                 $("#db_sid").val("");
                 $("#db_sid").prop("disabled", true);
-                $("#driver-base-de-dados").val(doc.db.driver);
+                //Função utilizada para mudar o valor do select_
+                if(doc.db.driver == "oracle.jdbc.OracleDriver"){
+                    mudarValorSelect($("#driver-base-de-dados"), "Oracle");
+                } else {
+                    mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
+                }
+                
                 $("#username").val(doc.db.username);
                 $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             } else {
@@ -286,9 +292,11 @@ function carregarInformacoes(arquivo){
                     $(".empregadores").html("");
                     $(".empregadores").append(elementos);
                     //Inicializando Elementos Select
-                    $('select').material_select();
+                    
     
                     for(i = 0; i < QuantidadeEmpregadores; i++){
+                        $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
+
                         $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
                         $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
                         $("[name='senha-certificado']:eq(" + i + ")").val(cryptoJS.AES.decrypt(doc.esocial.empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8));
@@ -540,7 +548,7 @@ function EditarEmpregador(i){
         if(senha_certificado == ""){
             error += "Preencha o Campo Senha Certificado  </br>";
         }
-        if(transmissor == ""){
+        if(transmissor == "" || transmissor == null){
             error += "Preencha o Campo Tipo Transmissor  </br>";
         }
         if(numero_transmissor == ""){
@@ -634,7 +642,7 @@ function CadastrarEmpregador(){
     if(senha_certificado == ""){
         error += "Preencha o Campo Senha Certificado  </br>";
     }
-    if(transmissor == ""){
+    if(transmissor == "" || transmissor == null){
         error += "Preencha o Campo Tipo Transmissor  </br>";
     }
     if(numero_transmissor == ""){

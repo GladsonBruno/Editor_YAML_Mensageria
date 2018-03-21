@@ -6,10 +6,10 @@ spring:
     password: admin
     in-memory: false
 db:
-  url: 'jdbc:sqlserver://localhost:8081;databaseName=arte'
+  url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  username: teste
-  password: U2FsdGVkX19kGP9kRGITxnLtCxKN4Vr8wS2DkKtqZvE=
+  username: SQL SERVER
+  password: U2FsdGVkX1+/kY9JkHXQCQNJmOPjDX5c4C6FLBFP+mE=
   datasource:
     initial-size: 5
     max-active: 10
