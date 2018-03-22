@@ -8,6 +8,15 @@ const chave_de_criptografia = "12345";
 //Importando JQUERY
 const $ = require('jquery');
 
+//Mensagens de Erro
+const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_watchdog_yml = "Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+
+//Mensagens de Sucesso
+const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
+const SucessoCadastroEmpregador = "Configurações do novo Empregador cadastradas com Sucesso!";
+const SucessoSalvarConfiguracoesDB = "Configurações de Banco de Dados Salvas com Sucesso!";
+
 
 $(document).ready(function(){
     //Evento para desabilitar e habilitar os campos com o id nome-base-de-dados e o db_sid
@@ -250,7 +259,7 @@ function carregarInformacoes(arquivo){
                     for(var i = 0; i < QuantidadeEmpregadores; i++){
                         empregador_atual = i + 1;
                         
-                        //Montando Formulário de Empregadores
+                        //Montando Formulários de Empregadores
                         elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
                             elementos += "<h3>Empregador " + empregador_atual + "</h3>";
                             elementos += "<div class='input-field col m12'>";
@@ -293,7 +302,7 @@ function carregarInformacoes(arquivo){
                     $(".empregadores").append(elementos);
                     //Inicializando Elementos Select
                     
-    
+                    //Adicionando informações nos inputs criados com base no arquivo YML
                     for(i = 0; i < QuantidadeEmpregadores; i++){
                         $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
 
@@ -315,14 +324,17 @@ function carregarInformacoes(arquivo){
                 }                
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Configurações Carregadas com Sucesso");
+                $(".modal-body").append(sucesso_carregamento_informacoes);
             }
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
-                 
+                if(arquivo_yml == "application.yml"){
+                    $(".modal-body").append(erro_abrir_application_yml);
+                } else {
+                    $(".modal-body").append(erro_abrir_application_watchdog_yml);
+                }
             } else {
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
@@ -415,12 +427,16 @@ function configurar_db(arquivo){
 
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Configurações de Banco de Dados Salvas com Sucesso!");                
+                $(".modal-body").append(SucessoSalvarConfiguracoesDB);                
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
-                    $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+                    if(arquivo_yml == "application.yml"){
+                        $(".modal-body").append(erro_abrir_application_yml);
+                    } else {
+                        $(".modal-body").append(erro_abrir_application_watchdog_yml);
+                    }
                 } else {
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
@@ -459,7 +475,7 @@ function excluirEmpregador() {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
             $("#modalErro").modal("open");
             $(".modal-body").html('');
-            $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+            $(".modal-body").append(erro_abrir_application_yml);
         } else {
             $("#modalErro").modal("open");
             $(".modal-body").html('');
@@ -610,7 +626,7 @@ function EditarEmpregador(i){
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
-                    $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+                    $(".modal-body").append(erro_abrir_application_yml);
                 } else {
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
@@ -694,13 +710,13 @@ function CadastrarEmpregador(){
 
             $("#modalSucesso").modal("open");
             $(".modal-body").html('');
-            $(".modal-body").append("Configurações do novo Empregador cadastradas com Sucesso!");                
+            $(".modal-body").append(SucessoCadastroEmpregador);                
             window.location.reload();
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Não é possivel abrir o arquivo ou diretório especificado");
+                $(".modal-body").append(erro_abrir_application_yml);
             } else {
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');

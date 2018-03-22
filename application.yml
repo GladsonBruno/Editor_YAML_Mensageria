@@ -57,8 +57,8 @@ esocial:
   empregadores:
     - codigo: '11111112'
       chave: cert1.pfxs
-      senha: U2FsdGVkX1+hXHc/o23pBEp8on7jBbyi3yoAi1vrIXE=
-      tipo-transmissor: null
+      senha: U2FsdGVkX1+7wC4yapqVSNDjTV/eOm5W+LPvIIaKpHg=
+      tipo-transmissor: '1'
       numero-transmissor: '11111111113'
     - codigo: '32412345'
       chave: certificado.pfx
