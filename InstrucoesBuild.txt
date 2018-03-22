@@ -1,0 +1,28 @@
+Rodar a Aplicação Para Debug: npm start
+
+Gerar instalador: npm run dist
+Gerar pacote: npm run pack
+
+Gerando Build do Instalador Linux:
+    Na seção linux trocar a propriedade target de acordo com o tipo de arquivo que será gerado.
+    Ex: deb para debian, rpm para Fedora, Red Hat. Etc.
+
+Instalar arquivos gerado para debian - Extensão .DEB: 
+Gerando build: npm run dist
+Instalando Aplicação:
+sudo dpkg -i aplicacao.deb
+
+//Extensão .RPM
+Para Linux: Red Hat Enterprise Linux, Fedora, CentOS, openSUSE
+Gerando build: npm run dist
+Instalando aplicação extenção RPM:
+sudo rpm -i applicacao.rpm
+
+Gerar extensão .app - Imagem de aplicativo
+Substituir na seção linux o valor da propriedade target para AppImage
+Gerando build: npm run dist
+
+Gerar SNAP package - Pode ser usado no ubuntu
+Gerando build: npm run dist
+Instalando Aplicação:
+sudo snap install --dangerous aplicacao.SNAP

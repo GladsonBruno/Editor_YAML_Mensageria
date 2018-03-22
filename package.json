@@ -2,7 +2,7 @@
   "name": "electron_yaml_teste",
   "productName": "EditorVisualYML",
   "version": "1.0.0",
-  "description": "Fazer alterações em arquivos YML graficamente.",
+  "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
   "main": "main.js",
   "build": {
     "appId": "com.electron_yaml_teste",
@@ -10,6 +10,53 @@
     "mac": {
       "category": "public.app-category.productivity",
       "identity": null
+    },
+    "linux": {
+      "category": "Utils",
+      "icon": "assets/icons/linux",
+      "packageCategory": "utils",
+      "maintainer": "Gladson Bruno",
+      "target": [ "deb", "rpm", "AppImage", "snap" ],
+      "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
+    },
+    "deb": {
+      "depends": [
+        "gconf2",
+        "gconf-service",
+        "libnotify4",
+        "libappindicator1",
+        "libxtst6",
+        "libnss3"
+      ]
+    },
+    "rpm": {
+      "depends": [
+        "GConf2",
+        "libnotify",
+        "nss",
+        "libappindicator",
+        "libXtst"
+      ]
+    },
+    "snap": {
+      "confinement": "strict",
+      "summary": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
+      "grade": "stable",
+      "buildPackages": [],
+      "stagePackages": [
+        "libnotify4",
+        "libappindicator1",
+        "libxtst6",
+        "libnss3",
+        "libxss1",
+        "fontconfig-config",
+        "gconf2",
+        "libasound2",
+        "pulseaudio"
+      ],
+      "plugs": [
+        "default"
+      ]
     }
   },
   "scripts": {
@@ -18,7 +65,7 @@
     "dist": "build",
     "postinstall": "install-app-deps"
   },
-  "author": "",
+  "author": "Gladson Bruno",
   "license": "ISC",
   "dependencies": {
     "crypto-js": "^3.1.9-1",

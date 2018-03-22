@@ -3,20 +3,6 @@ const { BrowserWindow, app, dialog, Menu } = electron;
 const url = require('url');
 const path = require('path');
 
-//Início Item obrigatorio para montar instalador windows
-
-    //handle setupevents as quickly as possible
-    const setupEvents = require('./installers/setupEvents')
-    if (setupEvents.handleSquirrelEvent()) {
-    // squirrel event handled and app will exit in 1000ms, so don't do anything else
-    return;
-    }
-
-    const {ipcMain} = require('electron');
-    //var path = require('path')
-
-//Fim item obrigatorio para montar instalador windows
-
 
 let TelaInicial;
 
