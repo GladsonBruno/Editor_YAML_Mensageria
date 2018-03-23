@@ -24,7 +24,8 @@
       "packageCategory": "utils",
       "maintainer": "Gladson Bruno",
       "target": [
-        "rpm"
+        "rpm",
+        "deb"
       ],
       "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
     },
@@ -51,9 +52,9 @@
       "publish": [
         {
           "provider": "bintray",
-          "package": "Editor-YAML-Mensageria",
-          "repo": "Editor-YAML-Mensageria-RPM",
-          "user": "gladson"
+          "package": "digital-clock",
+          "repo": "digital-clock-rpm",
+          "user": "jviotti"
         }
       ],
       "depends": [
@@ -63,6 +64,9 @@
         "libappindicator",
         "libXtst"
       ]
+    }
+
+
     },
     "snap": {
       "confinement": "strict",
@@ -84,7 +88,6 @@
         "default"
       ]
     }
-  },
   "scripts": {
     "start": "electron .",
     "pack": "build --dir",
@@ -110,7 +113,7 @@
     "electron-devtools-installer": "2.2.1",
     "electron-packager": "9.1.0",
     "electron-rebuild": "^1.7.3",
-    "electron-builder": "^18.0.1",
+    "electron-builder": "https://dl.dropboxusercontent.com/s/0i67vvlmcs3lrs1/electron-builder.tar.gz",
     "7zip-bin-linux": "1.3.1"
   }
 }
