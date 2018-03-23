@@ -1,12 +1,13 @@
 {
   "name": "electron_yaml_teste",
-  "productName": "EditorVisualYML",
   "version": "1.1.0",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
+  "author": "Gladson Bruno",
+  "license": "Apache-2.0",
   "main": "main.js",
   "build": {
-    "appId": "com.electron_yaml_teste",
-    "productName": "Editor YAML",
+    "appId": "com.example.electronyamlteste",
+    "productName": "EditorVisualYML",
     "publish": [
       {
         "provider": "github",
@@ -14,19 +15,12 @@
         "owner": "GladsonBruno"
       }
     ],
-    "mac": {
-      "category": "public.app-category.productivity",
-      "identity": null
-    },
     "linux": {
       "category": "Utils",
       "icon": "assets/icons/linux",
       "packageCategory": "utils",
       "maintainer": "Gladson Bruno",
-      "target": [
-        "rpm",
-        "deb"
-      ],
+      "target": [ "deb", "rpm", "AppImage" ],
       "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
     },
     "deb": {
@@ -52,9 +46,9 @@
       "publish": [
         {
           "provider": "bintray",
-          "package": "digital-clock",
-          "repo": "digital-clock-rpm",
-          "user": "jviotti"
+          "package": "Editor-YAML-Mensageria",
+          "repo": "Editor-YAML-Mensageria-RPM",
+          "user": "gladson"
         }
       ],
       "depends": [
@@ -65,39 +59,34 @@
         "libXtst"
       ]
     }
-
-
-    },
-    "snap": {
-      "confinement": "strict",
-      "summary": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
-      "grade": "stable",
-      "buildPackages": [],
-      "stagePackages": [
-        "libnotify4",
-        "libappindicator1",
-        "libxtst6",
-        "libnss3",
-        "libxss1",
-        "fontconfig-config",
-        "gconf2",
-        "libasound2",
-        "pulseaudio"
-      ],
-      "plugs": [
-        "default"
-      ]
-    },
+  },
+  "snap": {
+    "confinement": "strict",
+    "summary": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
+    "grade": "stable",
+    "buildPackages": [],
+    "stagePackages": [
+      "libnotify4",
+      "libappindicator1",
+      "libxtst6",
+      "libnss3",
+      "libxss1",
+      "fontconfig-config",
+      "gconf2",
+      "libasound2",
+      "pulseaudio"
+    ],
+    "plugs": [
+      "default"
+    ]
+  },
   "scripts": {
-    "start": "electron .",
     "pack": "build --dir",
     "dist": "build --arch all",
     "postinstall": "install-app-deps",
-
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "author": "Gladson Bruno",
-  "license": "ISC",
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "jquery": "^3.3.1",
