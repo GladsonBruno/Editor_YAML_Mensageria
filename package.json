@@ -87,7 +87,7 @@
       "plugs": [
         "default"
       ]
-    }
+    },
   "scripts": {
     "start": "electron .",
     "pack": "build --dir",
