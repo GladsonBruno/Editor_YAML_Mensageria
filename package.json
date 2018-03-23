@@ -7,6 +7,13 @@
   "build": {
     "appId": "com.electron_yaml_teste",
     "productName": "Editor YAML",
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "Editor_YAML_Mensageria",
+        "owner": "GladsonBruno"
+      }
+    ],
     "mac": {
       "category": "public.app-category.productivity",
       "identity": null
@@ -20,6 +27,15 @@
       "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
     },
     "deb": {
+      "publish": [
+        {
+          "provider": "bintray",
+          "package": "Editor_YAML_Mensageria",
+          "repo": "Editor-YAML-Mensageria-Debian",
+          "user": "gladson",
+          "component": "Editor-YAML-Mensageria"
+        }
+      ],
       "depends": [
         "gconf2",
         "gconf-service",
@@ -30,6 +46,14 @@
       ]
     },
     "rpm": {
+      "publish": [
+        {
+          "provider": "bintray",
+          "package": "Editor_YAML_Mensageria",
+          "repo": "Editor-YAML-Mensageria-RPM",
+          "user": "gladson"
+        }
+      ],
       "depends": [
         "GConf2",
         "libnotify",
@@ -62,7 +86,7 @@
   "scripts": {
     "start": "electron .",
     "pack": "build --dir",
-    "dist": "build",
+    "dist": "build --arch all",
     "postinstall": "install-app-deps"
   },
   "author": "Gladson Bruno",

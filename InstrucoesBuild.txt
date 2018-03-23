@@ -26,3 +26,10 @@ Gerar SNAP package - Pode ser usado no ubuntu
 Gerando build: npm run dist
 Instalando Aplicação:
 sudo snap install --dangerous aplicacao.SNAP
+
+
+API GITHUB
+cc87e672e9b88255b64261de9c5315534c320645
+
+API KEY BINTRAY
+094c475434c86db2d4da0478179c3a0386030f73
