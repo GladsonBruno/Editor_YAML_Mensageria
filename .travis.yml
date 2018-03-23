@@ -12,10 +12,11 @@ env:
 os:
   - linux
 
-cache: 
+cache:
   directories:
-  - nome_modules
+  - node_modules
   - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
 
 addons:
   apt:
@@ -32,5 +33,5 @@ before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
 branches:
-  
-    
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
