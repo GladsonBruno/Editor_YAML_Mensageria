@@ -25,7 +25,7 @@ addons:
 install:
   - npm install
 
-scripts:
+script:
   - npm run dist
 
 before_cache:
