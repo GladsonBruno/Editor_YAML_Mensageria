@@ -93,7 +93,7 @@
     "pack": "build --dir",
     "dist": "build --arch all",
     "postinstall": "install-app-deps",
-    "test": "Sem teste!"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "Gladson Bruno",
   "license": "ISC",
