@@ -92,7 +92,8 @@
     "start": "electron .",
     "pack": "build --dir",
     "dist": "build --arch all",
-    "postinstall": "install-app-deps"
+    "postinstall": "install-app-deps",
+    "test": "Sem teste!"
   },
   "author": "Gladson Bruno",
   "license": "ISC",
