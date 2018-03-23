@@ -35,7 +35,7 @@
       "publish": [
         {
           "provider": "bintray",
-          "package": "Editor_YAML_Mensageria",
+          "package": "Editor-YAML-Mensageria",
           "repo": "Editor-YAML-Mensageria-Debian",
           "user": "gladson",
           "component": "Editor-YAML-Mensageria"
@@ -54,7 +54,7 @@
       "publish": [
         {
           "provider": "bintray",
-          "package": "Editor_YAML_Mensageria",
+          "package": "Editor-YAML-Mensageria",
           "repo": "Editor-YAML-Mensageria-RPM",
           "user": "gladson"
         }
@@ -93,6 +93,7 @@
     "pack": "build --dir",
     "dist": "build --arch all",
     "postinstall": "install-app-deps",
+
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "Gladson Bruno",
