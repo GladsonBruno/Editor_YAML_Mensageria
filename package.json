@@ -1,7 +1,7 @@
 {
   "name": "electron_yaml_teste",
   "productName": "EditorVisualYML",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
   "main": "main.js",
   "build": {
