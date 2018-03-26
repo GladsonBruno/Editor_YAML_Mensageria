@@ -28,6 +28,18 @@ Instalando Aplicação:
 sudo snap install --dangerous aplicacao.SNAP
 
 
+Gerando Build Instalador Mac:
+
+    Na seção mac trocar a propriedade target de acordo com o tipo de arquivo que será gerado.
+    Ex: dmg, pkg, etc.
+Gerar instalador: npm run dist
+Gerar pacote: npm run pack
+
+Gerar instalador PKG
+Substituir na seção MAC o valor da propriedade target para pkg
+Gerando build: npm run dist
+O Instalador será gerado na pasta dist
+
 API GITHUB
 cc87e672e9b88255b64261de9c5315534c320645
 
