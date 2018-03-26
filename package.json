@@ -92,7 +92,7 @@
             "owner": "gladson"
           }
         ]
-      }
+      },
       "mac": {
         "target": ["dmg"],
         "identity": null,
