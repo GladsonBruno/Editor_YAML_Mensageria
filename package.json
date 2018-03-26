@@ -82,7 +82,7 @@
           "default"
         ]
       },
-      "AppImage": {
+      "appImage": {
         "publish": [
           {
             "provider": "bintray",
