@@ -22,12 +22,10 @@ addons:
   apt:
     packages:
       - rpm
-      - snap
       
 
 install:
   - npm install
-  - sudo snap install snapcraft
 
 script:
   - npm run dist
