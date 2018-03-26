@@ -32,7 +32,7 @@
           "icon": "assets/icons/linux",
           "packageCategory": "utils",
           "maintainer": "Gladson Bruno",
-          "target": [ "rpm", "AppImage" ],
+          "target": [ "rpm", "AppImage", "snap" ],
           "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
         },
         "rpm": {
