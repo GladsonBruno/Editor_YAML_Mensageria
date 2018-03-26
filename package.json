@@ -54,6 +54,15 @@
           ]
         },
       "snap": {
+        "publish": [
+          {
+            "provider": "bintray",
+            "package": "Editor-YAML-Mensageria",
+            "repo": "Editor-YAML-Mensageria-Snap",
+            "user": "gladson",
+            "owner": "gladson"
+          }
+        ],
         "confinement": "strict",
         "summary": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
         "grade": "stable",
