@@ -111,7 +111,7 @@
     },
       "scripts": {
         "pack": "build --dir",
-        "dist": "build",
+        "dist": "build --arch all",
         "postinstall": "install-app-deps",
         "start": "electron .",
         "test": "echo \"Error: no test specified\" && exit 0"
