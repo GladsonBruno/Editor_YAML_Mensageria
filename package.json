@@ -45,6 +45,7 @@
           "provider": "bintray",
           "package": "Editor-YAML-Mensageria",
           "repo": "Editor-YAML-Mensageria-Debian",
+          "component": "Editor-YAML-Mensageria",
           "user": "gladson",
           "owner": "gladson"
         }
