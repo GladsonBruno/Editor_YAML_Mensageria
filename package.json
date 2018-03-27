@@ -35,6 +35,7 @@
       "packageCategory": "utils",
       "maintainer": "Gladson Bruno",
       "target": [
+        "rpm",
         "deb"
       ],
       "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
