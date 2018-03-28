@@ -143,12 +143,13 @@
     "write-yaml": "^1.0.0"
   },
   "devDependencies": {
+    "7zip-bin": "^3.1.0",
     "devtron": "1.4.0",
     "electron": "1.7.9",
+    "electron-builder": "^18.0.1",
     "electron-debug": "1.4.0",
     "electron-devtools-installer": "2.2.1",
     "electron-packager": "9.1.0",
-    "electron-rebuild": "^1.7.3",
-    "electron-builder": "^18.0.1"
+    "electron-rebuild": "^1.7.3"
   }
 }
