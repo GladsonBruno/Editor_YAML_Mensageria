@@ -149,7 +149,6 @@
     "electron-devtools-installer": "2.2.1",
     "electron-packager": "9.1.0",
     "electron-rebuild": "^1.7.3",
-    "electron-builder": "^18.0.1",
-    "7zip-bin-linux": "1.3.1"
+    "electron-builder": "^18.0.1"
   }
 }
