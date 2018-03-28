@@ -32,8 +32,6 @@ install:
 
 script:
   - npm run dist
-  - cd src
-  - make all
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
