@@ -14,7 +14,7 @@ app.on('ready', () => {
         minWidth: 800
     });
     TelaInicial.loadURL(url.format({
-        pathname: path.join(__dirname, './config_application_yml.html'),
+        pathname: path.join(__dirname, './pages/config_application_yml.html'),
         protocol: 'file:'
     }));
 
@@ -36,7 +36,7 @@ let menuTemplate = [
                         minWidth: 800
                     });
                     TelaApplication.loadURL(url.format({
-                        pathname: path.join(__dirname, '.config_application_yml.html'),
+                        pathname: path.join(__dirname, './pages/config_application_yml.html'),
                         protocol: 'file:'
                     }));
                 }
@@ -49,7 +49,7 @@ let menuTemplate = [
                         height: 600
                     });
                     TelaApplicationWatchdog.loadURL(url.format({
-                        pathname: path.join(__dirname, 'config_application_watchdog_yml.html'),
+                        pathname: path.join(__dirname, './pages/config_application_watchdog_yml.html'),
                         protocol: 'file:'
                     }));
                 }

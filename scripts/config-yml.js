@@ -9,8 +9,8 @@ const chave_de_criptografia = "12345";
 const $ = require('jquery');
 
 //Mensagens de Erro
-const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
-const erro_abrir_application_watchdog_yml = "Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_yml = "<i class='large material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_watchdog_yml = "<i class='large material-icons'>error</i> Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
 
 //Mensagens de Sucesso
 const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
@@ -24,6 +24,7 @@ $(document).ready(function(){
     //que é obrigatório para conexão com o banco de dados Oracle
     //Se for SQL Server não precisa do campo db_sid e o campo é desabilitado e habilitando o campo nome-base-de-dados
     //que é obrigatório para conexão com o banco de dados SQL Server
+
     $("#driver-base-de-dados").on('change', function(){
 
         if($("#driver-base-de-dados").val() == "oracle.jdbc.OracleDriver"){
@@ -64,7 +65,7 @@ $(document).ready(function(){
 
     //Validando informações do Cadastro de empregador
     var codigo_empregador = $("#novo-codigo_empregador");
-    verificarSeOCampoEstaVazio(codigo_empregador);
+    ValidarTamanhoCodigoEmpregador(codigo_empregador);
 
     var path_certificado = $("#novo-caminho-certificado");
     verificarSeOCampoEstaVazio(path_certificado);
@@ -72,22 +73,9 @@ $(document).ready(function(){
     var senha_certificado = $("#novo-senha-certificado");
     verificarSeOCampoEstaVazio(senha_certificado);
 
+    var tipo_transmissor = $("#novo-tipo-transmissor");
     var numero_transmissor = $("#novo-numero-transmissor");
-    verificarSeOCampoEstaVazio(numero_transmissor);
-
-
-    //Validando informações da edição do Cadastro de empregador
-    var codigo_empregador_1 = $("#editar-codigo_empregador");
-    verificarSeOCampoEstaVazio(codigo_empregador_1);
-
-    var path_certificado_1 = $("#editar-caminho-certificado");
-    verificarSeOCampoEstaVazio(path_certificado_1);
-
-    var senha_certificado_1 = $("#editar-senha-certificado");
-    verificarSeOCampoEstaVazio(senha_certificado_1);
-
-    var numero_transmissor_1 = $("#editar-numero-transmissor");
-    verificarSeOCampoEstaVazio(numero_transmissor_1);
+    ValidarTamanhoNumeroEmpregador(numero_transmissor, tipo_transmissor);
 
 });
 
@@ -112,50 +100,126 @@ function verificarSeOCampoEstaVazio(seletor){
         }
     });
 }
-/*
 
-function verificarCodigoEmpregador(seletor, tipo_transmissor){
-    //O Seletor é o seletor do elemento a ser verificado
-    //Exemplo verificarSeOcampoEstaVazio($("#url-base-de-dados"));
-
-    tipo_transmissor = tipo_transmissor.toString().replace(".", "").replace("-", "").replace("/", "").replace(".", "");
-
+function ValidarTamanhoCodigoEmpregador(seletor){
     seletor.on("focus", function(){
-        if(seletor.val() == ""){
+        if(this.value.length == 0){
             seletor.addClass("invalid");
         }
     });
 
-    seletor.on("keyup", function(){    
-        if(seletor.val() == ""){
-            seletor.addClass("invalid");
-            seletor.removeClass("valid");
-        } else {
-            //seletor.removeClass("invalid");
-            //seletor.addClass("valid");
-            if(tipo_transmissor == "1"){
-                if(seletor.val().length < 11){
-                    seletor.addClass("invalid");
-                } else {
-                    seletor.removeClass("invalid");
-                    seletor.addClass("valid");
-                    seletor.prop("data-error", "O Transmissor do tipo CPF deve ter 11 caracteres");
-                }
+    seletor.keyup(function(e){
+        if(e.keyCode == 8){
+            if(this.value.length < 8){
+                seletor.removeClass("valid");
+                seletor.addClass("invalid");
             }
+        }
+    });
 
-            if(tipo_transmissor == "2"){
-                if(seletor.val().length < 14){
-                    seletor.addClass("invalid");
-                    seletor.prop("data-error", "O Transmissor do tipo CNPJ deve ter 14 caracteres");
-                } else {
+    seletor.keypress(function(e){
+        if(e.keyCode < 48 || e.keyCode > 57){
+            if(e.keyCode == 8 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 46 || e.keyCode == 9){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if(this.value.length >= 8){
+                e.preventDefault();
+                if(seletor.hasClass("invalid")){
                     seletor.removeClass("invalid");
                     seletor.addClass("valid");
+                }
+                if(e.keyCode == 8){
+                    seletor.removeClass("valid");
+                    seletor.addClass("invalid");
+                }
+            } else {
+                if(this.value.length == 7){
+                    if(seletor.hasClass("invalid")){
+                        seletor.removeClass("invalid");
+                        seletor.addClass("valid");
+                    }
+                } else if(seletor.hasClass("valid")){
+                    seletor.removeClass("valid");
+                    seletor.addClass("invalid");
                 }
             }
         }
     });
 }
-*/
+
+function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
+    seletorCampo.on("focus", function(){
+        if(this.value.length == 0){
+            seletorCampo.addClass("invalid");
+        }
+    });
+    
+    seletorCampo.keyup(function(e){
+        if(e.keyCode == 8){
+            seletorCampo.removeClass("valid");
+            seletorCampo.addClass("invalid");
+        }
+    });
+
+    seletorCampo.keypress(function(e){
+        if(e.keyCode < 48 || e.keyCode > 57){
+            if(e.keyCode == 8 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 46 || e.keyCode == 9){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            var tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
+
+            if(seletorTransmissor.val() == "1"){
+                if(tamanhoSeletorCampo >= 11){
+                    seletorCampo.removeClass("invalid").addClass("valid");
+                    e.preventDefault();
+                } else {
+                    if(tamanhoSeletorCampo == 10){
+                        if(seletorCampo.hasClass("invalid")){
+                            seletorCampo.removeClass("invalid");
+                            seletorCampo.addClass("valid");
+                        }
+                    } else if(seletorCampo.hasClass("valid")){
+                        seletorCampo.removeClass("valid");
+                        seletorCampo.addClass("invalid");
+                    }
+                }
+
+                seletorCampo.mask('000.000.000-00');
+            } else {
+                if(tamanhoSeletorCampo >= 14){
+                    seletorCampo.removeClass("invalid").addClass("valid");
+                    e.preventDefault();
+                } else {
+                    if(tamanhoSeletorCampo == 13){
+                        if(seletorCampo.hasClass("invalid")){
+                            seletorCampo.removeClass("invalid");
+                            seletorCampo.addClass("valid");
+                        }
+                    } else if(seletorCampo.hasClass("valid")){
+                        seletorCampo.removeClass("valid");
+                        seletorCampo.addClass("invalid");
+                    }
+                }
+
+                seletorCampo.mask('00.000.000/0000-00');
+            }
+        }
+    });
+
+    seletorTransmissor.on("change", function(){
+        if(this.value == "1"){
+            seletorCampo.mask('000.000.000-00');
+        } else {
+            seletorCampo.mask('00.000.000/0000-00');
+        }
+    });
+}
 
 //Função utilizada para mudar o valor do input select quando os dados forem caregador
 //Criada essa função pois o materialize gera um novo elemento quando usamos um input select
@@ -207,8 +271,11 @@ function carregarInformacoes(arquivo){
                 //Função utilizada para mudar o valor do select_
                 if(doc.db.driver == "oracle.jdbc.OracleDriver"){
                     mudarValorSelect($("#driver-base-de-dados"), "Oracle");
+                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
+
                 } else {
                     mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
+                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 }
                 
                 $("#username").val(doc.db.username);
@@ -235,8 +302,10 @@ function carregarInformacoes(arquivo){
                 //Função utilizada para mudar o valor do select_
                 if(doc.db.driver == "oracle.jdbc.OracleDriver"){
                     mudarValorSelect($("#driver-base-de-dados"), "Oracle");
+                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
                 } else {
                     mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
+                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 }
 
                 $("#username").val(doc.db.username);
@@ -263,15 +332,15 @@ function carregarInformacoes(arquivo){
                         elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
                             elementos += "<h3>Empregador " + empregador_atual + "</h3>";
                             elementos += "<div class='input-field col m12'>";
-                                elementos += "<label>Caminho Certificado</label>";
+                                elementos += "<label for='caminho-certificado'>Caminho Certificado</label>";
                                 elementos += "<input type='text' name='caminho-certificado' required disabled>"
                             elementos += "</div>";
                             elementos += "<div class='input-field col m3 s3'>";
-                                elementos += "<label>Código Empregador</label>";
-                                elementos += "<input type='number' name='codigo_empregador' required disabled>";
+                                elementos += "<label for='codigo_empregador'>Código Empregador</label>";
+                                elementos += "<input type='text' name='codigo_empregador' required disabled>";
                                 elementos += "</div>";
                                 elementos += "<div class='input-field col m3 s3'>";
-                                elementos += "<label>Senha Certificado</label>";
+                                elementos += "<label for='senha-certificado'>Senha Certificado</label>";
                                 elementos += "<input type='password' name='senha-certificado' required disabled>";
                             elementos += "</div>";
                             elementos += "<div class='input-field col m3 s3'>";
@@ -282,16 +351,16 @@ function carregarInformacoes(arquivo){
                                 elementos += "</select>";
                             elementos += "</div>";
                             elementos += "<div class='input-field col m3 s3'>";
-                                elementos += "<label>Número Transmissor</label>";
+                                elementos += "<label for='numero-transmissor'>Número Transmissor</label>";
                                 elementos += "<input type='text' data-error='' class='validate' disabled name='numero-transmissor' required>";
                             elementos += "</div>";
                             elementos += "<div class='botoes-padroes'>";
-                                elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Editar Empregador</button>";
-                                elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Excluir Empregador</button>"
+                                elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>edit</i> Editar Empregador</button>";
+                                elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'><i class='material-icons'>delete</i> Excluir Empregador</button>"
                             elementos += "</div>";
                             elementos += "<div class='botoes-edicao hide'>";
-                            elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'>Cancelar</button>"
-                            elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green lighten-2 white-text'>Salvar Alterações</button>";
+                            elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'><i class='material-icons'>cancel</i> Cancelar</button>"
+                            elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>sd_storage</i> Salvar Alterações</button>";
                             elementos += "</div>";
                         elementos += "</div>";
                     }
@@ -315,13 +384,24 @@ function carregarInformacoes(arquivo){
                         //Função utilizada para mudar o valor do select_
                         if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
                             mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
                             $("[name='numero-transmissor']:eq(" + i + ")").mask('000.000.000-00');
                         } else {
                             mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
                             $("[name='numero-transmissor']:eq(" + i + ")").mask('00.000.000/0000-00');
                         }
+
+                        ValidarTamanhoCodigoEmpregador($("[name='codigo_empregador']:eq(" + i + ")"));
+                        ValidarTamanhoNumeroEmpregador($("[name='numero-transmissor']:eq(" + i + ")"), $("[name='tipo-transmissor']:eq(" + i + ")"));
                     }
-                }                
+                }
+                $("#novo-numero-transmissor").prop("disabled", true);
+
+                $("#novo-tipo-transmissor").on("change", function(){
+                    $("#novo-numero-transmissor").prop("disabled", false);
+                });
+
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(sucesso_carregamento_informacoes);
@@ -501,8 +581,10 @@ function IniciarEdicao(i){
     //Função utilizada para mudar o valor do select_
     if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
         mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
     } else {
         mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
     }
     var nomeVariavelNumeroTransmissor = "numeroTransmissor" + i;
     localStorage.setItem(nomeVariavelNumeroTransmissor, $("[name='numero-transmissor']:eq(" + i + ")").val());
@@ -620,8 +702,7 @@ function EditarEmpregador(i){
 
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
-                $(".modal-body").append("Configurações do Empregador " + EmpregadorEditado + " salvas com Sucesso!");                
-                window.location.reload();
+                $(".modal-body").append("Configurações do Empregador " + EmpregadorEditado + " salvas com Sucesso!");
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
@@ -726,6 +807,13 @@ function CadastrarEmpregador(){
     }
 }
 
+function CancelarCadastro(){
+    $("#novo-codigo_empregador").val("").removeClass("invalid").removeClass("valid");
+    $("#novo-caminho-certificado").val("").removeClass("invalid").removeClass("valid");
+    $("#novo-senha-certificado").val("").removeClass("invalid").removeClass("valid");
+    $("#novo-numero-transmissor").val("").removeClass("invalid").removeClass("valid");
+    $("#novo-caminho-certificado").focusout().removeClass("invalid");
+}
 
 /*
 try {

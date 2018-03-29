@@ -9,7 +9,7 @@ db:
   url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: SQL SERVER
-  password: U2FsdGVkX1+/kY9JkHXQCQNJmOPjDX5c4C6FLBFP+mE=
+  password: U2FsdGVkX1/HB9rZWnAiNwxoKvxzkyPWi42P3BKhvr0=
   datasource:
     initial-size: 5
     max-active: 10
@@ -55,19 +55,14 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '11111112'
-      chave: cert1.pfxs
-      senha: U2FsdGVkX1+7wC4yapqVSNDjTV/eOm5W+LPvIIaKpHg=
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111113'
-    - codigo: '32412345'
+    - codigo: '12345678'
       chave: certificado.pfx
-      senha: U2FsdGVkX1+sPkMzUfv00DS+N0g93a9gkzYHMURLk64=
-      tipo-transmissor: null
-      numero-transmissor: 09876543212345
+      senha: U2FsdGVkX1/QpfPUNJxXsuhyOlQGRYr5YiXhQct2wOs=
+      tipo-transmissor: '1'
+      numero-transmissor: '12312312311'
     - codigo: '98765432'
       chave: NovoCertificado.pfx
-      senha: U2FsdGVkX1+kJ1TsZEHcFdFL5NYeDqGrGk2gDG/bd40=
+      senha: U2FsdGVkX19wyAziRte58pxsUxsWveyvGtGuLeYQCAk=
       tipo-transmissor: '2'
       numero-transmissor: '10251900681212'
   consulta.governo: 0 */1 * * * *
