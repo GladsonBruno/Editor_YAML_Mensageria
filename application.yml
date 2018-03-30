@@ -9,7 +9,7 @@ db:
   url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: SQL SERVER
-  password: U2FsdGVkX1/HB9rZWnAiNwxoKvxzkyPWi42P3BKhvr0=
+  password: U2FsdGVkX1+qgVbSbXMFKB8l6oleZ04Fb3UEEEwC+Bw=
   datasource:
     initial-size: 5
     max-active: 10
