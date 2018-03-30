@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Config Application.yml</title>
+    <title>Configurações application.yml</title>
     
     <link rel="stylesheet" href="../css/config_yml.css"/>
     <!--Import Google Icon Font-->
@@ -21,12 +21,12 @@
     
 </head>
 <body>
-  <nav class="nav-extended">
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo">Configurações Application.yml</a>
+  <nav class="nav-extended cyan darken-3">
+        <div class="nav-wrapper col m12 s12">
+          <a href="#" class="flow-text">Configurações application.yml</a>
         </div>
         <div class="nav-content">
-          <ul class="tabs tabs-transparent">
+          <ul class="tabs tabs-transparent col s6 offset-s6">
             <li class="tab"><a href="#form-base-de-dados">Base de Dados</a></li>
             <li class="tab"><a href="#empregadores">Empregadores Cadastrados</a></li>
             <li class="tab"><a href="#cadastrarEmpregador">Cadastrar Empregador</a></li>
@@ -37,88 +37,90 @@
     <div class="">
         
         <form class="form-group">
-        <div class="row container">
+        <div class="row conteudo">
             
-
-                <div id="form-base-de-dados">
-                    <!--Configuração Base de Dados-->
-                    <h3>Configuração Base de Dados</h3>
-                    <div class="input-field div-info-db col m12">
-                        <div class="col m12 s12">
-                                <label for="url-base-de-dados">URL base de dados</label>
-                                <input type="text"  id="url-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                                <label for="porta-base-de-dados">Porta de Acesso</label>
-                                <input type="text"  id="porta-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                            <label for="nome-base-de-dados">Nome Base de Dados</label>
-                            <input type="text"  id="nome-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                            <label for="db_sid">SID</label>
-                            <input type="text"  id="db_sid" required>
-                        </div>
+            <div id="form-base-de-dados" class="section">       
+                <!--Configuração Base de Dados-->
+                <h5>Configuração Base de Dados</h5>
+                <div class="input-field div-info-db col m12">
+                    <div class="col m12 s12">
+                            <label for="url-base-de-dados">URL base de dados</label>
+                            <input type="text"  id="url-base-de-dados" required>
                     </div>
-
-                    <div class="col m12">
-                        <div class="input-field col m4">
-                                <select  id="driver-base-de-dados">
-                                    <option value="" disabled selected>Driver Banco de Dados</option>
-                                    <option value="oracle.jdbc.OracleDriver">Oracle</option>
-                                    <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
-                                </select>
-                        </div>
-                        <div class="input-field col m4">
-                            <label for="username">Username</label>
-                            <input type="text"  id="username" required>
-                        </div>
-                        <div class="input-field col m4">
-                            <label for="password">Password</label>
-                            <input type="password"  id="password" required>
-                        </div>
+                    <div class="input-field col m4 s4">
+                            <label for="porta-base-de-dados">Porta de Acesso</label>
+                            <input type="text"  id="porta-base-de-dados" required>
                     </div>
-                    <div class="input-field col m12">
-                        <button onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> Salvar Configurações Base de Dados</button>
-                    </div>                    
+                    <div class="input-field col m4 s4">
+                        <label for="nome-base-de-dados">Nome Base de Dados</label>
+                        <input type="text"  id="nome-base-de-dados" required>
+                    </div>
+                    <div class="input-field col m4 s4">
+                        <label for="db_sid">SID</label>
+                        <input type="text"  id="db_sid" required>
+                    </div>
                 </div>
 
-                <div class="empregadores" id="empregadores"></div>
+                <div class="col m12">
+                    <div class="input-field col m4">
+                            <select  id="driver-base-de-dados">
+                                <option value="" disabled selected>Driver Banco de Dados</option>
+                                <option value="oracle.jdbc.OracleDriver">Oracle</option>
+                                <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
+                            </select>
+                    </div>
+                    <div class="input-field col m4">
+                        <label for="username">Username</label>
+                        <input type="text"  id="username" required>
+                    </div>
+                    <div class="input-field col m4">
+                        <label for="password">Password</label>
+                        <input type="password"  id="password" required>
+                    </div>
+                </div>
+                <div class="input-field col m12">
+                    <button onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> Salvar Configurações Base de Dados</button>
+                </div>                    
+            </div>
 
-                <div id="cadastrarEmpregador">
-                    <h3>Novo Empregador</h3>
-                    <div class="input-field col m12">
-                        <label for="novo-caminho-certificado">Caminho Certificado</label>
-                        <input type="text"  id="novo-caminho-certificado" required>
-                    </div>
+            <div class="empregadores conteudo" id="empregadores"></div>
+
+            <div id="cadastrarEmpregador" class="section conteudo">
+                <h5>Novo Empregador</h5>
+                <div class="input-field col m12">
+                    <label for="novo-caminho-certificado">Caminho Certificado</label>
+                    <input type="text" id="novo-caminho-certificado" required>
+                    <span class="helper-text" data-error="" data-success=""></span>
+                </div>
         
-                    <div class="input-field col m3 s3">
-                        <label for="novo-codigo_empregador">Código Empregador</label>
-                        <input type="text"  id="novo-codigo_empregador">
-                    </div>
+                <div class="input-field col m3 s3">
+                    <label for="novo-codigo_empregador">Código Empregador</label>
+                    <input type="text"  id="novo-codigo_empregador">
+                    <span class="helper-text" data-error="Este campo deve conter 8 Caracteres" data-success=""></span>
+                </div>
         
-                    <div class="input-field col m3 s3">
-                        <label for="novo-senha-certificado">Senha Certificado</label>
-                        <input type="password"  id="novo-senha-certificado" required>
-                    </div>
+                <div class="input-field col m3 s3">
+                    <label for="novo-senha-certificado">Senha Certificado</label>
+                    <input type="password"  id="novo-senha-certificado" required>
+                </div>
             
-                    <div class="input-field col m3 s3">
-                        <select id="novo-tipo-transmissor">
-                                <option value="" disabled selected>Tipo Transmissor</option>
-                                <option value="1">CPF</option>
-                                <option value="2">CNPJ</option>
-                        </select>
-                    </div>
+                <div class="input-field col m2 s2">
+                    <select id="novo-tipo-transmissor">
+                            <option value="" disabled selected>Tipo Transmissor</option>
+                            <option value="1">CPF</option>
+                            <option value="2">CNPJ</option>
+                    </select>
+                </div>
     
-                    <div class="input-field col m3 s3">
-                        <label for="novo-numero-transmissor">Número Transmissor</label>
-                        <input type="text" data-error="" id="novo-numero-transmissor">
-                    </div>
-                    <button onclick="CadastrarEmpregador()" class="waves-effect waves-green btn-flat green accent-3 white-text"><i class="material-icons">add_circle</i> Cadastrar</button>
-                    <button onclick="CancelarCadastro()" class="waves-effect waves-red btn-flat red accent-3 white-text"><i class="material-icons">cancel</i>Cancelar</button>
+                <div class="input-field col m4 s4">
+                    <label for="novo-numero-transmissor">Número Transmissor</label>
+                    <input type="text" data-error="" id="novo-numero-transmissor">
+                    <span class="helper-text" data-error="" data-success=""></span>
                 </div>
-
+                <button onclick="CadastrarEmpregador()" class="waves-effect waves-green btn-flat green accent-3 white-text"><i class="material-icons">add_circle</i> Cadastrar</button>
+                <button onclick="CancelarCadastro()" class="waves-effect waves-red btn-flat red accent-3 white-text"><i class="material-icons">cancel</i>Cancelar</button>
+            </div>
+            
         </form>
         </div>
     </div>
@@ -129,7 +131,7 @@
         <div class="modal-content">
             <!-- Cabeçalho Modal -->
             <div class="modal-header">
-                    <h4><i class="material-icons">error</i>Erro</h4>
+                    <h5><i class="material-icons">error</i>Erro</h5>
                 </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
@@ -144,7 +146,7 @@
             <div class="modal-content">
             <!-- Cabeçalho Modal -->
                 <div class="modal-header">
-                    <h4><i class="material-icons">info</i> Sucesso</h4>
+                    <h5><i class="material-icons">info</i> Sucesso</h5>
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">

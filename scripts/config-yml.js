@@ -106,8 +106,8 @@ function ValidarTamanhoCodigoEmpregador(seletor){
         if(this.value.length == 0){
             seletor.addClass("invalid");
         }
+        seletor.parent().find("span").attr("data-error", "Este campo deve conter 8 Caracteres");
     });
-
     seletor.keyup(function(e){
         if(e.keyCode == 8){
             if(this.value.length < 8){
@@ -155,6 +155,12 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
         if(this.value.length == 0){
             seletorCampo.addClass("invalid");
         }
+
+        if(seletorTransmissor.val() == "1"){
+            seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
+        } else {
+            seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CNPJ deve conter 14 dígitos");
+        }
     });
     
     seletorCampo.keyup(function(e){
@@ -164,7 +170,10 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
         }
     });
 
+    var tamanhoSeletorCampo;
+
     seletorCampo.keypress(function(e){
+        tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
         if(e.keyCode < 48 || e.keyCode > 57){
             if(e.keyCode == 8 || e.keyCode == 37 || e.keyCode == 39 || e.keyCode == 46 || e.keyCode == 9){
                 return true;
@@ -172,9 +181,10 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
                 return false;
             }
         } else {
-            var tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
 
             if(seletorTransmissor.val() == "1"){
+                seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
+
                 if(tamanhoSeletorCampo >= 11){
                     seletorCampo.removeClass("invalid").addClass("valid");
                     e.preventDefault();
@@ -192,6 +202,8 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
 
                 seletorCampo.mask('000.000.000-00');
             } else {
+                seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CNPJ deve conter 14 dígitos");
+            
                 if(tamanhoSeletorCampo >= 14){
                     seletorCampo.removeClass("invalid").addClass("valid");
                     e.preventDefault();
@@ -213,10 +225,20 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
     });
 
     seletorTransmissor.on("change", function(){
+        tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
+
         if(this.value == "1"){
             seletorCampo.mask('000.000.000-00');
+            if(tamanhoSeletorCampo == 11){
+                seletorCampo.removeClass("invalid").addClass("valid");
+            }
+            seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
         } else {
             seletorCampo.mask('00.000.000/0000-00');
+            if(tamanhoSeletorCampo < 14){
+                seletorCampo.removeClass("valid").addClass("invalid");
+                seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CNPJ deve conter 14 dígitos");
+            }
         }
     });
 }
@@ -322,15 +344,16 @@ function carregarInformacoes(arquivo){
 
                 if(QuantidadeEmpregadores == 0){
                     $(".empregadores").html("");
-                    $(".empregadores").append("<h4>Não Há empregadores Cadastrados!</h4>");
+                    $(".empregadores").append("<div class='section'><h5>Não há empregadores Cadastrados!</h5></div>");
                 } else{
 
                     for(var i = 0; i < QuantidadeEmpregadores; i++){
                         empregador_atual = i + 1;
                         
                         //Montando Formulários de Empregadores
-                        elementos += "<div class='row form-empregador-" + empregador_atual + "'>";
-                            elementos += "<h3>Empregador " + empregador_atual + "</h3>";
+                        elementos += "<div class='row section form-empregador-" + empregador_atual + "'>";
+                            elementos += "<h5>Empregador " + empregador_atual + "</h5>";
+                            elementos += "<div class='section'>";
                             elementos += "<div class='input-field col m12'>";
                                 elementos += "<label for='caminho-certificado'>Caminho Certificado</label>";
                                 elementos += "<input type='text' name='caminho-certificado' required disabled>"
@@ -338,21 +361,23 @@ function carregarInformacoes(arquivo){
                             elementos += "<div class='input-field col m3 s3'>";
                                 elementos += "<label for='codigo_empregador'>Código Empregador</label>";
                                 elementos += "<input type='text' name='codigo_empregador' required disabled>";
+                                elementos += "<span class='helper-text' data-error='Este campo deve conter 8 Caracteres' data-success=''></span>";
                                 elementos += "</div>";
                                 elementos += "<div class='input-field col m3 s3'>";
                                 elementos += "<label for='senha-certificado'>Senha Certificado</label>";
                                 elementos += "<input type='password' name='senha-certificado' required disabled>";
                             elementos += "</div>";
-                            elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<div class='input-field col m2 s2'>";
                                 elementos += "<select name='tipo-transmissor' disabled>";
                                     elementos += "<option value=' ' disabled selected>Tipo Transmissor</option>";
                                     elementos += "<option value='1'>CPF</option>";
                                     elementos += "<option value='2'>CNPJ</option>";
                                 elementos += "</select>";
                             elementos += "</div>";
-                            elementos += "<div class='input-field col m3 s3'>";
+                            elementos += "<div class='input-field col m4 s4'>";
                                 elementos += "<label for='numero-transmissor'>Número Transmissor</label>";
                                 elementos += "<input type='text' data-error='' class='validate' disabled name='numero-transmissor' required>";
+                                elementos += "<span class='helper-text' data-error='' data-success=''></span>";
                             elementos += "</div>";
                             elementos += "<div class='botoes-padroes'>";
                                 elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>edit</i> Editar Empregador</button>";
@@ -361,6 +386,7 @@ function carregarInformacoes(arquivo){
                             elementos += "<div class='botoes-edicao hide'>";
                             elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'><i class='material-icons'>cancel</i> Cancelar</button>"
                             elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>sd_storage</i> Salvar Alterações</button>";
+                            elementos += "</div>";
                             elementos += "</div>";
                         elementos += "</div>";
                     }
@@ -402,6 +428,10 @@ function carregarInformacoes(arquivo){
                     $("#novo-numero-transmissor").prop("disabled", false);
                 });
 
+                $("#modalSucesso").modal("open");
+                $(".modal-body").html('');
+                $(".modal-body").append(sucesso_carregamento_informacoes);
+            } else {
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(sucesso_carregamento_informacoes);
@@ -550,7 +580,9 @@ function excluirEmpregador() {
         $("#modalSucesso").modal("open");
         $(".modal-body").html('');
         $(".modal-body").append("Empregador " + empregadorExcluido + " excluído com sucesso!");
-        window.location.reload();                
+        setInterval( () => {
+            window.location.reload();
+        }, 3000);                
     } catch(e) {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
             $("#modalErro").modal("open");
@@ -593,11 +625,11 @@ function IniciarEdicao(i){
 function CancelarEdicao(i) {
     $(".botoes-padroes:eq(" + i + ")").removeClass("hide");
     $(".botoes-edicao:eq(" + i + ")").addClass("hide");
-    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
-    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
-    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
-    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
-    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
+    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
+    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
+    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
+    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
     $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
 
     var doc = JSON.parse(localStorage.getItem("leituraYML"));
@@ -658,15 +690,15 @@ function EditarEmpregador(i){
         }
 
         if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
-            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+            error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
         }
 
         if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
-            error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>";
+            error += "O número de transmissor do tipo CNPJ deve conter 14 dígitos </br>";
         }
 
         if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
-            error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+            error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
         }
         
         if(error != ""){
@@ -751,15 +783,15 @@ function CadastrarEmpregador(){
     }
 
     if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
-        error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+        error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
     }
 
     if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
-        error += "O número transmissor do tipo CNPJ deve conter 14 dígitos </br>";
+        error += "O número de transmissor do tipo CNPJ deve conter 14 dígitos </br>";
     }
 
     if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
-        error += "O número transmissor do tipo CPF deve conter 11 dígitos </br>";
+        error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
     }
     
     if(error != ""){
@@ -792,7 +824,9 @@ function CadastrarEmpregador(){
             $("#modalSucesso").modal("open");
             $(".modal-body").html('');
             $(".modal-body").append(SucessoCadastroEmpregador);                
-            window.location.reload();
+            setInterval( () => {
+                window.location.reload();
+            }, 3000);
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
@@ -808,11 +842,11 @@ function CadastrarEmpregador(){
 }
 
 function CancelarCadastro(){
-    $("#novo-codigo_empregador").val("").removeClass("invalid").removeClass("valid");
-    $("#novo-caminho-certificado").val("").removeClass("invalid").removeClass("valid");
-    $("#novo-senha-certificado").val("").removeClass("invalid").removeClass("valid");
-    $("#novo-numero-transmissor").val("").removeClass("invalid").removeClass("valid");
-    $("#novo-caminho-certificado").focusout().removeClass("invalid");
+    $("#novo-codigo_empregador").val("").removeClass("invalid").removeClass("valid").focusout();
+    $("#novo-caminho-certificado").val("").removeClass("invalid").removeClass("valid").focusout();
+    $("#novo-senha-certificado").val("").removeClass("invalid").removeClass("valid").focusout();
+    $("#novo-numero-transmissor").val("").removeClass("invalid").removeClass("valid").focusout();
+    $("#novo-caminho-certificado").focusout().removeClass("invalid").focusout();
 }
 
 /*

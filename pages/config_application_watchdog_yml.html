@@ -4,84 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Config Application Watchdog.yml</title>
+    <title>Configurações application-watchdog.yml</title>
     
     <link rel="stylesheet" href="../css/config_yml.css"/>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../Materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
     <script>
         window.jQuery = window.$ = require('jquery');
     </script>
     <script type="text/javascript" src="../scripts/jquery.js"></script>
     <script type="text/javascript" src="../scripts/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="../scripts/config-yml.js"></script>
     <script type="text/javascript" src="../scripts/limitar-campos.js"></script>
-
-    
-    
-
+    <script type="text/javascript" src="../scripts/config-yml.js"></script>
     
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Configurar Application.yml</h1>
-        </header>
+  <nav class="nav-extended cyan darken-3">
+        <div class="nav-wrapper col m12 s12">
+          <a href="#" class="flow-text">Configurações application-watchdog.yml</a>
+        </div>
+        <div class="nav-content">
+          <ul class="tabs tabs-transparent col s6 offset-s6">
+            <li class="tab"><a href="#form-base-de-dados">Base de Dados</a></li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="">
         
         <form class="form-group">
-            <!--Caminho Application.yml-->
-            <div class="input-field col m12">
-                <label>Caminho application.yml</label>
-                <input type="text" class="form-control col m12 validate" id="arquivo-yml" required/>
-                <button onclick="carregarInformacoes('application-watchdog')" class="waves-effect waves-light btn">Carregar Configurações do Arquivo</button>
-            </div> 
-                <div id="form-base-de-dados">
-                    <!--Configuração Base de Dados-->
-                    <h3>Configuração Base de Dados</h3>
-                    <div class="input-field div-info-db col m12">
-                        <div class="col m12 s12">
-                                <label>URL base de dados</label>
-                                <input type="text"  id="url-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                                <label>Porta de Acesso</label>
-                                <input type="text"  id="porta-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                            <label>Nome Base de Dados</label>
-                            <input type="text"  id="nome-base-de-dados" required>
-                        </div>
-                        <div class="input-field col m4 s4">
-                            <label>SID</label>
-                            <input type="text"  id="db_sid" required>
-                        </div>
+        <div class="row conteudo">
+            
+            <div id="form-base-de-dados" class="section">       
+                <!--Configuração Base de Dados-->
+                <h5>Configuração Base de Dados</h5>
+                <div class="input-field div-info-db col m12">
+                    <div class="col m12 s12">
+                            <label for="url-base-de-dados">URL base de dados</label>
+                            <input type="text"  id="url-base-de-dados" required>
                     </div>
-
-                    <div class="col m12">
-                        <div class="input-field col m4">
-                                <select  id="driver-base-de-dados">
-                                    <option value="" disabled selected>Driver Banco de Dados</option>
-                                    <option value="oracle.jdbc.OracleDriver">Oracle</option>
-                                    <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
-                                </select>
-                        </div>
-                        <div class="input-field col m4">
-                            <label>Username</label>
-                            <input type="text"  id="username" required>
-                        </div>
-                        <div class="input-field col m4">
-                            <label>Password</label>
-                            <input type="password"  id="password" required>
-                        </div>
+                    <div class="input-field col m4 s4">
+                            <label for="porta-base-de-dados">Porta de Acesso</label>
+                            <input type="text"  id="porta-base-de-dados" required>
                     </div>
-                    <div class="input-field col m12">
-                        <button onclick="configurar_db('application-watchdog')" class="waves-effect waves-light btn">Salvar Configurações Base de Dados</button>
-                    </div>                    
+                    <div class="input-field col m4 s4">
+                        <label for="nome-base-de-dados">Nome Base de Dados</label>
+                        <input type="text"  id="nome-base-de-dados" required>
+                    </div>
+                    <div class="input-field col m4 s4">
+                        <label for="db_sid">SID</label>
+                        <input type="text"  id="db_sid" required>
+                    </div>
                 </div>
-        </form>
-        </div>
+
+                <div class="col m12">
+                    <div class="input-field col m4">
+                            <select  id="driver-base-de-dados">
+                                <option value="" disabled selected>Driver Banco de Dados</option>
+                                <option value="oracle.jdbc.OracleDriver">Oracle</option>
+                                <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">SQL Server</option>
+                            </select>
+                    </div>
+                    <div class="input-field col m4">
+                        <label for="username">Username</label>
+                        <input type="text"  id="username" required>
+                    </div>
+                    <div class="input-field col m4">
+                        <label for="password">Password</label>
+                        <input type="password"  id="password" required>
+                    </div>
+                </div>
+                <div class="input-field col m12">
+                    <button onclick="configurar_db('application-watchdog')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> Salvar Configurações Base de Dados</button>
+                </div>                    
+            </div>
     </div>
 
 
@@ -90,11 +88,11 @@
         <div class="modal-content">
             <!-- Cabeçalho Modal -->
             <div class="modal-header">
-                    <h4>Erro</h4>
+                    <h5><i class="material-icons">error</i>Erro</h5>
                 </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat red accent-4">Voltar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat  red accent-3 white-text">Voltar</a>
             </div>
         </div>
     </div>
@@ -105,16 +103,31 @@
             <div class="modal-content">
             <!-- Cabeçalho Modal -->
                 <div class="modal-header">
-                    <h4>Sucesso</h4>
+                    <h5><i class="material-icons">info</i> Sucesso</h5>
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-4">Ok</a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Ok</a>
                 </div>
             </div>
     </div>
     <!--  Fim Modal Sucesso  -->
 
+    <!--  Inicio Modal Exclusão de Empregador  -->
+    <div id="modalExclusao" class="modal container">
+            <!-- Conteudo Modal -->
+            <div class="modal-content">
+            <!-- Cabeçalho Modal -->
+                <div class="modal-header">
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Cancelar</a>
+                        <button onclick="excluirEmpregador()" class="modal-action modal-close waves-effect waves-red btn-flat red accent-3 white-text">Excluir</button>
+                </div>
+            </div>
+    </div>
+    <!--  Fim Modal Exclusão de Empregador  -->
 
 
     <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
@@ -122,13 +135,14 @@
     <script type="text/javascript" src="../node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     
     <script>
-            $(document).ready(function(){
-                $('ul.tabs').tabs();
-                $('select').material_select();
-                $('.modal').modal({
-                    dismissible: true
-                });
+        $(document).ready(function(){
+            $('ul.tabs').tabs();
+            $('select').material_select();
+            $('.modal').modal({
+                dismissible: true
             });
-        </script>
+            carregarInformacoes("application-watchdog");
+        });
+    </script>
 </body>
 </html>
