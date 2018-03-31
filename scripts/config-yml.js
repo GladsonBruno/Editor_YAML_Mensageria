@@ -9,8 +9,10 @@ const chave_de_criptografia = "12345";
 const $ = require('jquery');
 
 //Mensagens de Erro
-const erro_abrir_application_yml = "<i class='large material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
-const erro_abrir_application_watchdog_yml = "<i class='large material-icons'>error</i> Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_watchdog_yml = "<i class='material-icons'>error</i> Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const info_erro_abrir_application_yml = "Falha ao Carregar as Informações - Arquivo application.yml não encontrado.";
+const info_erro_abrir_application_watchdog_yml = "Falha ao Carregar as Informações - Arquivo application-watchdog.yml não encontrado.";
 
 //Mensagens de Sucesso
 const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
@@ -431,10 +433,12 @@ function carregarInformacoes(arquivo){
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(sucesso_carregamento_informacoes);
+                $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
             } else {
                 $("#modalSucesso").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(sucesso_carregamento_informacoes);
+                $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
             }
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
@@ -442,8 +446,10 @@ function carregarInformacoes(arquivo){
                 $(".modal-body").html('');
                 if(arquivo_yml == "application.yml"){
                     $(".modal-body").append(erro_abrir_application_yml);
+                    $(".Status_Carregamento_Arquivo").html("").html(info_erro_abrir_application_yml);
                 } else {
                     $(".modal-body").append(erro_abrir_application_watchdog_yml);
+                    $(".Status_Carregamento_Arquivo").html("").html(info_erro_abrir_application_watchdog_yml);
                 }
             } else {
                 $("#modalErro").modal("open");
