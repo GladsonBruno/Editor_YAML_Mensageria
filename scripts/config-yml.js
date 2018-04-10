@@ -315,13 +315,10 @@ function carregarInformacoes(arquivo){
     
     
                 $("#url-base-de-dados").val(url_banco);
-                $("#url-base-de-dados").focus();
                 $("#porta-base-de-dados").val(porta_banco);
-                $("#porta-base-de-dados").focus();
                 $("#nome-base-de-dados").val("");
                 $("#nome-base-de-dados").prop("disabled", true);
                 $("#db_sid").val(sid_db);
-                $("#db-sid").focus();
 
                 //Função utilizada para mudar o valor do select_
                 if(doc.db.driver == "oracle.jdbc.OracleDriver"){
@@ -333,9 +330,7 @@ function carregarInformacoes(arquivo){
                 }
 
                 $("#username").val(doc.db.username);
-                $("#username").focus();
                 $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
-                $("#password").focus();
             }
     
             if(arquivo == "application"){
@@ -357,17 +352,17 @@ function carregarInformacoes(arquivo){
                             elementos += "<h5>Empregador " + empregador_atual + "</h5>";
                             elementos += "<div class='section'>";
                             elementos += "<div class='input-field col m12'>";
+                                elementos += "<input type='text' placeholder='Caminho Certificado' name='caminho-certificado' required disabled>"
                                 elementos += "<label for='caminho-certificado'>Caminho Certificado</label>";
-                                elementos += "<input type='text' name='caminho-certificado' required disabled>"
                             elementos += "</div>";
                             elementos += "<div class='input-field col m3 s3'>";
                                 elementos += "<label for='codigo_empregador'>Código Empregador</label>";
-                                elementos += "<input type='text' name='codigo_empregador' required disabled>";
+                                elementos += "<input type='text' placeholder='Código Empregador' name='codigo_empregador' required disabled>";
                                 elementos += "<span class='helper-text' data-error='Este campo deve conter 8 Caracteres' data-success=''></span>";
                                 elementos += "</div>";
                                 elementos += "<div class='input-field col m3 s3'>";
                                 elementos += "<label for='senha-certificado'>Senha Certificado</label>";
-                                elementos += "<input type='password' name='senha-certificado' required disabled>";
+                                elementos += "<input type='password' placeholder='Senha Certificado' name='senha-certificado' required disabled>";
                             elementos += "</div>";
                             elementos += "<div class='input-field col m2 s2'>";
                                 elementos += "<select name='tipo-transmissor' disabled>";
@@ -378,16 +373,16 @@ function carregarInformacoes(arquivo){
                             elementos += "</div>";
                             elementos += "<div class='input-field col m4 s4'>";
                                 elementos += "<label for='numero-transmissor'>Número Transmissor</label>";
-                                elementos += "<input type='text' data-error='' class='validate' disabled name='numero-transmissor' required>";
+                                elementos += "<input type='text' data-error='' placeholder='Número Transmissor' class='validate' disabled name='numero-transmissor' required>";
                                 elementos += "<span class='helper-text' data-error='' data-success=''></span>";
                             elementos += "</div>";
                             elementos += "<div class='botoes-padroes'>";
-                                elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>edit</i> Editar Empregador</button>";
-                                elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'><i class='material-icons'>delete</i> Excluir Empregador</button>"
+                                elementos += "<button id='btn-editar' onclick='IniciarEdicao(" + i + ")' class='waves-effect waves-light btn-flat green accent-3 white-text'><i class='material-icons'>edit</i> Editar Empregador</button>";
+                                elementos += "<button id='btn-deletar' onclick='abrirModalExclusao(" + i + ")' class='waves-effect waves-light btn-flat blue-grey lighten-2 white-text'><i class='material-icons'>delete</i> Excluir Empregador</button>"
                             elementos += "</div>";
                             elementos += "<div class='botoes-edicao hide'>";
-                            elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-red btn-flat red accent-3 white-text'><i class='material-icons'>cancel</i> Cancelar</button>"
-                            elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-yellow btn-flat green accent-3 white-text'><i class='material-icons'>sd_storage</i> Salvar Alterações</button>";
+                            elementos += "<button id='btn-cancelar-edicao' onclick='CancelarEdicao(" + i + ")' class='waves-effect waves-light btn-flat blue-grey lighten-2 white-text'><i class='material-icons'>cancel</i> <span id='Texto_Botoes'>Cancelar</span></button>"
+                            elementos += "<button id='btn-salvar-edicao' onclick='EditarEmpregador(" + i + ")' class='waves-effect waves-light btn-flat green accent-3 white-text'><i class='material-icons'>sd_storage</i> <span id='Texto_Botoes'>Salvar Alterações</span></button>";
                             elementos += "</div>";
                             elementos += "</div>";
                         elementos += "</div>";
@@ -401,7 +396,7 @@ function carregarInformacoes(arquivo){
                     
                     //Adicionando informações nos inputs criados com base no arquivo YML
                     for(i = 0; i < QuantidadeEmpregadores; i++){
-                        $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
+                        $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
 
                         $("[name='caminho-certificado']:eq(" + i + ")").val(doc.esocial.empregadores[i].chave);
                         $("[name='codigo_empregador']:eq(" + i + ")").val(doc.esocial.empregadores[i].codigo);
@@ -430,15 +425,25 @@ function carregarInformacoes(arquivo){
                     $("#novo-numero-transmissor").prop("disabled", false);
                 });
 
-                $("#modalSucesso").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(sucesso_carregamento_informacoes);
                 $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
+
+                M.toast({
+                    html: sucesso_carregamento_informacoes,
+                    timeRemaining: 200,
+                    displayLength: 2000,
+                    classes: 'green accent-3'
+                });
+
             } else {
-                $("#modalSucesso").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(sucesso_carregamento_informacoes);
+
                 $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
+                M.toast({
+                    html: sucesso_carregamento_informacoes,
+                    timeRemaining: 200,
+                    displayLength: 2000,
+                    classes: 'green accent-3'
+                });
+
             }
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
@@ -541,9 +546,13 @@ function configurar_db(arquivo){
     
                 yaml_writer.sync(arquivo_yml, doc);
 
-                $("#modalSucesso").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(SucessoSalvarConfiguracoesDB);                
+                M.toast({
+                    html: SucessoSalvarConfiguracoesDB,
+                    timeRemaining: 200,
+                    displayLength: 2000,
+                    classes: 'green accent-3'
+                });
+              
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
@@ -583,12 +592,16 @@ function excluirEmpregador() {
 
         var empregadorExcluido = parseInt(indexEmpregador) + 1;
 
-        $("#modalSucesso").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append("Empregador " + empregadorExcluido + " excluído com sucesso!");
-        setInterval( () => {
-            window.location.reload();
-        }, 3000);                
+        M.toast({
+            html: 'Empregador ' + empregadorExcluido + ' excluído com sucesso!',
+            timeRemaining: 200,
+            displayLength: 2000,
+            classes: 'green accent-3',
+            completeCallback: () => {
+                window.location.reload();
+            }
+        });
+                        
     } catch(e) {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
             $("#modalErro").modal("open");
@@ -614,7 +627,7 @@ function IniciarEdicao(i){
     $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", false);
     $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", false);
     
-    $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
+    $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
     
     //Função utilizada para mudar o valor do select_
     if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
@@ -631,12 +644,12 @@ function IniciarEdicao(i){
 function CancelarEdicao(i) {
     $(".botoes-padroes:eq(" + i + ")").removeClass("hide");
     $(".botoes-edicao:eq(" + i + ")").addClass("hide");
-    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
-    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
-    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
-    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
-    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid").focusin();;
-    $("[name='tipo-transmissor']:eq(" + i + ")").material_select();
+    $("[name='caminho-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='codigo_empregador']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='senha-certificado']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='numero-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='tipo-transmissor']:eq(" + i + ")").prop("disabled", true).removeClass("invalid").removeClass("valid");
+    $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
 
     var doc = JSON.parse(localStorage.getItem("leituraYML"));
 
@@ -711,6 +724,8 @@ function EditarEmpregador(i){
             $("#modalErro").modal("open");
             $(".modal-body").html('');
             $(".modal-body").append(error);
+            $(".botoes-padroes:eq(" + i + ")").removeClass("hide");
+            $(".botoes-edicao:eq(" + i + ")").addClass("hide");
         } else{
             try {
                 //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
@@ -738,9 +753,13 @@ function EditarEmpregador(i){
     
                 yaml_writer.sync(arquivo_yml, doc);
 
-                $("#modalSucesso").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append("Configurações do Empregador " + EmpregadorEditado + " salvas com Sucesso!");
+                M.toast({
+                    html: 'Configurações do Empregador ' + EmpregadorEditado + ' salvas com Sucesso!',
+                    timeRemaining: 200,
+                    displayLength: 2000,
+                    classes: 'green accent-3'
+                });
+
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
@@ -752,6 +771,8 @@ function EditarEmpregador(i){
                     $(".modal-body").append(e.toString());
                 }
             }
+            $(".botoes-padroes:eq(" + i + ")").removeClass("hide");
+            $(".botoes-edicao:eq(" + i + ")").addClass("hide");
         }
 }
 
@@ -827,12 +848,16 @@ function CadastrarEmpregador(){
 
             yaml_writer.sync(arquivo_yml, doc);
 
-            $("#modalSucesso").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(SucessoCadastroEmpregador);                
-            setInterval( () => {
-                window.location.reload();
-            }, 3000);
+            M.toast({
+                html: SucessoCadastroEmpregador,
+                timeRemaining: 200,
+                displayLength: 2000,
+                classes: 'green accent-3',
+                completeCallback: () => {
+                    window.location.reload();
+                }
+            });
+
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");

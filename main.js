@@ -8,6 +8,11 @@ let TelaApplicationWatchdog;
 
 let TelaInicial;
 
+//Definindo ambiente de Produção ou de Desenvolvimento.
+// production = Produção
+//development = Desenvolvimento
+process.env.NODE_ENV = 'development';
+
 app.on('ready', () => {
     let screenSize = electron.screen.getPrimaryDisplay().size;
     TelaInicial = new BrowserWindow({
@@ -58,6 +63,24 @@ let menuTemplate = [
         ]
     }
 ]
+
+//Adicionar Developer Tools se não for ambiente de Produção
+if(process.env.NODE_ENV !== 'production'){
+    menuTemplate.push({
+        label: 'Developer Tools',
+        submenu: [
+            {
+                label: 'Toggle DevTools',
+                accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q' ,
+                click(item, focusedWindow){
+                    focusedWindow.toggleDevTools();
+                }
+            }, {
+                role: 'reload'
+            }
+        ]
+    })
+}
 
 const menu = Menu.buildFromTemplate(menuTemplate);
 Menu.setApplicationMenu(menu);

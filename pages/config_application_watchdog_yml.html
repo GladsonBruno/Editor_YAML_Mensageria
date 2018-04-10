@@ -16,7 +16,6 @@
     </script>
     <script type="text/javascript" src="../scripts/jquery.js"></script>
     <script type="text/javascript" src="../scripts/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="../scripts/limitar-campos.js"></script>
     <script type="text/javascript" src="../scripts/config-yml.js"></script>
     
 </head>
@@ -45,19 +44,19 @@
                 <div class="input-field div-info-db col m12">
                     <div class="col m12 s12">
                             <label for="url-base-de-dados">URL base de dados</label>
-                            <input type="text"  id="url-base-de-dados" required>
+                            <input type="text" placeholder="URL Base de Dados" id="url-base-de-dados" required>
                     </div>
                     <div class="input-field col m4 s4">
                             <label for="porta-base-de-dados">Porta de Acesso</label>
-                            <input type="text"  id="porta-base-de-dados" required>
+                            <input type="text" placeholder="Porta Base de Dados" id="porta-base-de-dados" required>
                     </div>
                     <div class="input-field col m4 s4">
                         <label for="nome-base-de-dados">Nome Base de Dados</label>
-                        <input type="text"  id="nome-base-de-dados" required>
+                        <input type="text" placeholder="Nome Base de Dados" id="nome-base-de-dados" required>
                     </div>
                     <div class="input-field col m4 s4">
                         <label for="db_sid">SID</label>
-                        <input type="text"  id="db_sid" required>
+                        <input type="text" placeholder="SID" id="db_sid" required>
                     </div>
                 </div>
 
@@ -71,21 +70,21 @@
                     </div>
                     <div class="input-field col m4">
                         <label for="username">Username</label>
-                        <input type="text"  id="username" required>
+                        <input type="text" placeholder="Username" id="username" required>
                     </div>
                     <div class="input-field col m4">
                         <label for="password">Password</label>
-                        <input type="password"  id="password" required>
+                        <input type="password" placeholder="Password" id="password" required>
                     </div>
                 </div>
                 <div class="input-field col m12">
-                    <button onclick="configurar_db('application-watchdog')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> Salvar Configurações Base de Dados</button>
+                    <button onclick="configurar_db('application-watchdog')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> <span id="Texto_Botoes">Salvar Configurações Base de Dados</span>
+                    </button>
                 </div>                    
             </div>
-    </div>
 
 
-    <!-- Modal Structure -->
+    <!-- Inicio Modal Erro -->
     <div id="modalErro" class="modal container">
         <div class="modal-content">
             <!-- Cabeçalho Modal -->
@@ -94,52 +93,22 @@
                 </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat  red accent-3 white-text">Voltar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  red accent-3 white-text">Voltar</a>
             </div>
         </div>
     </div>
+    <!-- Fim Modal Erro -->
 
-    <!--  Inicio Modal Sucesso  -->
-    <div id="modalSucesso" class="modal container">
-            <!-- Conteudo Modal -->
-            <div class="modal-content">
-            <!-- Cabeçalho Modal -->
-                <div class="modal-header">
-                    <h5><i class="material-icons">info</i> Sucesso</h5>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Ok</a>
-                </div>
-            </div>
-    </div>
-    <!--  Fim Modal Sucesso  -->
-
-    <!--  Inicio Modal Exclusão de Empregador  -->
-    <div id="modalExclusao" class="modal container">
-            <!-- Conteudo Modal -->
-            <div class="modal-content">
-            <!-- Cabeçalho Modal -->
-                <div class="modal-header">
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green accent-3 white-text">Cancelar</a>
-                        <button onclick="excluirEmpregador()" class="modal-action modal-close waves-effect waves-red btn-flat red accent-3 white-text">Excluir</button>
-                </div>
-            </div>
-    </div>
-    <!--  Fim Modal Exclusão de Empregador  -->
 
 
     <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
-    <script type="text/javascript" src="../Materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
     <script type="text/javascript" src="../node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     
     <script>
         $(document).ready(function(){
             $('ul.tabs').tabs();
-            $('select').material_select();
+            $('select').formSelect();
             $('.modal').modal({
                 dismissible: true
             });
