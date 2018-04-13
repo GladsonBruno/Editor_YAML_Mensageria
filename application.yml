@@ -9,7 +9,7 @@ db:
   url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: SQL SERVER
-  password: U2FsdGVkX1/UIegBZfriUp5cxMJukQjKk9bb6zGFwag=
+  password: U2FsdGVkX180ykhXMD4b1GId1U2nUeawCoLcri2uMp0=
   datasource:
     initial-size: 5
     max-active: 10
@@ -65,6 +65,16 @@ esocial:
       senha: U2FsdGVkX19n69WTxa527FYFiiUA/MdcN+SSnhocid0=
       tipo-transmissor: '1'
       numero-transmissor: '21212121212'
+    - codigo: '11111111'
+      chave: teste
+      senha: U2FsdGVkX1/D8imISRc9r6UPrWJxLWeYtygBk9U3Hmk=
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '12121212'
+      chave: '12121'
+      senha: U2FsdGVkX1/PSVsvLRQA1br8dYeJlPmXxG6ZSiQCH4Q=
+      tipo-transmissor: '2'
+      numero-transmissor: '12121212122333'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

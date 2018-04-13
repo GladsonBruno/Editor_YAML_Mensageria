@@ -22,7 +22,7 @@ app.on('ready', () => {
         minWidth: 800
     });
     TelaInicial.loadURL(url.format({
-        pathname: path.join(__dirname, './pages/config_application_watchdog_yml.html'),
+        pathname: path.join(__dirname, './pages/Teste.html'),
         protocol: 'file:'
     }));
 

@@ -11,10 +11,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+
+    <link rel="stylesheet" href="../JS_GRID/jsgrid.min.css">
+    <link rel="stylesheet" href="../JS_GRID/jsgrid-theme.min.css">
+
     <script>
         window.jQuery = window.$ = require('jquery');
     </script>
     <script type="text/javascript" src="../scripts/jquery.js"></script>
+    <script type="text/javascript" src="../JS_GRID/jsgrid.min.js"></script>
+
     <script type="text/javascript" src="../scripts/jquery.mask.min.js"></script>
     <script type="text/javascript" src="../scripts/config-yml.js"></script>
     
@@ -85,7 +91,23 @@
                 </div>                    
             </div>
 
-            <div class="empregadores conteudo" id="empregadores"></div>
+            <div class="empregadores conteudo" id="empregadores">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Codigo Transmissor</th>
+                            <th>Caminho Certificado</th>
+                            <th>Senha Certificado</th>
+                            <th>Tipo Transmissor</th>
+                            <th>Número Transmissor</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="conteudo-empregadores">
+                        
+                    </tbody>
+                </table>
+            </div>
 
             <div id="cadastrarEmpregador" class="section conteudo">
                 <h5>Novo Empregador</h5>

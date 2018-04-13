@@ -104,6 +104,8 @@ function verificarSeOCampoEstaVazio(seletor){
 }
 
 function ValidarTamanhoCodigoEmpregador(seletor){
+    
+
     seletor.on("focus", function(){
         if(this.value.length == 0){
             seletor.addClass("invalid");
@@ -153,11 +155,14 @@ function ValidarTamanhoCodigoEmpregador(seletor){
 }
 
 function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
+    
+
+
     seletorCampo.on("focus", function(){
         if(this.value.length == 0){
             seletorCampo.addClass("invalid");
         }
-
+        
         if(seletorTransmissor.val() == "1"){
             seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
         } else {
@@ -335,15 +340,15 @@ function carregarInformacoes(arquivo){
     
             if(arquivo == "application"){
 
-                var QuantidadeEmpregadores = doc.esocial.empregadores.length;
-                var elementos = "";
-                var empregador_atual;
-
+                //var QuantidadeEmpregadores = doc.esocial.empregadores.length;
+                //var elementos = "";
+                //var empregador_atual;
+                /*
                 if(QuantidadeEmpregadores == 0){
                     $(".empregadores").html("");
                     $(".empregadores").append("<div class='section'><h5>Não há empregadores Cadastrados!</h5></div>");
                 } else{
-
+                    var QuantidadeEmpregadores = doc.esocial.empregadores.length;
                     for(var i = 0; i < QuantidadeEmpregadores; i++){
                         empregador_atual = i + 1;
                         
@@ -424,6 +429,198 @@ function carregarInformacoes(arquivo){
                 $("#novo-tipo-transmissor").on("change", function(){
                     $("#novo-numero-transmissor").prop("disabled", false);
                 });
+                */
+
+
+                /*
+                
+                */
+
+                /*
+                var transmissores = [
+                    { Name: "", Id: "" },
+                    { Name: "CPF", Id: 1 },
+                    { Name: "CNPJ", Id: 2 }
+                ];
+
+                var empregadores = doc.esocial.empregadores;
+
+                //Descriptografando Senha
+                for(var i = 0; i < empregadores.length; i++){
+                    empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
+                }
+
+                $("#empregadores").jsGrid({
+                    width: "100%",
+                    height: "400px",
+             
+                    inserting: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+             
+                    data: empregadores,
+             
+                    fields: [
+                        { name: "codigo", type: "text", width: 100, align: "center", title: "Codigo Transmissor", 
+
+                        editTemplate: function(value) {
+                            var valField=this._grid.fields[0]; //the column where we want to see the result
+                            var grid = this._grid;
+                            var $editControl = jsGrid.fields.text.prototype.editTemplate.call(this);
+                            var seletorCodigoEmpregador = grid.fields[0].editControl;
+
+                            $(seletorCodigoEmpregador).on("focus", function(){
+                                if($(grid.fields[0].editControl).nextAll('span').length > 0){
+                                    console.log("has span");
+                                    $(grid.fields[0].editControl).nextAll('span').addClass("show");
+                                }else {
+                                    $(seletorCodigoEmpregador).after("<span class='helper-text' data-error='' data-success=''></span>")
+                                }
+
+                                ValidarTamanhoCodigoEmpregador(seletorCodigoEmpregador);
+                            });
+
+                            $editControl.on("keydown", function(e) {
+                                if ( e.which === 13 ) {
+                                    e.preventDefault();
+                                } else {
+                                    console.log(e.keyCode);
+                                    
+                                    console.log(grid.fields[0].editControl);
+                                    
+                                }
+                            });
+                            $editControl.val(value);
+                            return $editControl;
+                            }
+                    },
+                        { name: "chave", type: "text", width: 150, align: "center", title: "Caminho Certificado"},
+                        { name: "senha", type: "text", width: 80, align: "center", title: "Senha Certificado"},
+                        { name: "tipo-transmissor", type: "select", items: transmissores, valueField: "Id", textField: "Name", title: "Tipo Transmissor" , align: "center"},
+                        { name: "numero-transmissor", type: "text", width: 200, align: "center", title: "Numero Transmissor", 
+
+                        editTemplate: function(value) {
+                            var valField=this._grid.fields[4]; //the column where we want to see the result
+                            var grid = this._grid;
+                            var $editControl = jsGrid.fields.text.prototype.editTemplate.call(this);
+                            var seletorNumeroTransmissor = grid.fields[4].editControl;
+
+                            $(seletorNumeroTransmissor).on("focus", function(){
+                                if($(seletorNumeroTransmissor).nextAll('span').length > 0){
+                                    console.log("has span");
+                                    $(seletorNumeroTransmissor).nextAll('span').addClass("show");
+                                }else {
+                                    $(seletorNumeroTransmissor).after("<span class='helper-text' data-error='' data-success=''></span>")
+                                    console.log($(grid.fields[4].editControl).children().length > 0);
+                                }
+
+                                ValidarTamanhoNumeroEmpregador(grid.fields[0].editControl);
+                            });
+
+                            $editControl.on("keydown", function(e) {
+                                if ( e.which === 13 ) {
+                                    e.preventDefault();
+                                } else {
+                                    console.log(e.keyCode);
+                                    
+                                    console.log(grid.fields[0].editControl);
+                                    
+                                }
+                            });
+                            $editControl.val(value);
+                            return $editControl;
+                            }},
+                        { type: "control" }
+                    ],
+        
+                    onItemEditing: (args) => {
+                        console.log(args);
+                        console.log($(".jsgrid-grid-body").find('tr').eq(args.itemIndex).eq(0).find('input').eq(0));
+                        
+                    }
+
+                });  
+                
+
+                */
+                var tabela = "";
+
+                var QuantidadeDeEmpregadores = doc.esocial.empregadores.length;
+                var empregadores = doc.esocial.empregadores;
+                var transmissor;
+                    for(var i = 0; i < QuantidadeDeEmpregadores; i++){
+                        empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
+                        transmissor = empregadores[i]["tipo-transmissor"];
+                        if(transmissor == 1){
+                            transmissor = "CPF";
+                        } else {
+                            transmissor = "CNPJ"
+                        }
+
+
+                        tabela += "<tr name='Empregador'>";
+                            tabela += "<td>"+ empregadores[i].codigo +"</td>";
+                            tabela += "<td>"+ empregadores[i].chave +"</td>";
+                            tabela += "<td>"+ empregadores[i].senha +"</td>";
+                            tabela += "<td>"+ transmissor +"</td>";
+                            tabela += "<td>"+ empregadores[i]["numero-transmissor"] +"</td>";
+                            tabela += "<td> <button class='btn' onclick='IniciarEdicao("+ i +")'>Editar</button></td>";
+                            tabela += "<td> <button class='btn'>Excluir</button> </td>"
+                        tabela += "</tr>";
+                        tabela += "<tr class='hide' name='EmpregadorEditar'>";
+                            tabela += "<td>";
+                                tabela += "<input type='text' name='CodigoTransmissor' value='"+ empregadores[i].codigo +"'/>";
+                                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                            tabela += "</td>";
+                            tabela += "<td>";
+                                tabela += "<input type='text' name='CaminhoCertificado' value='"+ empregadores[i].chave +"'/>";
+                                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                            tabela += "</td>";
+                            tabela += "<td>";
+                                tabela += "<input type='text' name='SenhaCertificado' value='"+ empregadores[i].senha +"'/>";
+                                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                            tabela += "</td>";
+                            tabela += "<td>";
+                                tabela += "<select name='tipo-transmissor'>";
+                                    tabela += "<option value=''></option>";
+                                    tabela += "<option value='1'>CPF</option>";
+                                    tabela += "<option value='2'>CNPJ</option>";
+                                tabela += "</select>";
+                            tabela += "</td>";
+                            tabela += "<td>";
+                                tabela += "<input type='text' name='NumeroEmpregador' value='"+ empregadores[i]['numero-transmissor'] +"'/>";
+                                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                            tabela += "</td>";
+                            tabela += "<td> <button class='btn' onclick='EditarEmpregador("+ i +")'>Salvar</button></td>";
+                            tabela += "<td> <button class='btn' onclick='CancelarEdicao("+ i +")'>Cancelar</button> </td>"
+                        tabela += "</tr>";
+                    }
+
+                    $(".conteudo-empregadores").append(tabela);
+
+
+                    for(var i = 0; i < QuantidadeDeEmpregadores; i++){
+                        //Função utilizada para mudar o valor do select_
+                        if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+                            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
+                            $("[name='NumeroEmpregador']:eq(" + i + ")").mask('000.000.000-00');
+                        } else {
+                            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
+                            $("[name='NumeroEmpregador']:eq(" + i + ")").mask('00.000.000/0000-00');
+                        }
+                        $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
+
+                        //Validação Campo CodigoTransmissor
+                        ValidarTamanhoCodigoEmpregador($("[name='CodigoEmpregador']:eq(" + i + ")"));
+                        ValidarTamanhoNumeroEmpregador($("[name='NumeroEmpregador']:eq(" + i + ")"), $("[name='tipo-transmissor']:eq(" + i + ")"));
+                    }
+
+                    
+
+                
 
                 $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
 
@@ -615,7 +812,61 @@ function excluirEmpregador() {
     }
 }
 
+function IniciarEdicao(i){
 
+    var CodigoTransmissor = $("[name='CodigoTransmissor']:eq(" + i + ")").val();
+    var CaminhoCertificado = $("[name='CaminhoCertificado']:eq(" + i + ")").val();
+    var NumeroEmpregador = $("[name='NumeroEmpregador']:eq(" + i + ")").val();
+    var SenhaCertificado = $("[name='SenhaCertificado']:eq(" + i + ")").val();
+    var TipoTransmissor = $("[name='tipo-transmissor']:eq(" + i + ")").val();
+
+    var AntesDaEdicao = {
+        CodigoTransmissor: CodigoTransmissor,
+        CaminhoCertificado: CaminhoCertificado,
+        NumeroEmpregador: NumeroEmpregador,
+        SenhaCertificado: SenhaCertificado,
+        TipoTransmissor: TipoTransmissor
+    };
+
+    var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
+    localStorage.setItem(NomeVariavelAntesDaEdicao, JSON.stringify(AntesDaEdicao)); 
+
+    $("[name='Empregador']:eq("+ i +")").addClass('hide');
+    $("[name='EmpregadorEditar']:eq("+ i +")").removeClass('hide');
+
+}
+
+function CancelarEdicao(i){
+
+    //Variavel Gerada Na função IniciarEdição para pegar o valo anterior guardado no localstorage
+    var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
+    var ValoresOriginais = JSON.parse(localStorage.getItem(NomeVariavelAntesDaEdicao));
+
+    $("[name='CodigoTransmissor']:eq(" + i + ")").val(ValoresOriginais.CodigoTransmissor);
+    $("[name='CaminhoCertificado']:eq(" + i + ")").val(ValoresOriginais.CaminhoCertificado);
+    $("[name='NumeroEmpregador']:eq(" + i + ")").val(ValoresOriginais.NumeroEmpregador);
+    $("[name='SenhaCertificado']:eq(" + i + ")").val(ValoresOriginais.SenhaCertificado);
+
+    if(ValoresOriginais.TipoTransmissor == "1"){
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
+        $("[name='NumeroEmpregador']:eq(" + i + ")").mask('000.000.000-00');
+    } else {
+        mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
+        $("[name='NumeroEmpregador']:eq(" + i + ")").mask('00.000.000/0000-00');
+    }
+
+    $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
+
+    $("[name='Empregador']:eq("+ i +")").removeClass('hide');
+    $("[name='EmpregadorEditar']:eq("+ i +")").addClass('hide');
+
+}
+
+
+
+/*
 function IniciarEdicao(i){
     var doc = JSON.parse(localStorage.getItem("leituraYML"));
 
@@ -775,6 +1026,8 @@ function EditarEmpregador(i){
             $(".botoes-edicao:eq(" + i + ")").addClass("hide");
         }
 }
+*/
+
 
 function CadastrarEmpregador(){
     var arquivo_yml = "application.yml";
