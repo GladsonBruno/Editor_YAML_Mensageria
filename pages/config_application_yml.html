@@ -92,7 +92,8 @@
             </div>
 
             <div class="empregadores conteudo" id="empregadores">
-                <table>
+                                
+                <table class="centered">
                     <thead>
                         <tr>
                             <th>Codigo Transmissor</th>
@@ -141,7 +142,7 @@
                     <input type="text" placeholder="Número Transmissor" data-error="" id="novo-numero-transmissor">
                     <span class="helper-text" data-error="" data-success=""></span>
                 </div>
-                <button onclick="CadastrarEmpregador()" class="waves-effect waves-light btn-flat green accent-3 white-text"><i class="material-icons">add_circle</i> <span id="Texto_Botoes">Cadastrar</span></button>
+                <button onclick="CadastrarEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text"><i class="material-icons">add_circle</i> <span id="Texto_Botoes">Cadastrar</span></button>
                 <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text"><i class="material-icons">cancel</i><span id="Texto_Botoes">Cancelar</span></button>
             </div>
             
@@ -197,6 +198,13 @@
             carregarInformacoes("application");
             //Sem essa função os labels ocupam o mesmo espaço dos inputs preenchidos.
             M.updateTextFields();
+
+            //Efeito hover da tabela.
+                $(".conteudo-empregadores").find("tr:even").hover(function(){
+                    $(this).addClass("blue-grey lighten-4");
+                }, function(){
+                    $(this).removeClass("blue-grey lighten-4");
+                });
         });
     </script>
 </body>
