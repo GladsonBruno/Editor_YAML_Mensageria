@@ -143,7 +143,7 @@
                     <input type="text" placeholder="Número Transmissor" data-error="" id="novo-numero-transmissor">
                     <span class="helper-text" data-error="" data-success=""></span>
                 </div>
-                <button onclick="CadastrarEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</button>
+                <button onclick="abrirModalCadastroEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</button>
                 <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text">Cancelar</button>
             </div>
             
@@ -151,6 +151,59 @@
         </div>
     </div>
 
+    <!-- Inicio ChaveCriptografia Cadastro -->
+    <div id="modalChaveCriptografiaCadastro" class="modal container">
+        <div class="modal-content">
+            <!-- Cabeçalho Modal -->
+            <div class="modal-header">
+                    <h5><i class="material-icons">error</i>Aviso</h5>
+                </div>
+            <div class="modal-body">
+                <div class="col m12 s12 section">
+                    <div class="card-panel red accent-1" id="InformacaoModalChaveCriptografia">
+                        O Segredo de criptografia não é guardado na aplicação.
+                        <br/>Favor guardar o segredo para uso futuro.
+                    </div>
+                </div>
+                <div class="input-field col m12 s12 section">
+                    <label for="SegredoNovoCertificado">Segredo de Criptografia</label>
+                    <input type="text" placeholder="Segredo de Criptografia" id="SegredoNovoCertificado" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
+                <button onclick="CadastrarEmpregador()" id="btn-cadastrar-com-chave" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Inicio ChaveCriptografia Cadastro -->
+
+    <!-- Inicio ChaveCriptografia Edição -->
+    <div id="modalChaveCriptografiaEdicao" class="modal container">
+            <div class="modal-content">
+                <!-- Cabeçalho Modal -->
+                <div class="modal-header">
+                        <h5><i class="material-icons">error</i> Aviso</h5>
+                    </div>
+                <div class="modal-body">
+                    <div class="col m12 s12 section">
+                        <div class="card-panel red accent-1" id="InformacaoModalChaveCriptografia">
+                            O Segredo de criptografia não é guardado na aplicação.
+                            <br/>Favor guardar o segredo para uso futuro.
+                        </div>
+                    </div>
+                    <div class="input-field col m12 s12 section">
+                        <label for="SegredoEditarCertificado">Segredo de Criptografia</label>
+                        <input type="text" placeholder="Segredo de Criptografia" id="SegredoEditarCertificado" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
+                    <button onclick="PegarChaveCriptografiaEdicao()" id="btn-editar-com-chave" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+                </div>
+            </div>
+        </div>
+        <!-- Fim Inicio ChaveCriptografia Edição -->
 
     <!-- Inicio Modal Erro -->
     <div id="modalErro" class="modal container">

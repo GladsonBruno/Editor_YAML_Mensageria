@@ -55,19 +55,9 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '33333333'
+    - codigo: '11111111'
       chave: 'C:\Users\Lenovo\Pictures\application.yml'
-      senha: U2FsdGVkX18zkHyIYmATT6Pi5SLTZEtGK+uwB+K8yA0=
-      tipo-transmissor: '2'
-      numero-transmissor: '33333333333333'
-    - codigo: '10251900'
-      chave: 'C:\Users\Lenovo\Pictures\application-watchdog.yml'
-      senha: U2FsdGVkX19Vs8JfsWgUN2Eya7emD+woY+Yk2FNkPPA=
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '10251900'
-      chave: 'C:\Users\Lenovo\Pictures\application-watchdog.yml'
-      senha: U2FsdGVkX1+ZfD9rV1qlms2mTGI3ABlyb3I/+UKms3Y=
+      senha: U2FsdGVkX183AbdAS5DuW+rYTKbxIj/2Y26rz3ue+9M=
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *

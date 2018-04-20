@@ -82,9 +82,35 @@ $(document).ready(function(){
     var numero_transmissor = $("#novo-numero-transmissor");
     ValidarTamanhoNumeroEmpregador(numero_transmissor, tipo_transmissor);
 
-    
+
+    verificarPreenchimentoChaveCriptografia($("#SegredoNovoCertificado"), $("#btn-cadastrar-com-chave"));
+
+    verificarPreenchimentoChaveCriptografia($("#SegredoEditarCertificado"), $("#btn-editar-com-chave"));
 
 });
+
+//Verifica se o campo de chave de criptografia está vazio
+function verificarPreenchimentoChaveCriptografia(seletor, botaoConfirmacao){
+    seletor.on("focus", function(){
+        if(seletor.val() == ""){
+            botaoConfirmacao.prop("disabled", true);
+            seletor.addClass("invalid");
+        } else {
+            botaoConfirmacao.prop("disabled", false);
+            seletor.removeClass("invalid");
+        }
+    });
+
+    seletor.on("keyup", function(){
+        if(seletor.val() == ""){
+            botaoConfirmacao.prop("disabled", true);
+            seletor.addClass("invalid");
+        } else {
+            botaoConfirmacao.prop("disabled", false);
+            seletor.removeClass("invalid");
+        }
+    });
+}
 
 
 //Função para verificar se os campos estão vazios e aplicar as classes css
@@ -341,7 +367,8 @@ function carregarInformacoes(arquivo){
                 }
 
                 $("#username").val(doc.db.username);
-                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                $("#password").val(doc.db.password);
+                //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             }
     
             if(arquivo == "application"){
@@ -352,7 +379,7 @@ function carregarInformacoes(arquivo){
                 var empregadores = doc.esocial.empregadores;
                 var transmissor;
                     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
-                        empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
+                        //empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
                         transmissor = empregadores[i]["tipo-transmissor"];
                         if(transmissor == 1){
                             transmissor = "CPF";
@@ -371,7 +398,7 @@ function carregarInformacoes(arquivo){
                             tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ transmissor +"</td>";
                             tabela += "<td class='col m2 s2'name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
                             tabela += "<td class='col m2 s2'>";
-                                tabela += "<button class='btn' id='" + i + "' onclick='IniciarEdicao(this)'><span class='material-icons'>edit</span></button>";
+                                tabela += "<button class='btn' id='" + i + "' onclick='AbrirModalChaveCriptografiaEdicao(this)'><span class='material-icons'>edit</span></button>";
                                 tabela += "<button class='btn' id='" + i + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
                             tabela += "</td>";
                         tabela += "</tr>";
@@ -606,7 +633,7 @@ function configurar_db(arquivo){
     
                 //Senha base de dados
                 
-                password_db = cryptoJS.AES.encrypt(password_db, chave_de_criptografia).toString();
+                //password_db = cryptoJS.AES.encrypt(password_db, chave_de_criptografia).toString();
                 doc.db.password = password_db;
     
                 yaml_writer.sync(arquivo_yml, doc);
@@ -746,18 +773,32 @@ function excluirEmpregador() {
     }
 }
 
-function IniciarEdicao(i){
+function AbrirModalChaveCriptografiaEdicao(i){
+    i = $(i).prop("id");
+    //Passando id do botão como referencia para edição
+    localStorage.setItem("ItemEditado", i);
+    $("#modalChaveCriptografiaEdicao").modal('open');
+    $("#btn-editar-com-chave").prop("disabled", true);
+    
+}
+
+function IniciarEdicao(){
     //Pegando ID do botão.
     //Como não posso atribuir um ID fixo na chamada de função
     //Atribuo um ID aos botões que não irá mudar e não irá 
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
-    i = $(i).prop("id");
+    var i = localStorage.getItem("ItemEditado");
+    var variavelSegredo = "SegredoEdicao_" + i;
+    var segredo = localStorage.getItem(variavelSegredo);
+    $("#modalChaveCriptografiaEdicao").modal('close');
+
 
     var CodigoTransmissor = $("[name='CodigoTransmissor']:eq(" + i + ")").val();
     var CaminhoCertificado = $("[name='CaminhoCertificado']:eq(" + i + ")").val();
     var NumeroEmpregador = $("[name='NumeroEmpregador']:eq(" + i + ")").val();
-    var SenhaCertificado = $("[name='SenhaCertificado']:eq(" + i + ")").val();
+    var SenhaCertificado = cryptoJS.AES.decrypt($("[name='SenhaCertificado']:eq(" + i + ")").val(), segredo).toString(cryptoJS.enc.Utf8);
     var TipoTransmissor = $("[name='tipo-transmissor']:eq(" + i + ")").val();
+    
 
     var AntesDaEdicao = {
         CodigoTransmissor: CodigoTransmissor,
@@ -770,10 +811,13 @@ function IniciarEdicao(i){
     var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
     localStorage.setItem(NomeVariavelAntesDaEdicao, JSON.stringify(AntesDaEdicao)); 
 
+
+
     $("[name='Empregador']:eq("+ i +")").addClass('hide');
     $("[name='EmpregadorEditar']:eq("+ i +")").removeClass('hide');
 
 }
+
 
 function CancelarEdicao(i){
 
@@ -809,8 +853,6 @@ function CancelarEdicao(i){
 
 }
 
-
-
 //Função para aguardar determinado tempo.
 function sleep(milliseconds) {
   var start = new Date().getTime();
@@ -819,6 +861,14 @@ function sleep(milliseconds) {
       break;
     }
   }
+}
+
+function PegarChaveCriptografiaEdicao(){
+    var segredo = $("#SegredoEditarCertificado").val();
+    var i = localStorage.getItem("ItemEditado");
+    var variavelSegredo = "SegredoEdicao_" + i;
+    localStorage.setItem(variavelSegredo, segredo);
+    IniciarEdicao();
 }
 
 function EditarEmpregador(i){
@@ -830,7 +880,9 @@ function EditarEmpregador(i){
 
     var arquivo_yml = "application.yml";
 
-    
+    var variavelSegredo = "SegredoEdicao_" + i;
+    var segredo = localStorage.setItem(variavelSegredo, segredo);
+
     var EmpregadorEditado = parseInt(i) + 1;
 
         //Informações Certificado 
@@ -898,7 +950,7 @@ function EditarEmpregador(i){
     
                 //Senha certificado
                 //Criptografando senha para AES
-                senha_certificado = cryptoJS.AES.encrypt(senha_certificado, chave_de_criptografia).toString();
+                senha_certificado = cryptoJS.AES.encrypt(senha_certificado, segredo).toString();
 
                 doc.esocial.empregadores[i].senha = senha_certificado;
                 
@@ -918,7 +970,7 @@ function EditarEmpregador(i){
 
                 TabelaCodEmpregador.html(codigo_empregador);
                 TabelaCaminhoCertificado.html(path_certificado);
-                TabelaSenhaCertificado.html(cryptoJS.AES.decrypt(senha_certificado, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                TabelaSenhaCertificado.html(cryptoJS.AES.decrypt(senha_certificado, segredo).toString(cryptoJS.enc.Utf8));
                 if(transmissor == "1"){
                     TabelaTipoTransmissor.html("CPF");    
                 } else {
@@ -1018,8 +1070,20 @@ function carregarCertificadoEdicao(i){
     
 }
 
+function abrirModalCadastroEmpregador(){
+    $("#btn-cadastrar-com-chave").prop("disabled", true);
+    $("#modalChaveCriptografiaCadastro").modal("open");
+}
+
+
+
 function CadastrarEmpregador(){
+    var SegredoCertificado = $("#SegredoNovoCertificado").val();
+    $("#btn-cadastrar-com-chave").prop("disabled", true);
+
     $("#btn-cadastrar").prop("disabled", true);
+
+    
 
     var arquivo_yml = "application.yml";
     //Informações Certificado 
@@ -1066,18 +1130,22 @@ function CadastrarEmpregador(){
     }
     
     if(error != ""){
+        $("#modalChaveCriptografiaCadastro").modal("close");
         $("#modalErro").modal("open");
         $(".modal-body").html('');
         $(".modal-body").append(error);
         $("#btn-cadastrar").prop("disabled", false);
     } else{
+
+
+
         try {
             //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
             var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
 
             //Senha certificado
             //Criptografando senha para AES
-            senha_certificado = cryptoJS.AES.encrypt(senha_certificado, chave_de_criptografia).toString();
+            senha_certificado = cryptoJS.AES.encrypt(senha_certificado, SegredoCertificado).toString();
 
             //Criando Objeto com o novo Empregador
             var NovoEmpregador = {
@@ -1110,11 +1178,11 @@ function CadastrarEmpregador(){
             tabela += "<tr class='col m12 s12' name='Empregador'>";
             tabela += "<td class='col m2 s2' name='TableCodigoEmpregador'>"+ NovoEmpregador.codigo +"</td>";
             tabela += "<td class='col m2 s2' name='TableCaminhoCertificado'>"+ NovoEmpregador.chave +"</td>";
-            tabela += "<td class='col m2 s2' name='TableSenhaCertificado'>"+ cryptoJS.AES.decrypt(NovoEmpregador.senha, chave_de_criptografia).toString(cryptoJS.enc.Utf8) +"</td>";
+            tabela += "<td class='col m2 s2' name='TableSenhaCertificado'>"+ NovoEmpregador.senha +"</td>";
             tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ Transmissor_Extenso +"</td>";
             tabela += "<td class='col m2 s2' name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='IniciarEdicao(this)'><span class='material-icons'>edit</span></button>";
+                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='AbrirModalChaveCriptografiaEdicao(this)'><span class='material-icons'>edit</span></button>";
                 tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
             tabela += "</td>";
         tabela += "</tr>";
@@ -1193,6 +1261,8 @@ function CadastrarEmpregador(){
                     $("#btn-cadastrar").prop("disabled", false);
                     //Função para limpar os campos de cadastro.
                     CancelarCadastro();
+                    $("#btn-cadastrar-com-chave").prop("disabled", false);
+                    $("#modalChaveCriptografiaCadastro").modal("close");
                 }
             });
 
@@ -1219,12 +1289,15 @@ function CadastrarEmpregador(){
                 $(".modal-body").append(erro_abrir_application_yml);
                 $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
                 $("#btn-cadastrar").prop("disabled", false);
+                $("#btn-cadastrar-com-chave").prop("disabled", false);
+                $("#modalChaveCriptografiaCadastro").modal("close");
             } else {
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(e.toString());
-
+                $("#btn-cadastrar-com-chave").prop("disabled", false);
                 $("#btn-cadastrar").prop("disabled", false);
+                $("#modalChaveCriptografiaCadastro").modal("close");
                 $(".Status_Carregamento_Arquivo").html("").html(e.toString());
             }
         }
