@@ -55,31 +55,21 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '11111111'
-      chave: arterh
-      senha: U2FsdGVkX1+3C0i1S2z4o8EqjpdsXJqLMHPMQ31FI+I=
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
     - codigo: '33333333'
-      chave: Teste
-      senha: U2FsdGVkX1+vU8FvS0/RWSTdJOA1jcCxd2SRoKWZoDw=
+      chave: 'C:\Users\Lenovo\Pictures\application.yml'
+      senha: U2FsdGVkX18zkHyIYmATT6Pi5SLTZEtGK+uwB+K8yA0=
       tipo-transmissor: '2'
       numero-transmissor: '33333333333333'
-    - codigo: '11111111'
-      chave: teste
-      senha: U2FsdGVkX18xDE8yWJthTOPzCaTO95g/NfL7+vqtc7g=
-      tipo-transmissor: '1'
-      numero-transmissor: '33333333333'
-    - codigo: '11111111'
-      chave: '1'
-      senha: U2FsdGVkX1/DPzMkwnKAy00k/V6ukwdtz2njB8jYjNo=
+    - codigo: '10251900'
+      chave: 'C:\Users\Lenovo\Pictures\application-watchdog.yml'
+      senha: U2FsdGVkX19Vs8JfsWgUN2Eya7emD+woY+Yk2FNkPPA=
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
-    - codigo: '22121212'
-      chave: novo
-      senha: U2FsdGVkX1/P8WnSw8efRQkgKVpEadIAQm6by2htKPc=
-      tipo-transmissor: '2'
-      numero-transmissor: '32323232223232'
+    - codigo: '10251900'
+      chave: 'C:\Users\Lenovo\Pictures\application-watchdog.yml'
+      senha: U2FsdGVkX1+ZfD9rV1qlms2mTGI3ABlyb3I/+UKms3Y=
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

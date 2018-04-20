@@ -1,12 +1,15 @@
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
 const fs = require('fs');
+//import fs from 'fs';
 const cryptoJS = require("crypto-js");
 
 //Chave usada para criptografia.
 const chave_de_criptografia = "12345";
-//Importando JQUERY
-const $ = require('jquery');
+
+//Usados para abrir caixa de dialogo para carregar arquivo
+var app = require('electron').remote; 
+var dialog = app.dialog;
 
 //Mensagens de Erro
 const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
@@ -82,6 +85,7 @@ $(document).ready(function(){
     
 
 });
+
 
 //Função para verificar se os campos estão vazios e aplicar as classes css
 function verificarSeOCampoEstaVazio(seletor){
@@ -356,42 +360,50 @@ function carregarInformacoes(arquivo){
                             transmissor = "CNPJ"
                         }
 
+                        //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
+                        var TransmissorComMascara = MascararCamposDaTabela(empregadores[i]["numero-transmissor"], empregadores[i]["tipo-transmissor"]);
 
-                        tabela += "<tr name='Empregador'>";
-                            tabela += "<td name='TableCodigoEmpregador'>"+ empregadores[i].codigo +"</td>";
-                            tabela += "<td name='TableCaminhoCertificado'>"+ empregadores[i].chave +"</td>";
-                            tabela += "<td name='TableSenhaCertificado'>"+ empregadores[i].senha +"</td>";
-                            tabela += "<td name='TableTipoTransmissor'>"+ transmissor +"</td>";
-                            tabela += "<td name='TableNumeroTransmissor'>"+ empregadores[i]["numero-transmissor"] +"</td>";
-                            tabela += "<td> <button class='btn' id='" + i + "' onclick='IniciarEdicao(this)'>Editar</button></td>";
-                            tabela += "<td> <button class='btn' id='" + i + "' onclick='abrirModalExclusao(this)'>Excluir</button> </td>"
+
+                        tabela += "<tr name='Empregador' class='col m12 s12'>";
+                            tabela += "<td class='col m2 s2' name='TableCodigoEmpregador'>"+ empregadores[i].codigo +"</td>";
+                            tabela += "<td class='col m2 s2' name='TableCaminhoCertificado'>"+ empregadores[i].chave +"</td>";
+                            tabela += "<td class='col m2 s2' name='TableSenhaCertificado'>"+ empregadores[i].senha +"</td>";
+                            tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ transmissor +"</td>";
+                            tabela += "<td class='col m2 s2'name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
+                            tabela += "<td class='col m2 s2'>";
+                                tabela += "<button class='btn' id='" + i + "' onclick='IniciarEdicao(this)'><span class='material-icons'>edit</span></button>";
+                                tabela += "<button class='btn' id='" + i + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
+                            tabela += "</td>";
                         tabela += "</tr>";
-                        tabela += "<tr class='hide' name='EmpregadorEditar'>";
-                            tabela += "<td>";
+                        tabela += "<tr class='hide col m12 s12' name='EmpregadorEditar'>";
+                            tabela += "<td class='col m2 s2'>";
                                 tabela += "<input type='text' name='CodigoTransmissor' value='"+ empregadores[i].codigo +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
                             tabela += "</td>";
-                            tabela += "<td>";
-                                tabela += "<input type='text' name='CaminhoCertificado' value='"+ empregadores[i].chave +"'/>";
+                            tabela += "<td class='col m2 s2'>";
+                                tabela += "<input type='text' name='CaminhoCertificado' class='col m8' value='"+ empregadores[i].chave +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                                tabela += "<button class='btn col m4' id='" + i + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></button>"
                             tabela += "</td>";
-                            tabela += "<td>";
+                            tabela += "<td class='col m2 s2'>";
                                 tabela += "<input type='password' name='SenhaCertificado' value='"+ empregadores[i].senha +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
                             tabela += "</td>";
-                            tabela += "<td>";
+                            tabela += "<td class='col m2 s2'>";
                                 tabela += "<select name='tipo-transmissor'>";
                                     tabela += "<option value=''></option>";
                                     tabela += "<option value='1'>CPF</option>";
                                     tabela += "<option value='2'>CNPJ</option>";
                                 tabela += "</select>";
                             tabela += "</td>";
-                            tabela += "<td>";
+                            tabela += "<td class='col m2 s2'>";
                                 tabela += "<input type='text' name='NumeroEmpregador' value='"+ empregadores[i]['numero-transmissor'] +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
                             tabela += "</td>";
-                            tabela += "<td> <button class='btn' id='" + i + "' onclick='EditarEmpregador(this)'>Salvar</button></td>";
-                            tabela += "<td> <button class='btn' id='" + i + "' onclick='CancelarEdicao(this)'>Cancelar</button> </td>"
+                            tabela += "<td class='col m2 s2'>";
+                                tabela += "<button class='btn' id='" + i + "' onclick='EditarEmpregador(this)'><span class='material-icons'>check</span></button>";
+                                tabela += "<button class='btn' id='" + i + "' onclick='CancelarEdicao(this)'><span class='material-icons'>cancel</span></button>";
+                            tabela += "</td>";
                         tabela += "</tr>";
                     }
 
@@ -511,13 +523,11 @@ function carregarInformacoes(arquivo){
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(e.toString());
+                $(".Status_Carregamento_Arquivo").html("").html("Erro ao Iniciar a Aplicação");
             }
         }    
 }
 
-function teste(i){
-    alert($(i).prop('id'));
-}
 
 function configurar_db(arquivo){
     //Arquivo a ser configurado
@@ -647,7 +657,8 @@ function configurar_db(arquivo){
                 } else {
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
-                    $(".modal-body").append(e.toString());     
+                    $(".modal-body").append(e.toString());
+                    $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
                 }
             }
         }
@@ -697,6 +708,7 @@ function excluirEmpregador() {
                 </div>
                 `;
 
+                $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ff8a80");
         M.toast({
             html: loader,
             timeRemaining: 200,
@@ -704,6 +716,7 @@ function excluirEmpregador() {
             classes: 'container center transparent',
             completeCallback: () => {
                 $("[name=Empregador]:eq(" + indexEmpregador + ")").remove();
+                $("[name=EmpregadorEditar]:eq(" + indexEmpregador + ")").remove();
             }
         });
 
@@ -718,13 +731,17 @@ function excluirEmpregador() {
                         
     } catch(e) {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
+            $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ffffff");
             $("#modalErro").modal("open");
             $(".modal-body").html('');
             $(".modal-body").append(erro_abrir_application_yml);
+            $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
         } else {
+            $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ffffff");;
             $("#modalErro").modal("open");
             $(".modal-body").html('');
             $(".modal-body").append(e.toString());
+            $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
         }
     }
 }
@@ -770,9 +787,9 @@ function CancelarEdicao(i){
     var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
     var ValoresOriginais = JSON.parse(localStorage.getItem(NomeVariavelAntesDaEdicao));
 
-    $("[name='CodigoTransmissor']:eq(" + i + ")").val(ValoresOriginais.CodigoTransmissor);
+    $("[name='CodigoTransmissor']:eq(" + i + ")").val(ValoresOriginais.CodigoTransmissor).removeClass("invalid");
     $("[name='CaminhoCertificado']:eq(" + i + ")").val(ValoresOriginais.CaminhoCertificado);
-    $("[name='NumeroEmpregador']:eq(" + i + ")").val(ValoresOriginais.NumeroEmpregador);
+    $("[name='NumeroEmpregador']:eq(" + i + ")").val(ValoresOriginais.NumeroEmpregador).removeClass("invalid");
     $("[name='SenhaCertificado']:eq(" + i + ")").val(ValoresOriginais.SenhaCertificado);
 
     if(ValoresOriginais.TipoTransmissor == "1"){
@@ -908,8 +925,11 @@ function EditarEmpregador(i){
                     TabelaTipoTransmissor.html("CNPJ");    
                 }
 
+                //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
+                var TransmissorComMascara = MascararCamposDaTabela(numero_transmissor, transmissor);
+
                 TabelaTipoTransmissor.html();
-                TabelaNumeroTransmissor.html(numero_transmissor);
+                TabelaNumeroTransmissor.html(TransmissorComMascara);
 
                 var loader = `<div class='container center'>
                 <div class="preloader-wrapper big active">
@@ -950,11 +970,13 @@ function EditarEmpregador(i){
                     $(".modal-body").html('');
                     $(".modal-body").append(erro_abrir_application_yml);
                     CancelarEdicao(i);
+                    $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
                 } else {
                     $("#modalErro").modal("open");
                     $(".modal-body").html('');
                     $(".modal-body").append(e.toString());
                     CancelarEdicao(i);
+                    $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
                 }
             }
             $("[name='Empregador']:eq("+ i +")").removeClass('hide');
@@ -962,6 +984,39 @@ function EditarEmpregador(i){
         }
 }
 
+
+function MascararCamposDaTabela(Campo, ReferenciaMascara){
+    var ValorCampo = Campo
+
+    if(ReferenciaMascara == "1"){
+        //Mascara de CPF
+        ValorCampo = ValorCampo.substr(0,3) + "." + ValorCampo.substr(3,3) + "." + ValorCampo.substr(6,3) + "-" + ValorCampo.substr(9,2);
+    } else {
+        //Mascara de CNPJ
+        ValorCampo = ValorCampo.substr(0,2) + "." + ValorCampo.substr(2,3) + "." + ValorCampo.substr(5,3) + "/" + ValorCampo.substr(8,4) + "-" + ValorCampo.substr(12,2);
+    }
+    return ValorCampo;
+}
+
+function carregarCertificadoCadastro(inputAlvo) {
+
+    dialog.showOpenDialog({
+		properties: ['openFile']
+
+	}, selectedFile => inputAlvo.val(selectedFile));
+
+}
+
+function carregarCertificadoEdicao(i){
+
+    i = $(i).prop("id");
+    
+    dialog.showOpenDialog({
+		properties: ['openFile']
+
+    }, selectedFile => $("[name='CaminhoCertificado']:eq(" + i + ")").val(selectedFile));
+    
+}
 
 function CadastrarEmpregador(){
     $("#btn-cadastrar").prop("disabled", true);
@@ -1048,42 +1103,50 @@ function CadastrarEmpregador(){
 
             var IndexNovoEmpregador = parseInt($("[name='Empregador']").length);
 
+            //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
+            var TransmissorComMascara = MascararCamposDaTabela(numero_transmissor, transmissor);
+
             var tabela = "";
-            tabela += "<tr name='Empregador'>";
-            tabela += "<td name='TableCodigoEmpregador'>"+ NovoEmpregador.codigo +"</td>";
-            tabela += "<td name='TableCaminhoCertificado'>"+ NovoEmpregador.chave +"</td>";
-            tabela += "<td name='TableSenhaCertificado'>"+ cryptoJS.AES.decrypt(NovoEmpregador.senha, chave_de_criptografia).toString(cryptoJS.enc.Utf8) +"</td>";
-            tabela += "<td name='TableTipoTransmissor'>"+ Transmissor_Extenso +"</td>";
-            tabela += "<td name='TableNumeroTransmissor'>"+ numero_transmissor +"</td>";
-            tabela += "<td> <button class='btn' id='" + IndexNovoEmpregador + "' onclick='IniciarEdicao(this)'>Editar</button></td>";
-            tabela += "<td> <button class='btn' id='" + IndexNovoEmpregador + "' onclick='abrirModalExclusao(this)'>Excluir</button> </td>"
+            tabela += "<tr class='col m12 s12' name='Empregador'>";
+            tabela += "<td class='col m2 s2' name='TableCodigoEmpregador'>"+ NovoEmpregador.codigo +"</td>";
+            tabela += "<td class='col m2 s2' name='TableCaminhoCertificado'>"+ NovoEmpregador.chave +"</td>";
+            tabela += "<td class='col m2 s2' name='TableSenhaCertificado'>"+ cryptoJS.AES.decrypt(NovoEmpregador.senha, chave_de_criptografia).toString(cryptoJS.enc.Utf8) +"</td>";
+            tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ Transmissor_Extenso +"</td>";
+            tabela += "<td class='col m2 s2' name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='IniciarEdicao(this)'><span class='material-icons'>edit</span></button>";
+                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
+            tabela += "</td>";
         tabela += "</tr>";
-        tabela += "<tr class='hide' name='EmpregadorEditar'>";
-            tabela += "<td>";
+        tabela += "<tr class='hide col m12 s12' name='EmpregadorEditar'>";
+            tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='text' name='CodigoTransmissor' value='"+ NovoEmpregador.codigo +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
-            tabela += "<td>";
-                tabela += "<input type='text' name='CaminhoCertificado' value='"+ NovoEmpregador.chave +"'/>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<input type='text' class='col m8' name='CaminhoCertificado' value='"+ NovoEmpregador.chave +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                tabela += "<button class='btn col m4' id='" + IndexNovoEmpregador + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></button>"
             tabela += "</td>";
-            tabela += "<td>";
+            tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='password' name='SenhaCertificado' value='"+ cryptoJS.AES.decrypt(NovoEmpregador.senha, chave_de_criptografia).toString(cryptoJS.enc.Utf8) +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
-            tabela += "<td>";
+            tabela += "<td class='col m2 s2'>";
                 tabela += "<select name='tipo-transmissor'>";
                     tabela += "<option value=''></option>";
                     tabela += "<option value='1'>CPF</option>";
                     tabela += "<option value='2'>CNPJ</option>";
                 tabela += "</select>";
             tabela += "</td>";
-            tabela += "<td>";
+            tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='text' name='NumeroEmpregador' value='"+ numero_transmissor +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
-            tabela += "<td> <button class='btn' id='" + IndexNovoEmpregador + "' onclick='EditarEmpregador(this)'>Salvar</button></td>";
-            tabela += "<td> <button class='btn' id='" + IndexNovoEmpregador + "' onclick='CancelarEdicao(this)'>Cancelar</button> </td>"
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='EditarEmpregador(this)'><span class='material-icons'>check</span></button>";
+                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='CancelarEdicao(this)'><span class='material-icons'>cancel</span></button>";
+            tabela += "</td>";
         tabela += "</tr>";  
         
         $(".conteudo-empregadores").append(tabela);
@@ -1154,7 +1217,7 @@ function CadastrarEmpregador(){
                 $("#modalErro").modal("open");
                 $(".modal-body").html('');
                 $(".modal-body").append(erro_abrir_application_yml);
-
+                $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
                 $("#btn-cadastrar").prop("disabled", false);
             } else {
                 $("#modalErro").modal("open");
@@ -1162,6 +1225,7 @@ function CadastrarEmpregador(){
                 $(".modal-body").append(e.toString());
 
                 $("#btn-cadastrar").prop("disabled", false);
+                $(".Status_Carregamento_Arquivo").html("").html(e.toString());
             }
         }
     }

@@ -12,14 +12,10 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
 
-    <link rel="stylesheet" href="../JS_GRID/jsgrid.min.css">
-    <link rel="stylesheet" href="../JS_GRID/jsgrid-theme.min.css">
-
     <script>
+        //Importando JQUERY
         window.jQuery = window.$ = require('jquery');
     </script>
-    <script type="text/javascript" src="../scripts/jquery.js"></script>
-    <script type="text/javascript" src="../JS_GRID/jsgrid.min.js"></script>
 
     <script type="text/javascript" src="../scripts/jquery.mask.min.js"></script>
     <script type="text/javascript" src="../scripts/config-yml.js"></script>
@@ -86,36 +82,41 @@
                     </div>
                 </div>
                 <div class="input-field col m12">
-                    <button onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3"><i class="material-icons">sd_storage</i> <span id="Texto_Botoes">Salvar Configurações Base de Dados</span>
+                    <button onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3">Salvar Configurações Base de Dados
                     </button>
                 </div>                    
             </div>
 
-            <div class="empregadores conteudo" id="empregadores">
+            <div class="row">
+                <div class="empregadores section conteudo" id="empregadores">
+                        <h5>Empregadores</h5>
+                    <div class="section">       
+                        <table class="centered col m12 s12">
+                            <thead>
+                                <tr class="col m12 s12">
+                                    <th class="col m2 s2">Codigo Transmissor</th>
+                                    <th class="col m2 s2">Caminho Certificado</th>
+                                    <th class="col m2 s2">Senha Certificado</th>
+                                    <th class="col m2 s2">Tipo Transmissor</th>
+                                    <th class="col m2 s2">Número Transmissor</th>
+                                    <th  class="col m2 s2">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="conteudo-empregadores">
                                 
-                <table class="centered">
-                    <thead>
-                        <tr>
-                            <th>Codigo Transmissor</th>
-                            <th>Caminho Certificado</th>
-                            <th>Senha Certificado</th>
-                            <th>Tipo Transmissor</th>
-                            <th>Número Transmissor</th>
-                            <th colspan="2"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="conteudo-empregadores">
-                        
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div id="cadastrarEmpregador" class="section conteudo">
                 <h5>Novo Empregador</h5>
                 <div class="input-field col m12">
                     <label for="novo-caminho-certificado">Caminho Certificado</label>
-                    <input type="text" placeholder="Caminho Certificado" id="novo-caminho-certificado" required>
+                    <input type="text" placeholder="Caminho Certificado" class='col m9' disabled id="novo-caminho-certificado" required>
                     <span class="helper-text" data-error="" data-success=""></span>
+                    <button class="btn" class="col m2" id="btn-carregar-novo-certificado" onclick="carregarCertificadoCadastro($('#novo-caminho-certificado'))">Carregar Arquivo</button>
                 </div>
         
                 <div class="input-field col m3 s3">
@@ -142,8 +143,8 @@
                     <input type="text" placeholder="Número Transmissor" data-error="" id="novo-numero-transmissor">
                     <span class="helper-text" data-error="" data-success=""></span>
                 </div>
-                <button onclick="CadastrarEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text"><i class="material-icons">add_circle</i> <span id="Texto_Botoes">Cadastrar</span></button>
-                <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text"><i class="material-icons">cancel</i><span id="Texto_Botoes">Cancelar</span></button>
+                <button onclick="CadastrarEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</button>
+                <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text">Cancelar</button>
             </div>
             
         </form>
@@ -186,8 +187,7 @@
 
     <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
     <script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
-    <script type="text/javascript" src="../node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
-    
+  
     <script>
         $(document).ready(function(){
             $('ul.tabs').tabs();
