@@ -57,17 +57,12 @@ esocial:
   empregadores:
     - codigo: '11111111'
       chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
-      senha: rUoPO6KDJzRhGvRjbVPHQA==
+      senha: cYSWsBQ2Y2OBQwhnnLcwYA==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
     - codigo: '11111111'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
-      senha: ePoGOCdzJBOxcZmpyHg/Gg==
-      tipo-transmissor: '2'
-      numero-transmissor: '11111111111111'
-    - codigo: '11111111'
       chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
-      senha: tlG0dQ/lUEJQz7/Gwvk+7Q==
+      senha: BkDQc02PEzhR4WEYAuN/DA==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *

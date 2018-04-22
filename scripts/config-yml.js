@@ -93,7 +93,7 @@ $(document).ready(function(){
 
 function Encrypt(SenhaOriginal, Segredo){
     //Não sei exatamente para que serve esse iv
-    var iv = "1234123412341234";
+    var iv = "353643302102";
 
     try{
         var shaKey = cryptoLib.getHashSha256(Segredo, 32);
@@ -110,7 +110,7 @@ function Encrypt(SenhaOriginal, Segredo){
 
 function Decrypt(SenhaCriptografada, Segredo){
     //Não sei exatamente para que serve esse iv
-    var iv = "1234123412341234";
+    var iv = "353643302102";
 
     try {
         var shaKey = cryptoLib.getHashSha256(Segredo, 32);
@@ -410,6 +410,7 @@ function carregarInformacoes(arquivo){
                 var tabela = "";
 
                 var QuantidadeDeEmpregadores = doc.esocial.empregadores.length;
+
                 var empregadores = doc.esocial.empregadores;
                 var transmissor;
                     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
@@ -424,7 +425,7 @@ function carregarInformacoes(arquivo){
                         //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
                         var TransmissorComMascara = MascararCamposDaTabela(empregadores[i]["numero-transmissor"], empregadores[i]["tipo-transmissor"]);
 
-
+ 
                         tabela += "<tr name='Empregador' class='col m12 s12'>";
                             tabela += "<td class='col m2 s2' name='TableCodigoEmpregador'>"+ empregadores[i].codigo +"</td>";
                             tabela += "<td class='col m2 s2' name='TableCaminhoCertificado'>"+ empregadores[i].chave +"</td>";
@@ -846,7 +847,7 @@ function IniciarEdicao(i){
             displayLength: 3000,
             classes: 'red accent-2'
         });
-        $("#SegredoEditarCertificado").val("0");
+        $("#SegredoEditarCertificado").val("");
     } else {
         var variavelSegredoCorreto = "SegredoCorretoEdicao_" + i;
         var segredo = localStorage.getItem(variavelSegredo);
@@ -1126,20 +1127,6 @@ function carregarCertificadoEdicao(i){
 
 function abrirModalCadastroEmpregador(){
     $("#btn-cadastrar-com-chave").prop("disabled", true);
-    $("#modalChaveCriptografiaCadastro").modal("open");
-}
-
-
-
-function CadastrarEmpregador(){
-    var SegredoCertificado = $("#SegredoNovoCertificado").val();
-    $("#btn-cadastrar-com-chave").prop("disabled", true);
-
-    $("#btn-cadastrar").prop("disabled", true);
-
-    
-
-    var arquivo_yml = "application.yml";
     //Informações Certificado 
     var codigo_empregador = $("#novo-codigo_empregador").val().toString();
     var path_certificado = $("#novo-caminho-certificado").val();
@@ -1190,6 +1177,30 @@ function CadastrarEmpregador(){
         $(".conteudo-erro").append(error);
         $("#btn-cadastrar").prop("disabled", false);
     } else{
+        $("#SegredoNovoCertificado").val("");
+        $("#modalChaveCriptografiaCadastro").modal("open");
+    }
+}
+
+
+
+function CadastrarEmpregador(){
+    var SegredoCertificado = $("#SegredoNovoCertificado").val();
+    $("#btn-cadastrar-com-chave").prop("disabled", true);
+
+    $("#btn-cadastrar").prop("disabled", true);
+
+    
+
+    var arquivo_yml = "application.yml";
+    //Informações Certificado 
+    var codigo_empregador = $("#novo-codigo_empregador").val().toString();
+    var path_certificado = $("#novo-caminho-certificado").val();
+
+    var senha_certificado = $("#novo-senha-certificado").val();
+
+    var transmissor = $("#novo-tipo-transmissor").val();
+    var numero_transmissor = $("#novo-numero-transmissor").val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").toString();
 
 
 
@@ -1355,7 +1366,7 @@ function CadastrarEmpregador(){
                 $(".Status_Carregamento_Arquivo").html("").html(e.toString());
             }
         }
-    }
+    
 }
 
 function CancelarCadastro(){
