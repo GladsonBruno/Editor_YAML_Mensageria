@@ -1,11 +1,12 @@
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
 const fs = require('fs');
-//import fs from 'fs';
-const cryptoJS = require("crypto-js");
+//Biblioteca de criptografia
+var cryptoLib = require('cryptlib');
 
 //Chave usada para criptografia.
 const chave_de_criptografia = "12345";
+
 
 //Usados para abrir caixa de dialogo para carregar arquivo
 var app = require('electron').remote; 
@@ -16,6 +17,7 @@ const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo
 const erro_abrir_application_watchdog_yml = "<i class='material-icons'>error</i> Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
 const info_erro_abrir_application_yml = "Falha ao Carregar as Informações - Arquivo application.yml não encontrado.";
 const info_erro_abrir_application_watchdog_yml = "Falha ao Carregar as Informações - Arquivo application-watchdog.yml não encontrado.";
+const Erro_Criptografia = "Segredo Incorreto!";
 
 //Mensagens de Sucesso
 const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
@@ -88,6 +90,37 @@ $(document).ready(function(){
     verificarPreenchimentoChaveCriptografia($("#SegredoEditarCertificado"), $("#btn-editar-com-chave"));
 
 });
+
+function Encrypt(SenhaOriginal, Segredo){
+    //Não sei exatamente para que serve esse iv
+    var iv = "1234123412341234";
+
+    try{
+        var shaKey = cryptoLib.getHashSha256(Segredo, 32);
+        
+        var encryptedString = cryptoLib.encrypt(SenhaOriginal, shaKey, iv);
+        return encryptedString.toString();
+    } catch(e){
+        console.log(e.message);
+        return e.message;
+    }
+    
+    
+}
+
+function Decrypt(SenhaCriptografada, Segredo){
+    //Não sei exatamente para que serve esse iv
+    var iv = "1234123412341234";
+
+    try {
+        var shaKey = cryptoLib.getHashSha256(Segredo, 32);
+        var decryptedString = cryptoLib.decrypt(SenhaCriptografada, shaKey, iv);
+        return decryptedString.toString();
+    } catch(e){
+        console.log(e.message);
+        return e.message;
+    }
+}
 
 //Verifica se o campo de chave de criptografia está vazio
 function verificarPreenchimentoChaveCriptografia(seletor, botaoConfirmacao){
@@ -340,7 +373,8 @@ function carregarInformacoes(arquivo){
                 }
                 
                 $("#username").val(doc.db.username);
-                $("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                $("#password").val();
+                //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             } else {
                 //Informações Oracle Driver 
                 var sid_db;
@@ -538,18 +572,18 @@ function carregarInformacoes(arquivo){
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
-                $(".modal-body").html('');
+                $(".conteudo-erro").html('');
                 if(arquivo_yml == "application.yml"){
-                    $(".modal-body").append(erro_abrir_application_yml);
+                    $(".conteudo-erro").append(erro_abrir_application_yml);
                     $(".Status_Carregamento_Arquivo").html("").html(info_erro_abrir_application_yml);
                 } else {
-                    $(".modal-body").append(erro_abrir_application_watchdog_yml);
+                    $(".conteudo-erro").append(erro_abrir_application_watchdog_yml);
                     $(".Status_Carregamento_Arquivo").html("").html(info_erro_abrir_application_watchdog_yml);
                 }
             } else {
                 $("#modalErro").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(e.toString());
+                $(".conteudo-erro").html('');
+                $(".conteudo-erro").append(e.toString());
                 $(".Status_Carregamento_Arquivo").html("").html("Erro ao Iniciar a Aplicação");
             }
         }    
@@ -604,8 +638,8 @@ function configurar_db(arquivo){
 
         if(error != ""){
             $("#modalErro").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(error);
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(error);
         } else {
             try {
                 //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
@@ -675,16 +709,16 @@ function configurar_db(arquivo){
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
-                    $(".modal-body").html('');
+                    $(".conteudo-erro").html('');
                     if(arquivo_yml == "application.yml"){
-                        $(".modal-body").append(erro_abrir_application_yml);
+                        $(".conteudo-erro").append(erro_abrir_application_yml);
                     } else {
-                        $(".modal-body").append(erro_abrir_application_watchdog_yml);
+                        $(".conteudo-erro").append(erro_abrir_application_watchdog_yml);
                     }
                 } else {
                     $("#modalErro").modal("open");
-                    $(".modal-body").html('');
-                    $(".modal-body").append(e.toString());
+                    $(".conteudo-erro").html('');
+                    $(".conteudo-erro").append(e.toString());
                     $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
                 }
             }
@@ -701,7 +735,7 @@ function abrirModalExclusao(indexEmpregador){
     var empregador_a_ser_excluido = parseInt(indexEmpregador) + 1;
     localStorage.setItem("Index_Empregador_A_Excluir", indexEmpregador);
 
-    $(".modal-body").html("").append("Deseja excluir o Empregador selecionado ?");
+    $(".conteudo-exclusao").html("").append("Deseja excluir o Empregador selecionado ?");
     $("#modalExclusao").modal("open"); 
 }
 
@@ -760,14 +794,14 @@ function excluirEmpregador() {
         if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
             $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ffffff");
             $("#modalErro").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(erro_abrir_application_yml);
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(erro_abrir_application_yml);
             $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
         } else {
             $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ffffff");;
             $("#modalErro").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(e.toString());
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(e.toString());
             $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
         }
     }
@@ -782,39 +816,65 @@ function AbrirModalChaveCriptografiaEdicao(i){
     
 }
 
-function IniciarEdicao(){
+function PegarChaveCriptografiaEdicao(){
+    var segredo = $("#SegredoEditarCertificado").val();
+    var i = localStorage.getItem("ItemEditado");
+    var variavelSegredo = "SegredoEdicao_" + i;
+    localStorage.setItem(variavelSegredo, segredo);
+    $("#modalChaveCriptografiaEdicao").modal('close');
+    IniciarEdicao(i);
+}
+
+function IniciarEdicao(i){
     //Pegando ID do botão.
     //Como não posso atribuir um ID fixo na chamada de função
     //Atribuo um ID aos botões que não irá mudar e não irá 
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
-    var i = localStorage.getItem("ItemEditado");
+    
     var variavelSegredo = "SegredoEdicao_" + i;
     var segredo = localStorage.getItem(variavelSegredo);
-    $("#modalChaveCriptografiaEdicao").modal('close');
-
-
-    var CodigoTransmissor = $("[name='CodigoTransmissor']:eq(" + i + ")").val();
-    var CaminhoCertificado = $("[name='CaminhoCertificado']:eq(" + i + ")").val();
-    var NumeroEmpregador = $("[name='NumeroEmpregador']:eq(" + i + ")").val();
-    var SenhaCertificado = cryptoJS.AES.decrypt($("[name='SenhaCertificado']:eq(" + i + ")").val(), segredo).toString(cryptoJS.enc.Utf8);
-    var TipoTransmissor = $("[name='tipo-transmissor']:eq(" + i + ")").val();
+    sleep(200);
+    var SenhaCertificado = $("[name='SenhaCertificado']:eq(" + i + ")").val();
+    var SenhaDescriptografada = Decrypt(SenhaCertificado, segredo);
     
+    if(SenhaDescriptografada == "error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt" ||
+       SenhaDescriptografada == "error:0606506D:digital envelope routines:EVP_DecryptFinal_ex:wrong final block length"
+    ){
+        M.toast({
+            html: Erro_Criptografia,
+            timeRemaining: 200,
+            displayLength: 3000,
+            classes: 'red accent-2'
+        });
+        $("#SegredoEditarCertificado").val("0");
+    } else {
+        var variavelSegredoCorreto = "SegredoCorretoEdicao_" + i;
+        var segredo = localStorage.getItem(variavelSegredo);
+        localStorage.setItem(variavelSegredoCorreto, segredo);
 
-    var AntesDaEdicao = {
-        CodigoTransmissor: CodigoTransmissor,
-        CaminhoCertificado: CaminhoCertificado,
-        NumeroEmpregador: NumeroEmpregador,
-        SenhaCertificado: SenhaCertificado,
-        TipoTransmissor: TipoTransmissor
-    };
-
-    var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
-    localStorage.setItem(NomeVariavelAntesDaEdicao, JSON.stringify(AntesDaEdicao)); 
-
-
-
-    $("[name='Empregador']:eq("+ i +")").addClass('hide');
-    $("[name='EmpregadorEditar']:eq("+ i +")").removeClass('hide');
+        var CodigoTransmissor = $("[name='CodigoTransmissor']:eq(" + i + ")").val();
+        var CaminhoCertificado = $("[name='CaminhoCertificado']:eq(" + i + ")").val();
+        var NumeroEmpregador = $("[name='NumeroEmpregador']:eq(" + i + ")").val();    
+        var TipoTransmissor = $("[name='tipo-transmissor']:eq(" + i + ")").val();
+        $("[name='SenhaCertificado']:eq(" + i + ")").val(SenhaDescriptografada);
+    
+        var AntesDaEdicao = {
+            CodigoTransmissor: CodigoTransmissor,
+            CaminhoCertificado: CaminhoCertificado,
+            NumeroEmpregador: NumeroEmpregador,
+            SenhaCertificado: SenhaCertificado,
+            TipoTransmissor: TipoTransmissor
+        };
+    
+        var NomeVariavelAntesDaEdicao = "AntesDaEdicao_" + i;
+        localStorage.setItem(NomeVariavelAntesDaEdicao, JSON.stringify(AntesDaEdicao)); 
+    
+    
+    
+        $("[name='Empregador']:eq("+ i +")").addClass('hide');
+        $("[name='EmpregadorEditar']:eq("+ i +")").removeClass('hide');
+        $("#SegredoEditarCertificado").val("");
+    }
 
 }
 
@@ -863,13 +923,6 @@ function sleep(milliseconds) {
   }
 }
 
-function PegarChaveCriptografiaEdicao(){
-    var segredo = $("#SegredoEditarCertificado").val();
-    var i = localStorage.getItem("ItemEditado");
-    var variavelSegredo = "SegredoEdicao_" + i;
-    localStorage.setItem(variavelSegredo, segredo);
-    IniciarEdicao();
-}
 
 function EditarEmpregador(i){
     //Pegando ID do botão.
@@ -880,8 +933,8 @@ function EditarEmpregador(i){
 
     var arquivo_yml = "application.yml";
 
-    var variavelSegredo = "SegredoEdicao_" + i;
-    var segredo = localStorage.setItem(variavelSegredo, segredo);
+    var variavelSegredo = "SegredoCorretoEdicao_" + i;
+    var segredo = localStorage.getItem(variavelSegredo);
 
     var EmpregadorEditado = parseInt(i) + 1;
 
@@ -930,8 +983,8 @@ function EditarEmpregador(i){
         
         if(error != ""){
             $("#modalErro").modal("open");
-            $(".modal-body").html('');
-            $(".modal-body").append(error);
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(error);
 
             CancelarEdicao(i);
 
@@ -950,9 +1003,9 @@ function EditarEmpregador(i){
     
                 //Senha certificado
                 //Criptografando senha para AES
-                senha_certificado = cryptoJS.AES.encrypt(senha_certificado, segredo).toString();
+                senha_certificado = Encrypt(senha_certificado, segredo);
 
-                doc.esocial.empregadores[i].senha = senha_certificado;
+                doc.esocial.empregadores[i].senha = senha_certificado.toString();
                 
                 //Tipo transmissor
                 doc.esocial.empregadores[i]["tipo-transmissor"] = transmissor;
@@ -970,7 +1023,8 @@ function EditarEmpregador(i){
 
                 TabelaCodEmpregador.html(codigo_empregador);
                 TabelaCaminhoCertificado.html(path_certificado);
-                TabelaSenhaCertificado.html(cryptoJS.AES.decrypt(senha_certificado, segredo).toString(cryptoJS.enc.Utf8));
+                TabelaSenhaCertificado.html(senha_certificado);
+                $("[name='SenhaCertificado']:eq(" + i + ")").val(senha_certificado);
                 if(transmissor == "1"){
                     TabelaTipoTransmissor.html("CPF");    
                 } else {
@@ -1019,14 +1073,14 @@ function EditarEmpregador(i){
             } catch(e) {
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
-                    $(".modal-body").html('');
-                    $(".modal-body").append(erro_abrir_application_yml);
+                    $(".conteudo-erro").html('');
+                    $(".conteudo-erro").append(erro_abrir_application_yml);
                     CancelarEdicao(i);
                     $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
                 } else {
                     $("#modalErro").modal("open");
-                    $(".modal-body").html('');
-                    $(".modal-body").append(e.toString());
+                    $(".conteudo-erro").html('');
+                    $(".conteudo-erro").append(e.toString());
                     CancelarEdicao(i);
                     $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
                 }
@@ -1132,8 +1186,8 @@ function CadastrarEmpregador(){
     if(error != ""){
         $("#modalChaveCriptografiaCadastro").modal("close");
         $("#modalErro").modal("open");
-        $(".modal-body").html('');
-        $(".modal-body").append(error);
+        $(".conteudo-erro").html('');
+        $(".conteudo-erro").append(error);
         $("#btn-cadastrar").prop("disabled", false);
     } else{
 
@@ -1145,7 +1199,7 @@ function CadastrarEmpregador(){
 
             //Senha certificado
             //Criptografando senha para AES
-            senha_certificado = cryptoJS.AES.encrypt(senha_certificado, SegredoCertificado).toString();
+            senha_certificado = Encrypt(senha_certificado, SegredoCertificado);
 
             //Criando Objeto com o novo Empregador
             var NovoEmpregador = {
@@ -1197,7 +1251,7 @@ function CadastrarEmpregador(){
                 tabela += "<button class='btn col m4' id='" + IndexNovoEmpregador + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></button>"
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<input type='password' name='SenhaCertificado' value='"+ cryptoJS.AES.decrypt(NovoEmpregador.senha, chave_de_criptografia).toString(cryptoJS.enc.Utf8) +"'/>";
+                tabela += "<input type='password' name='SenhaCertificado' value='"+ NovoEmpregador.senha +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
@@ -1285,16 +1339,16 @@ function CadastrarEmpregador(){
         } catch(e) {
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(erro_abrir_application_yml);
+                $(".conteudo-erro").html('');
+                $(".conteudo-erro").append(erro_abrir_application_yml);
                 $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
                 $("#btn-cadastrar").prop("disabled", false);
                 $("#btn-cadastrar-com-chave").prop("disabled", false);
                 $("#modalChaveCriptografiaCadastro").modal("close");
             } else {
                 $("#modalErro").modal("open");
-                $(".modal-body").html('');
-                $(".modal-body").append(e.toString());
+                $(".conteudo-erro").html('');
+                $(".conteudo-erro").append(e.toString());
                 $("#btn-cadastrar-com-chave").prop("disabled", false);
                 $("#btn-cadastrar").prop("disabled", false);
                 $("#modalChaveCriptografiaCadastro").modal("close");

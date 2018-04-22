@@ -9,7 +9,7 @@ db:
   url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: SQL SERVER
-  password: U2FsdGVkX19Yf8Rs00ocvEjIcsfqJ2f4PVTIAZImmr8=
+  password: novooracleteste
   datasource:
     initial-size: 5
     max-active: 10
@@ -56,8 +56,18 @@ esocial:
   maximoEventosPorPacote: 50
   empregadores:
     - codigo: '11111111'
-      chave: 'C:\Users\Lenovo\Pictures\application.yml'
-      senha: U2FsdGVkX183AbdAS5DuW+rYTKbxIj/2Y26rz3ue+9M=
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
+      senha: rUoPO6KDJzRhGvRjbVPHQA==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
+      senha: ePoGOCdzJBOxcZmpyHg/Gg==
+      tipo-transmissor: '2'
+      numero-transmissor: '11111111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
+      senha: tlG0dQ/lUEJQz7/Gwvk+7Q==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *
