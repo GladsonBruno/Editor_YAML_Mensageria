@@ -65,6 +65,16 @@ esocial:
       senha: BkDQc02PEzhR4WEYAuN/DA==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
+      senha: lwV33QOsZVqIYFb0kZXoRQ==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '22222222'
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
+      senha: XtswL0vaUfNxghmFzGhjmA==
+      tipo-transmissor: '1'
+      numero-transmissor: '22222222222'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

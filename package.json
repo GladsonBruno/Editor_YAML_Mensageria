@@ -1,6 +1,6 @@
 {
-  "name": "configurador_mensageria_arkhi",
-  "version": "1.1.2",
+  "name": "Configurador Mensageria - Arkhi",
+  "version": "2.0.0",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
   "author": "Gladson Bruno",
   "license": "Apache-2.0",
@@ -51,15 +51,6 @@
       ]
     },
     "rpm": {
-      "publish": [
-        {
-          "provider": "bintray",
-          "package": "Editor-YAML-Mensageria",
-          "repo": "Editor-YAML-Mensageria-RPM",
-          "user": "gladson",
-          "owner": "gladson"
-        }
-      ],
       "depends": [
         "GConf2",
         "libnotify",
