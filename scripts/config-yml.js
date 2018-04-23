@@ -373,7 +373,7 @@ function carregarInformacoes(arquivo){
                 }
                 
                 $("#username").val(doc.db.username);
-                $("#password").val();
+                $("#password").val(doc.db.password);
                 //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
             } else {
                 //Informações Oracle Driver 
