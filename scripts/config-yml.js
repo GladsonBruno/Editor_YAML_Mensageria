@@ -1,6 +1,7 @@
+var fs = require('fs');
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
-const fs = require('fs');
+
 //Biblioteca de criptografia
 var cryptoLib = require('cryptlib');
 
@@ -11,6 +12,10 @@ const chave_de_criptografia = "12345";
 //Usados para abrir caixa de dialogo para carregar arquivo
 var app = require('electron').remote; 
 var dialog = app.dialog;
+
+//Pasta dos arquivos da Mensageria
+var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
+var caminhoMensageria = configuracoes.CaminhoMensageria;
 
 //Mensagens de Erro
 const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
@@ -329,11 +334,11 @@ function carregarInformacoes(arquivo){
 
     if(arquivo == "application"){
 
-        arquivo_yml = "application.yml";
+        arquivo_yml = caminhoMensageria + "application.yml";
 
     } else{
 
-        arquivo_yml = "application-watchdog.yml";
+        arquivo_yml = caminhoMensageria + "application-watchdog.yml";
 
     }
         try {
@@ -597,11 +602,11 @@ function configurar_db(arquivo){
 
     if(arquivo == "application"){
 
-        arquivo_yml = "application.yml";
+        arquivo_yml = caminhoMensageria + "application.yml";
 
     } else{
 
-        arquivo_yml = "application-watchdog.yml";
+        arquivo_yml = caminhoMensageria + "application-watchdog.yml";
 
     }
      //Informações Base de Dados
@@ -746,7 +751,7 @@ function excluirEmpregador() {
 
     try {
         //Iniciando leitura do arquivo. Formato de Resposta = OBJECT 
-        var arquivo_yml = "application.yml";
+        var arquivo_yml = caminhoMensageria + "application.yml";
         var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
         doc.esocial.empregadores.splice(indexEmpregador, 1);
         yaml_writer.sync(arquivo_yml, doc);
@@ -932,7 +937,7 @@ function EditarEmpregador(i){
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
     i = $(i).prop("id");
 
-    var arquivo_yml = "application.yml";
+    var arquivo_yml = caminhoMensageria + "application.yml";
 
     var variavelSegredo = "SegredoCorretoEdicao_" + i;
     var segredo = localStorage.getItem(variavelSegredo);
@@ -1192,7 +1197,7 @@ function CadastrarEmpregador(){
 
     
 
-    var arquivo_yml = "application.yml";
+    var arquivo_yml = caminhoMensageria + "application.yml";
     //Informações Certificado 
     var codigo_empregador = $("#novo-codigo_empregador").val().toString();
     var path_certificado = $("#novo-caminho-certificado").val();

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Configurações application-watchdog.yml</title>
+    
+    <link rel="stylesheet" href="../css/config_yml.css"/>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+    <script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
+    
+    
+</head>
+<body>
+    <nav class="nav-extended cyan darken-3">
+        <div class="nav-wrapper col m12 s12">
+            <a href="#" class="flow-text">Configurações da Aplicação</a>
+          <span class="right Status_Carregamento_Arquivo"></span>
+          <span class="right material-icons" style="margin-top: 20px;">info</span>
+        </div>
+        <div class="nav-content">
+          <ul class="tabs tabs-transparent col s6 offset-s6">
+            <li class="tab"><a href="#configuracoes-aplicacao">Configurações</a></li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="" id="configuracoes">        
+        <form class="form-group">
+            <div class="row conteudo">
+                
+                <div class="section">       
+                    <h5>Pasta dos arquivos da Mensageria</h5>
+                    <div class="input-field col m12">
+                        <label for="CaminhoArquivosMensageria">Pasta</label>
+                        <input type="text" placeholder="Pasta dos Arquivos da Mensageria" class='col m9' disabled id="CaminhoArquivosMensageria" required>
+                        <span class="helper-text" data-error="" data-success=""></span>
+                        <button class="btn" class="col m2" id="btn-cadastrar-pasta-mensageria" onclick="carregarPastaArquivosYML()">Carregar Pasta</button>
+                    </div>  
+                    <div class="col m12">
+                        <button class="btn" onclick="ConfigurarCaminhoMensageria()">Salvar Configurações</button>
+                    </div> 
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Inicio Modal Erro -->
+    <div id="modalErro" class="modal container">
+        <div class="modal-content">
+            <!-- Cabeçalho Modal -->
+            <div class="modal-header">
+                    <h5><i class="material-icons">error</i>Erro</h5>
+                </div>
+            <div class="modal-body conteudo-erro"></div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  red accent-3 white-text">Voltar</a>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Modal Erro -->
+
+    <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
+    <script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="../scripts/configuracoes-aplicacao.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            CarregarConfiguracoes();
+        });
+    </script>
+
+</body>
+</html>

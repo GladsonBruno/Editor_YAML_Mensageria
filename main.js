@@ -11,7 +11,7 @@ let TelaInicial;
 //Definindo ambiente de Produção ou de Desenvolvimento.
 // production = Produção
 //development = Desenvolvimento
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'development';
 
 app.on('ready', () => {
     let screenSize = electron.screen.getPrimaryDisplay().size;
@@ -58,6 +58,19 @@ let menuTemplate = [
                 label: "Recarregar Arquivo",
                 click: () => {
                     BrowserWindow.getFocusedWindow().reload();
+                }
+            }
+        ]
+    }, {
+        label: "Configurações",
+        submenu: [
+            {
+                label: "Configurar Pasta Mensageria",
+                click: () => {
+                    TelaInicial.loadURL(url.format({
+                        pathname: path.join(__dirname, './pages/configurador-aplicacao.html'),
+                        protocol: 'file:'
+                    }));
                 }
             }
         ]
