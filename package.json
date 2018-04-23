@@ -18,7 +18,7 @@
     "win": {
       "target": [
         "nsis",
-        "package"
+        "portable"
       ],
       "icon": "assets/icons/win/icon.ico"
     },
@@ -29,6 +29,9 @@
       "runAfterFinish": true,
       "allowToChangeInstallationDirectory": true,
       "oneClick": false
+    },
+    "portable": {
+      "requestExecutionLevel": "user"
     },
     "linux": {
       "category": "Utils",
