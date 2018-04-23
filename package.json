@@ -18,7 +18,7 @@
     "win": {
       "target": [
         "nsis",
-        "portable"
+        "package"
       ],
       "icon": "assets/icons/win/icon.ico"
     },
