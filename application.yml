@@ -6,10 +6,10 @@ spring:
     password: admin
     in-memory: false
 db:
-  url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=arte'
+  url: 'jdbc:sqlserver://192.168.0.1:6060;databaseName=ARKHI'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   username: SQL SERVER
-  password: novooracleteste
+  password: '1234'
   datasource:
     initial-size: 5
     max-active: 10
@@ -55,26 +55,11 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '11111111'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
-      senha: cYSWsBQ2Y2OBQwhnnLcwYA==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '11111111'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
-      senha: BkDQc02PEzhR4WEYAuN/DA==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '11111111'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
-      senha: lwV33QOsZVqIYFb0kZXoRQ==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '22222222'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
-      senha: XtswL0vaUfNxghmFzGhjmA==
-      tipo-transmissor: '1'
-      numero-transmissor: '22222222222'
+    - codigo: '10251900'
+      chave: 'C:\Users\Lenovo\Pictures\Certificado.pfx'
+      senha: fmVAlXiEcsx8Mh+YcAeDnA==
+      tipo-transmissor: '2'
+      numero-transmissor: '10251900681234'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
