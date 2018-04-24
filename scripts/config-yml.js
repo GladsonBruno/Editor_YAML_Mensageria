@@ -10,12 +10,14 @@ const chave_de_criptografia = "12345";
 
 
 //Usados para abrir caixa de dialogo para carregar arquivo
-var app = require('electron').remote; 
-var dialog = app.dialog;
+const electron_config_yml = require('electron').remote;
+const boxDialog = electron_config_yml.dialog;
+
 
 //Pasta dos arquivos da Mensageria
 var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
 var caminhoMensageria = configuracoes.CaminhoMensageria;
+caminhoMensageria = caminhoMensageria  + "\\";
 
 //Mensagens de Erro
 const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
@@ -1112,10 +1114,13 @@ function MascararCamposDaTabela(Campo, ReferenciaMascara){
 
 function carregarCertificadoCadastro(inputAlvo) {
 
-    dialog.showOpenDialog({
-		properties: ['openFile']
+    const opcoesCertificado = {
+        properties: ['openFile']
+    };
 
-	}, selectedFile => inputAlvo.val(selectedFile));
+    boxDialog.showOpenDialog(opcoesCertificado, (file) => {
+        inputAlvo.val(file);
+    });
 
 }
 
@@ -1123,11 +1128,14 @@ function carregarCertificadoEdicao(i){
 
     i = $(i).prop("id");
     
-    dialog.showOpenDialog({
-		properties: ['openFile']
+    const opcoesCertificado = {
+        properties: ['openFile']
+    };
 
-    }, selectedFile => $("[name='CaminhoCertificado']:eq(" + i + ")").val(selectedFile));
-    
+    boxDialog.showOpenDialog(opcoesCertificado, (file) => {
+        $("[name='CaminhoCertificado']:eq(" + i + ")").val(file);
+    });
+
 }
 
 function abrirModalCadastroEmpregador(){
@@ -1183,7 +1191,9 @@ function abrirModalCadastroEmpregador(){
         $("#btn-cadastrar").prop("disabled", false);
     } else{
         $("#SegredoNovoCertificado").val("");
+        sleep(500);
         $("#modalChaveCriptografiaCadastro").modal("open");
+        
     }
 }
 

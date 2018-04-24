@@ -60,6 +60,11 @@ esocial:
       senha: fmVAlXiEcsx8Mh+YcAeDnA==
       tipo-transmissor: '2'
       numero-transmissor: '10251900681234'
+    - codigo: '11111111'
+      chave: 'C:\Users\Lenovo\Desktop\Certificado.cer'
+      senha: O5KxP8QnwTspZz2YC5Dm8g==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'

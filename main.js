@@ -13,7 +13,11 @@ let TelaInicial;
 //development = Desenvolvimento
 process.env.NODE_ENV = 'development';
 
+
+
 app.on('ready', () => {
+
+
     let screenSize = electron.screen.getPrimaryDisplay().size;
     TelaInicial = new BrowserWindow({
         height: screenSize.height,
@@ -21,6 +25,8 @@ app.on('ready', () => {
         minHeight: 600,
         minWidth: 800
     });
+
+
     TelaInicial.loadURL(url.format({
         pathname: path.join(__dirname, './pages/config_application_yml.html'),
         protocol: 'file:'
@@ -76,6 +82,7 @@ let menuTemplate = [
         ]
     }
 ]
+
 
 //Adicionar Developer Tools se não for ambiente de Produção
 if(process.env.NODE_ENV !== 'production'){
