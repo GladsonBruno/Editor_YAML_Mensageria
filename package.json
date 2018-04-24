@@ -147,17 +147,17 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.11",
-    "devtron": "1.4.0",
+    "devtron": "^1.4.0",
     "electron": "^2.0.0-beta.7",
     "electron-builder": "^18.0.1",
-    "electron-debug": "1.4.0",
-    "electron-devtools-installer": "2.2.1",
-    "electron-packager": "9.1.0",
+    "electron-debug": "^1.5.0",
+    "electron-devtools-installer": "^2.2.3",
+    "electron-packager": "^9.1.0",
     "electron-rebuild": "^1.7.3",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "style-loader": "^0.20.3",
-    "uglify-js": "^3.3.21",
+    "uglify-js": "^3.3.22",
     "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^2.0.15"
   }
 }

@@ -89,7 +89,7 @@ function carregarPastaArquivosYML(){
     try{
 
         const options = {
-            properties: ['openDirectory']
+            properties: ['openDirectory', '']
         };
 
         dialogBox.showOpenDialog(options, (path) => {
