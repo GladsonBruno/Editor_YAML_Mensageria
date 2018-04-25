@@ -56,12 +56,27 @@ esocial:
   maximoEventosPorPacote: 50
   empregadores:
     - codigo: '10251900'
-      chave: 'C:\Users\Lenovo\Pictures\Certificado.pfx'
+      chave: 'C:\Users\Lenovo\Downloads\apache-activemq-5.15.3-bin.zip'
       senha: fmVAlXiEcsx8Mh+YcAeDnA==
       tipo-transmissor: '2'
       numero-transmissor: '10251900681234'
     - codigo: '11111111'
       chave: 'C:\Users\Lenovo\Desktop\Certificado.cer'
+      senha: O5KxP8QnwTspZz2YC5Dm8g==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\Lenovo\Google Drive\instalador1.1.14.zip'
+      senha: HYUZYbj+iqh/Ou3v4bsNrw==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\Lenovo\Downloads\512x512.png.ico'
+      senha: PyBH2cnmaGEjO3a04/WWbg==
+      tipo-transmissor: '1'
+      numero-transmissor: '11111111111'
+    - codigo: '11111111'
+      chave: 'C:\Users\Lenovo\Downloads\512x512.png.ico'
       senha: O5KxP8QnwTspZz2YC5Dm8g==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'

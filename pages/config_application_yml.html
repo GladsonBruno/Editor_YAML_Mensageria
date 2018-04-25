@@ -13,17 +13,16 @@
     <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
 
     <script>
-        //Importando JQUERY
         window.jQuery = window.$ = require('jquery');
     </script>
 
     <script type="text/javascript" src="../scripts/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="../scripts/configuracoes-aplicacao.js"></script>
+    
     <script>
         //Script verifica se existe algum arquivo de configuração
         //Se existir salva em localstorage, caso contrario leva o usuario para 
         //Cadastrar a pasta da mensageria.
-        DefinirConfiguracaoInicial();
+        //DefinirConfiguracaoInicial();
     </script>
     <script type="text/javascript" src="../scripts/config-yml.js"></script>
     
@@ -150,7 +149,7 @@
                     <input type="text" placeholder="Número Transmissor" data-error="" id="novo-numero-transmissor">
                     <span class="helper-text" data-error="" data-success=""></span>
                 </div>
-                <button onclick="abrirModalCadastroEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</button>
+                <a onclick="abrirModalCadastroEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</a>
                 <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text">Cancelar</button>
             </div>
             
@@ -179,7 +178,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
-                <button onclick="CadastrarEmpregador()" id="btn-cadastrar-com-chave" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+                <a onclick="CadastrarEmpregador()" id="btn-cadastrar-com-chave" class="btn green accent-3 white-text">Confirmar Segredo</a>
             </div>
         </div>
     </div>

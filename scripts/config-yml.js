@@ -14,6 +14,7 @@ const electron_config_yml = require('electron').remote;
 const boxDialog = electron_config_yml.dialog;
 
 
+
 //Pasta dos arquivos da Mensageria
 var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
 var caminhoMensageria = configuracoes.CaminhoMensageria;

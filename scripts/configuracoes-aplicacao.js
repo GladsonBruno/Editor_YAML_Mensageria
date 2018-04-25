@@ -1,11 +1,13 @@
-var path = require('path');
 var file = require('fs');
 const leitor_yaml = require('js-yaml');
 const yaml_escrita = require('write-yaml');
 
+
+
+
 //Usados para abrir caixa de dialogo para carregar arquivo
-var aplicacao = require('electron').remote; 
-const dialogBox = aplicacao.dialog;
+
+const { dialog } = require('electron').remote;;
 
 //Nome do arquivo de Configuração
 const ArquivoConfiguracao = "configuracoes.yml";
@@ -92,7 +94,8 @@ function carregarPastaArquivosYML(){
             properties: ['openDirectory', '']
         };
 
-        dialogBox.showOpenDialog(options, (path) => {
+        dialog.showOpenDialog(options, (path) => {
+            
             $('#CaminhoArquivosMensageria').val(path);
         });
 
@@ -126,6 +129,16 @@ function ConfigurarCaminhoMensageria(){
                     yaml_escrita.sync(ArquivoConfiguracao, configuracoes);
                     //Colocando a configuração em localstorage para consulta das demais partes da aplicação
                     localStorage.setItem("Configuracoes", JSON.stringify(configuracoes));
+
+                    M.toast({
+                        html: "Diretório da Mensageria alterado com sucesso!",
+                        timeRemaining: 200,
+                        displayLength: 2000,
+                        classes: 'green accent-3',
+                        completeCallback: () => {
+                            window.location.assign("config_application_yml.html");
+                        }
+                    });
                 } catch(e){
                     console.log(e);
                 }
@@ -150,7 +163,7 @@ function ConfigurarCaminhoMensageria(){
         
                             yaml_escrita.sync(caminhoArquivo, doc);
         
-                            var configuracoes = leitor_yamlsafeLoad(file.readFileSync(caminhoArquivo, 'utf8'));
+                            var configuracoes = leitor_yaml.safeLoad(file.readFileSync(caminhoArquivo, 'utf8'));
                             //Colocando a configuração em localstorage para consulta das demais partes
                             //da aplicação
                             localStorage.setItem("Configuracoes", JSON.stringify(configuracoes));

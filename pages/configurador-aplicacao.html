@@ -11,10 +11,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+    
     <script>
         window.jQuery = window.$ = require('jquery');
     </script>
-    
     
 </head>
 <body>
@@ -41,10 +41,11 @@
                         <label for="CaminhoArquivosMensageria">Pasta</label>
                         <input type="text" placeholder="Pasta dos Arquivos da Mensageria" class='col m9' disabled id="CaminhoArquivosMensageria" required>
                         <span class="helper-text" data-error="" data-success=""></span>
-                        <button class="btn" class="col m2" id="btn-cadastrar-pasta-mensageria" onclick="carregarPastaArquivosYML()">Carregar Pasta</button>
+                        <a class="btn" class="col m2" id="btn-cadastrar-pasta-mensageria" onclick="carregarPastaArquivosYML()" >Carregar Pasta</a>
+
                     </div>  
                     <div class="col m12">
-                        <button class="btn" onclick="ConfigurarCaminhoMensageria()">Salvar Configurações</button>
+                        <a class="btn" onclick="ConfigurarCaminhoMensageria()">Salvar Configurações</a>
                     </div> 
                 </div>
             </div>
@@ -65,10 +66,9 @@
         </div>
     </div>
     <!-- Fim Modal Erro -->
-
     <script src="../scripts/hammer.min.js" onload="window.Hammer = module.exports;"></script>
     <script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
-    <script type="text/javascript" src="../scripts/configuracoes-aplicacao.js"></script>
+    <script src="../scripts/configuracoes-aplicacao.js"></script>
     
     <script>
         $(document).ready(function(){
