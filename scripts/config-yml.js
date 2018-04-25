@@ -21,8 +21,8 @@ var caminhoMensageria = configuracoes.CaminhoMensageria;
 caminhoMensageria = caminhoMensageria  + "\\";
 
 //Mensagens de Erro
-const erro_abrir_application_yml = "<i class=' material-icons'>error</i> Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
-const erro_abrir_application_watchdog_yml = "<i class='material-icons'>error</i> Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_watchdog_yml = "Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
 const info_erro_abrir_application_yml = "Falha ao Carregar as Informações - Arquivo application.yml não encontrado.";
 const info_erro_abrir_application_watchdog_yml = "Falha ao Carregar as Informações - Arquivo application-watchdog.yml não encontrado.";
 const Erro_Criptografia = "Segredo Incorreto!";
@@ -453,7 +453,7 @@ function carregarInformacoes(arquivo){
                             tabela += "<td class='col m2 s2'>";
                                 tabela += "<input type='text' name='CaminhoCertificado' class='col m8' value='"+ empregadores[i].chave +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
-                                tabela += "<button class='btn col m4' id='" + i + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></button>"
+                                tabela += "<a class='btn col m4' id='" + i + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></a>"
                             tabela += "</td>";
                             tabela += "<td class='col m2 s2'>";
                                 tabela += "<input type='password' name='SenhaCertificado' value='"+ empregadores[i].senha +"'/>";
@@ -1275,7 +1275,7 @@ function CadastrarEmpregador(){
             tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='text' class='col m8' name='CaminhoCertificado' value='"+ NovoEmpregador.chave +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
-                tabela += "<button class='btn col m4' id='" + IndexNovoEmpregador + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></button>"
+                tabela += "<a class='btn col m4' id='" + IndexNovoEmpregador + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></a>"
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='password' name='SenhaCertificado' value='"+ NovoEmpregador.senha +"'/>";
