@@ -5,8 +5,6 @@ const yaml_writer = require('write-yaml');
 //Biblioteca de criptografia
 var cryptoLib = require('cryptlib');
 
-//Chave usada para criptografia.
-const chave_de_criptografia = "12345";
 
 
 //Usados para abrir caixa de dialogo para carregar arquivo
@@ -30,6 +28,7 @@ const Erro_Criptografia = "Segredo Incorreto!";
 //Mensagens de Sucesso
 const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
 const SucessoCadastroEmpregador = "Configurações do novo Empregador cadastradas com Sucesso!";
+const SucessoCadastroSerpro = "Configuração do certificado serpro realizada com sucesso!";
 const SucessoSalvarConfiguracoesDB = "Configurações de Banco de Dados Salvas com Sucesso!";
 
 
@@ -92,10 +91,14 @@ $(document).ready(function(){
     var numero_transmissor = $("#novo-numero-transmissor");
     ValidarTamanhoNumeroEmpregador(numero_transmissor, tipo_transmissor);
 
+    var senhaSerpro = $("#senha_serpro");
+    verificarSeOCampoEstaVazio(senhaSerpro);    
 
     verificarPreenchimentoChaveCriptografia($("#SegredoNovoCertificado"), $("#btn-cadastrar-com-chave"));
 
     verificarPreenchimentoChaveCriptografia($("#SegredoEditarCertificado"), $("#btn-editar-com-chave"));
+
+    verificarPreenchimentoChaveCriptografia($("#SegredoNovoCertificadoSerpro"), $("#btn-cadastrar-com-chave-serpro"));
 
 });
 
@@ -225,6 +228,7 @@ function ValidarTamanhoCodigoEmpregador(seletor){
             }
         }
     });
+
 }
 
 function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
@@ -236,7 +240,7 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
             seletorCampo.addClass("invalid");
         }
         
-        if(seletorTransmissor.val() == "1"){
+        if(seletorTransmissor.val() == "2"){
             seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
         } else {
             seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CNPJ deve conter 14 dígitos");
@@ -262,7 +266,7 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
             }
         } else {
 
-            if(seletorTransmissor.val() == "1"){
+            if(seletorTransmissor.val() == "2"){
                 seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
 
                 if(tamanhoSeletorCampo >= 11){
@@ -307,7 +311,7 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
     seletorTransmissor.on("change", function(){
         tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
 
-        if(this.value == "1"){
+        if(this.value == "2"){
             seletorCampo.mask('000.000.000-00');
             if(tamanhoSeletorCampo == 11){
                 seletorCampo.removeClass("invalid").addClass("valid");
@@ -321,6 +325,7 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
             }
         }
     });
+
 }
 
 //Função utilizada para mudar o valor do input select quando os dados forem caregador
@@ -462,8 +467,8 @@ function carregarInformacoes(arquivo){
                             tabela += "<td class='col m2 s2'>";
                                 tabela += "<select name='tipo-transmissor'>";
                                     tabela += "<option value=''></option>";
-                                    tabela += "<option value='1'>CPF</option>";
-                                    tabela += "<option value='2'>CNPJ</option>";
+                                    tabela += "<option value='2'>CPF</option>";
+                                    tabela += "<option value='1'>CNPJ</option>";
                                 tabela += "</select>";
                             tabela += "</td>";
                             tabela += "<td class='col m2 s2'>";
@@ -482,13 +487,13 @@ function carregarInformacoes(arquivo){
 
                     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
                         //Função utilizada para mudar o valor do select_
-                        if(doc.esocial.empregadores[i]["tipo-transmissor"] == "1"){
+                        if(doc.esocial.empregadores[i]["tipo-transmissor"] == "2"){
                             mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
-                            $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
                             $("[name='NumeroEmpregador']:eq(" + i + ")").mask('000.000.000-00');
                         } else {
                             mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
-                            $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
+                            $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
                             $("[name='NumeroEmpregador']:eq(" + i + ")").mask('00.000.000/0000-00');
                         }
                         $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
@@ -498,9 +503,11 @@ function carregarInformacoes(arquivo){
                         ValidarTamanhoNumeroEmpregador($("[name='NumeroEmpregador']:eq(" + i + ")"), $("[name='tipo-transmissor']:eq(" + i + ")"));
                     }
 
-                    
+                    var caminhoCertificadoSerpro = doc.certificado.servidor.chave;
+                    var senhaSerpro = doc.certificado.servidor.senha;
 
-                
+                    $("#tabela_caminho_serpro").html("").html(doc.certificado.servidor.chave);
+                    $("#tabela_senha_serpro").html("").html(doc.certificado.servidor.senha);
 
                 $(".Status_Carregamento_Arquivo").html("").html(sucesso_carregamento_informacoes);
 
@@ -905,13 +912,13 @@ function CancelarEdicao(i){
     $("[name='NumeroEmpregador']:eq(" + i + ")").val(ValoresOriginais.NumeroEmpregador).removeClass("invalid");
     $("[name='SenhaCertificado']:eq(" + i + ")").val(ValoresOriginais.SenhaCertificado);
 
-    if(ValoresOriginais.TipoTransmissor == "1"){
+    if(ValoresOriginais.TipoTransmissor == "2"){
         mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
-        $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
         $("[name='NumeroEmpregador']:eq(" + i + ")").mask('000.000.000-00');
     } else {
         mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
-        $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
+        $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
         $("[name='NumeroEmpregador']:eq(" + i + ")").mask('00.000.000/0000-00');
     }
 
@@ -978,15 +985,15 @@ function EditarEmpregador(i){
             error += "O Campo Código Empregador deve conter 8 dígitos </br>";
         }
 
-        if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
+        if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 11){
             error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
         }
 
-        if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
+        if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 14){
             error += "O número de transmissor do tipo CNPJ deve conter 14 dígitos </br>";
         }
 
-        if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
+        if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length > 11){
             error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
         }
         
@@ -1034,7 +1041,7 @@ function EditarEmpregador(i){
                 TabelaCaminhoCertificado.html(path_certificado);
                 TabelaSenhaCertificado.html(senha_certificado);
                 $("[name='SenhaCertificado']:eq(" + i + ")").val(senha_certificado);
-                if(transmissor == "1"){
+                if(transmissor == "2"){
                     TabelaTipoTransmissor.html("CPF");    
                 } else {
                     TabelaTipoTransmissor.html("CNPJ");    
@@ -1103,7 +1110,7 @@ function EditarEmpregador(i){
 function MascararCamposDaTabela(Campo, ReferenciaMascara){
     var ValorCampo = Campo
 
-    if(ReferenciaMascara == "1"){
+    if(ReferenciaMascara == "2"){
         //Mascara de CPF
         ValorCampo = ValorCampo.substr(0,3) + "." + ValorCampo.substr(3,3) + "." + ValorCampo.substr(6,3) + "-" + ValorCampo.substr(9,2);
     } else {
@@ -1124,6 +1131,7 @@ function carregarCertificadoCadastro(inputAlvo) {
     });
 
 }
+
 
 function carregarCertificadoEdicao(i){
 
@@ -1172,15 +1180,15 @@ function abrirModalCadastroEmpregador(){
         error += "O Campo Código Empregador deve conter 8 dígitos </br>";
     }
 
-    if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 11){
+    if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 11){
         error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
     }
 
-    if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length < 14){
+    if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length < 14){
         error += "O número de transmissor do tipo CNPJ deve conter 14 dígitos </br>";
     }
 
-    if(numero_transmissor != "" && transmissor == "1" && numero_transmissor.length > 11){
+    if(numero_transmissor != "" && transmissor == "2" && numero_transmissor.length > 11){
         error += "O número de transmissor do tipo CPF deve conter 11 dígitos </br>";
     }
     
@@ -1192,12 +1200,10 @@ function abrirModalCadastroEmpregador(){
         $("#btn-cadastrar").prop("disabled", false);
     } else{
         $("#SegredoNovoCertificado").val("");
-        sleep(500);
         $("#modalChaveCriptografiaCadastro").modal("open");
         
     }
 }
-
 
 
 function CadastrarEmpregador(){
@@ -1244,7 +1250,7 @@ function CadastrarEmpregador(){
 
             var Transmissor_Extenso = "";
 
-            if(transmissor == "1"){
+            if(transmissor == "2"){
                 Transmissor_Extenso = "CPF";
             } else {
                 Transmissor_Extenso = "CNPJ";
@@ -1284,8 +1290,8 @@ function CadastrarEmpregador(){
             tabela += "<td class='col m2 s2'>";
                 tabela += "<select name='tipo-transmissor'>";
                     tabela += "<option value=''></option>";
-                    tabela += "<option value='1'>CPF</option>";
-                    tabela += "<option value='2'>CNPJ</option>";
+                    tabela += "<option value='2'>CPF</option>";
+                    tabela += "<option value='1'>CNPJ</option>";
                 tabela += "</select>";
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
@@ -1300,13 +1306,13 @@ function CadastrarEmpregador(){
         
         $(".conteudo-empregadores").append(tabela);
 
-        if(NovoEmpregador['tipo-transmissor'] == "1"){
+        if(NovoEmpregador['tipo-transmissor'] == "2"){
             mudarValorSelect($("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")"), "CPF");
-            $("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")").val(1);
+            $("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")").val(2);
             $("[name='NumeroEmpregador']:eq(" + IndexNovoEmpregador + ")").mask('000.000.000-00');
         } else {
             mudarValorSelect($("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")"), "CNPJ");
-            $("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")").val(2);
+            $("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")").val(1);
             $("[name='NumeroEmpregador']:eq(" + IndexNovoEmpregador + ")").mask('00.000.000/0000-00');
         }
         $("[name='tipo-transmissor']:eq(" + IndexNovoEmpregador + ")").formSelect();
@@ -1391,6 +1397,106 @@ function CancelarCadastro(){
     $("#novo-senha-certificado").val("").removeClass("invalid").removeClass("valid").focusout();
     $("#novo-numero-transmissor").val("").removeClass("invalid").removeClass("valid").focusout();
     $("#novo-caminho-certificado").focusout().removeClass("invalid").focusout();
+}
+
+function abrirModalCadastroSerpro(){
+    var caminhoSerpro = $("#caminho_serpro").val();
+    var senhaSerpro = $("#senha_serpro").val();
+    var erro = "";
+
+    if(caminhoSerpro == ""){
+        erro += "Especifique o caminho do Certificado\n";
+    }
+    if(senhaSerpro == ""){
+        erro += "Preencha o campo Senha Serpro";
+    }
+
+    if(erro == ""){
+        $("#SegredoNovoCertificado").val("");
+        $("#modalChaveCriptografiaCadastroSerpro").modal("open");
+        $("#btn-cadastrar-com-chave-serpro").prop("disabled", true);
+        $("#SegredoNovoCertificadoSerpro").val("");
+    } else {
+        $("#modalErro").modal("open");
+        $(".conteudo-erro").html('');
+        $(".conteudo-erro").append(erro);
+    }
+}
+
+function cadastrarSerpro(){
+    var caminhoSerpro = $("#caminho_serpro").val();
+    var senhaSerpro = $("#senha_serpro").val();
+    var segredo = $("#SegredoNovoCertificadoSerpro").val();
+    
+
+    try{
+        var arquivo_yml = caminhoMensageria + "application.yml";
+        var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
+
+        doc.certificado.servidor.chave = caminhoSerpro;
+        doc.certificado.servidor.senha = Encrypt(senhaSerpro, segredo);
+
+        yaml_writer.sync(arquivo_yml, doc);      
+
+
+        var loader = `<div class='container center'>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                `;
+
+            M.toast({
+                html: loader,
+                timeRemaining: 200,
+                displayLength: 1000,
+                classes: 'container center transparent',
+                completeCallback: () => {
+                    $("#btn-cadastrar-com-chave-serpro").prop("disabled", false);
+                    $("#modalChaveCriptografiaCadastroSerpro").modal("close");
+                    $("#tabela_caminho_serpro").html("").html($("#caminho_serpro").val());
+                    $("#tabela_senha_serpro").html("").html(Encrypt(senhaSerpro, segredo));
+                    $("#caminho_serpro").val("");
+                    $("#senha_serpro").val("");
+                }
+            });
+
+            sleep(1000);
+
+            M.toast({
+                html: SucessoCadastroSerpro,
+                timeRemaining: 200,
+                displayLength: 2000,
+                classes: 'green accent-3'
+            });
+
+    } catch(e){
+        if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
+            $("#modalErro").modal("open");
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(erro_abrir_application_yml);
+            $(".Status_Carregamento_Arquivo").html("").html(erro_abrir_application_yml);
+            $("#modalChaveCriptografiaCadastroSerpro").modal("close");
+            $("#btn-cadastrar-com-chave").prop("disabled", false);
+        } else {
+            $("#modalErro").modal("open");
+            $(".conteudo-erro").html('');
+            $(".conteudo-erro").append(e.toString());
+            $("#modalChaveCriptografiaCadastroSerpro").modal("close");
+            $(".Status_Carregamento_Arquivo").html("").html(e.toString());
+            $("#btn-cadastrar-com-chave").prop("disabled", false);
+        }
+    }
 }
 
 /*

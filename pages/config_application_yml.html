@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
-
+    <script type="text/javascript" src="../scripts/configuracoes-aplicacao.js"></script>
     <script>
         window.jQuery = window.$ = require('jquery');
     </script>
@@ -22,7 +22,7 @@
         //Script verifica se existe algum arquivo de configuração
         //Se existir salva em localstorage, caso contrario leva o usuario para 
         //Cadastrar a pasta da mensageria.
-        //DefinirConfiguracaoInicial();
+        DefinirConfiguracaoInicial();
     </script>
     <script type="text/javascript" src="../scripts/config-yml.js"></script>
     
@@ -37,6 +37,7 @@
         <div class="nav-content">
           <ul class="tabs tabs-transparent col s6 offset-s6">
             <li class="tab"><a href="#form-base-de-dados">Base de Dados</a></li>
+            <li class="tab"><a href="#serpro">Certificado Serpro</a></li>
             <li class="tab"><a href="#empregadores">Empregadores Cadastrados</a></li>
             <li class="tab"><a href="#cadastrarEmpregador">Cadastrar Empregador</a></li>
           </ul>
@@ -116,6 +117,8 @@
                 </div>
             </div>
 
+            
+
             <div id="cadastrarEmpregador" class="section conteudo">
                 <h5>Novo Empregador</h5>
                 <div class="input-field col m12">
@@ -139,8 +142,8 @@
                 <div class="input-field col m2 s2">
                     <select id="novo-tipo-transmissor">
                             <option value="" disabled selected>Tipo Transmissor</option>
-                            <option value="1">CPF</option>
-                            <option value="2">CNPJ</option>
+                            <option value="2">CPF</option>
+                            <option value="1">CNPJ</option>
                     </select>
                 </div>
     
@@ -154,8 +157,46 @@
             </div>
             
         </form>
+
         </div>
     </div>
+
+    <div id="serpro" class="row conteudo">
+            <div class="row">
+                <div class="section conteudo">
+                    <h5>Serpro</h5>
+                    <div class="section">       
+                        <table class="centered col m12 s12">
+                            <thead>
+                                <tr class="col m12 s12">
+                                <th class="col m6 s6">Caminho Serpro</th>
+                                <th class="col m6 s6">Senha Serpro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td class="col m6 s6" id="tabela_caminho_serpro"></td>
+                                <td class="col m6 s6" id="tabela_senha_serpro"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="section"></div>
+            <h5>Cadastrar Serpro</h5>
+            <div class="input-field col m12">
+                <label for="caminho_serpro">Caminho Serpro</label>
+                <input type="text" class="col m9" disabled placeholder="Caminho Serpro" id="caminho_serpro" required>
+                <span class="helper-text" data-error="" data-success=""></span>
+                <button class="btn" class="col m2" id="btn-carregar-novo-certificado" onclick="carregarCertificadoCadastro($('#caminho_serpro'))">Carregar Arquivo</button>
+            </div>
+            <div class="input-field col m12 s12">
+                <label for="senha_serpro">Senha Serpro</label>            
+                <input type="text" id="senha_serpro">
+            </div>
+            <a onclick="abrirModalCadastroSerpro()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Configurar Serpro</a>
+        </div>
+
+    
 
     <!-- Inicio ChaveCriptografia Cadastro -->
     <div id="modalChaveCriptografiaCadastro" class="modal container">
@@ -183,6 +224,33 @@
         </div>
     </div>
     <!-- Fim Inicio ChaveCriptografia Cadastro -->
+
+    <!-- Inicio ChaveCriptografia Cadastro Serpro -->
+    <div id="modalChaveCriptografiaCadastroSerpro" class="modal container">
+            <div class="modal-content blue-grey lighten-4">
+                <!-- Cabeçalho Modal -->
+                <div class="modal-header">
+                        <h5><i class="material-icons">error</i>Aviso</h5>
+                    </div>
+                <div class="modal-body blue-grey lighten-5">
+                    <div class="col m12 s12">
+                        <div class="card-panel red accent-2" id="InformacaoModalChaveCriptografia">
+                            <span class="white-text">O Segredo de criptografia não é guardado na aplicação.
+                            <br/>Favor guardar o segredo para uso futuro.</span>
+                        </div>
+                    </div>
+                    <div class="input-field col m12 s12">
+                        <label for="SegredoNovoCertificadoSerpro">Segredo de Criptografia</label>
+                        <input type="text" placeholder="Segredo de Criptografia" id="SegredoNovoCertificadoSerpro" required>
+                    </div>
+                </div>
+                <div class="modal-footer transparent">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
+                    <button onclick="cadastrarSerpro()" id="btn-cadastrar-com-chave-serpro" class="btn green accent-3 white-text">Confirmar Segredo</button>
+                </div>
+            </div>
+        </div>
+        <!-- Fim Inicio ChaveCriptografia Cadastro Serpro -->
 
     <!-- Inicio ChaveCriptografia Edição -->
     <div id="modalChaveCriptografiaEdicao" class="modal container">
