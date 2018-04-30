@@ -2,6 +2,10 @@
     width: 90%;
 }
 
+#config-serpro {
+    margin-top: 100px !important;
+}
+
 a.flow-text{
     margin-left: 15px;
 }

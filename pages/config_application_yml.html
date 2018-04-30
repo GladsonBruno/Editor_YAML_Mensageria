@@ -119,7 +119,7 @@
 
             
 
-            <div id="cadastrarEmpregador" class="section conteudo">
+            <div id="cadastrarEmpregador" class="section conteudo col m12 s12   ">
                 <h5>Novo Empregador</h5>
                 <div class="input-field col m12">
                     <label for="novo-caminho-certificado">Caminho Certificado</label>
@@ -155,46 +155,46 @@
                 <a onclick="abrirModalCadastroEmpregador()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Cadastrar</a>
                 <button onclick="CancelarCadastro()" class="waves-effect waves-light btn-flat blue-grey lighten-2 white-text">Cancelar</button>
             </div>
-            
+        
+            <div id="serpro" class="section conteudo col m12 s12">
+                <h5>Serpro</h5>
+                <div class="col m12 s12">       
+                    <table class="centered col m12 s12">
+                        <thead>
+                            <tr class="col m12 s12">
+                            <th class="col m6 s6">Caminho Serpro</th>
+                            <th class="col m6 s6">Senha Serpro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td class="col m6 s6" id="tabela_caminho_serpro"></td>
+                            <td class="col m6 s6" id="tabela_senha_serpro"></td>
+                        </tbody>
+                    </table>
+                </div>
+                    
+                <div class="section" id="config-serpro">
+                <h5>Configurar Serpro</h5>
+                <div class="input-field col m12">
+                    <label for="caminho_serpro">Caminho Serpro</label>
+                    <input type="text" class="col m9" disabled placeholder="Caminho Serpro" id="caminho_serpro" required>
+                    <span class="helper-text" data-error="" data-success=""></span>
+                    <button class="btn" class="col m2" id="btn-carregar-novo-certificado" onclick="carregarCertificadoCadastro($('#caminho_serpro'))">Carregar Arquivo</button>
+                </div>
+                <div class="input-field col m12 s12">
+                    <label for="senha_serpro">Senha Serpro</label>            
+                    <input type="text" id="senha_serpro">
+                </div>
+                <a onclick="abrirModalCadastroSerpro()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Configurar Serpro</a>
+                </div>
+            </div>
+
         </form>
 
         </div>
     </div>
 
-    <div id="serpro" class="row conteudo">
-            <div class="row">
-                <div class="section conteudo">
-                    <h5>Serpro</h5>
-                    <div class="section">       
-                        <table class="centered col m12 s12">
-                            <thead>
-                                <tr class="col m12 s12">
-                                <th class="col m6 s6">Caminho Serpro</th>
-                                <th class="col m6 s6">Senha Serpro</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <td class="col m6 s6" id="tabela_caminho_serpro"></td>
-                                <td class="col m6 s6" id="tabela_senha_serpro"></td>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="section"></div>
-            <h5>Configurar Serpro</h5>
-            <div class="input-field col m12">
-                <label for="caminho_serpro">Caminho Serpro</label>
-                <input type="text" class="col m9" disabled placeholder="Caminho Serpro" id="caminho_serpro" required>
-                <span class="helper-text" data-error="" data-success=""></span>
-                <button class="btn" class="col m2" id="btn-carregar-novo-certificado" onclick="carregarCertificadoCadastro($('#caminho_serpro'))">Carregar Arquivo</button>
-            </div>
-            <div class="input-field col m12 s12">
-                <label for="senha_serpro">Senha Serpro</label>            
-                <input type="text" id="senha_serpro">
-            </div>
-            <a onclick="abrirModalCadastroSerpro()" id="btn-cadastrar" class="waves-effect waves-light btn-flat green accent-3 white-text">Configurar Serpro</a>
-        </div>
+    
 
     
 
