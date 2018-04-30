@@ -33,9 +33,7 @@ logging:
   file: esocial.log
 certificado:
   servidor:
-    chave: >-
-      C:\Users\Lenovo\Documents\Estudos
-      Electron\CopiaElectron_YAML_TESTE\readme.md
+    chave: 'C:\Users\Lenovo\Desktop\serpro.jks'
     senha: GeF6/aEOfyRar6DPW641Yg==
 serpro:
   url_producao:
@@ -57,25 +55,10 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '10251900'
-      chave: 'C:\Users\Lenovo\Downloads\apache-activemq-5.15.3-bin.zip'
-      senha: fmVAlXiEcsx8Mh+YcAeDnA==
-      tipo-transmissor: '2'
-      numero-transmissor: '10251900681'
-    - codigo: '11111111'
+    - codigo: '21222222'
       chave: 'C:\Users\Lenovo\Desktop\Certificado.cer'
-      senha: O5KxP8QnwTspZz2YC5Dm8g==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '11111111'
-      chave: 'C:\Users\Lenovo\Google Drive\instalador1.1.14.zip'
-      senha: HYUZYbj+iqh/Ou3v4bsNrw==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
-    - codigo: '11111111'
-      chave: 'C:\Users\Lenovo\Downloads\512x512.png.ico'
-      senha: PyBH2cnmaGEjO3a04/WWbg==
-      tipo-transmissor: '1'
+      senha: dCH4VFC8c6zscv/yYvOvrQ==
+      tipo-transmissor: '2'
       numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '

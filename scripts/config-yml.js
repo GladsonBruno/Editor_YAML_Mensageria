@@ -766,8 +766,6 @@ function excluirEmpregador() {
         doc.esocial.empregadores.splice(indexEmpregador, 1);
         yaml_writer.sync(arquivo_yml, doc);
 
-        var empregadorExcluido = parseInt(indexEmpregador) + 1;
-
         var loader = `<div class='container center'>
                 <div class="preloader-wrapper big active">
                     <div class="spinner-layer spinner-blue-only">
@@ -785,15 +783,23 @@ function excluirEmpregador() {
                 </div>
                 `;
 
-                $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ff8a80");
+                var totalEmpregadores = $("[name=EmpregadorEditar]").length;
+                var indiceExcluido;
+                for(var i = 0; i < totalEmpregadores; i++){
+                    if(parseInt($("[name='EmpregadorEditar']:eq(" + i + ")").find("button").eq(0).attr("id")) == indexEmpregador){
+                        indiceExcluido = i;
+                    }
+                }
+                $("[name=Empregador]:eq(" + indiceExcluido + ")").css("background-color", "#ff8a80");
+
         M.toast({
             html: loader,
             timeRemaining: 200,
             displayLength: 1000,
             classes: 'container center transparent',
             completeCallback: () => {
-                $("[name=Empregador]:eq(" + indexEmpregador + ")").remove();
-                $("[name=EmpregadorEditar]:eq(" + indexEmpregador + ")").remove();
+                $("[name=Empregador]:eq(" + indiceExcluido + ")").remove();
+                $("[name=EmpregadorEditar]:eq(" + indiceExcluido + ")").remove();
             }
         });
 
@@ -1256,7 +1262,21 @@ function CadastrarEmpregador(){
                 Transmissor_Extenso = "CNPJ";
             }
 
-            var IndexNovoEmpregador = parseInt($("[name='Empregador']").length);
+            //Verifica quantos empregadores tem cadastrados
+            var empregadoresCadastrados = parseInt($("[name='Empregador']").length);
+            var IndexNovoEmpregador;
+            if(empregadoresCadastrados == 0){
+                IndexNovoEmpregador = 0;
+            } else {
+                //Index do ultimo empregador cadastrado
+            var indexUltimoEmpregador = empregadoresCadastrados - 1;
+                //Com base no id do botão de edição do ultimo empregador eu adiciono mais 1 e terei um novo
+                //id.
+                //Feito desta forma pois se um empregador for cadastrado e outro for cadastrado sem recarregar
+                //a aplicação ele ficará com um index duplicado e assim gerando bug ao deletar algum empregador 
+                IndexNovoEmpregador = 1 + parseInt($("[name='EmpregadorEditar']:eq(" + indexUltimoEmpregador + ")").find("button").eq(0).attr("id"));
+            }
+            
 
             //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
             var TransmissorComMascara = MascararCamposDaTabela(numero_transmissor, transmissor);
