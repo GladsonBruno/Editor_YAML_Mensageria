@@ -8,6 +8,7 @@
   "build": {
     "appId": "com.example.configuradorMensageriaArkhi",
     "productName": "EditorVisualYML",
+    "artifactName": "Configurador_Mensageria_${version}.${ext}",
     "publish": [
       {
         "provider": "github",
