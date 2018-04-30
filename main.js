@@ -83,6 +83,13 @@
         }
     ]
 
+    app.on('window-all-closed', function(){
+        app.quit();
+    });
+
+    app.on('will-quit', function(){
+        app.quit();
+    });
 
     //Adicionar Developer Tools se não for ambiente de Produção
     if(process.env.NODE_ENV !== 'production'){

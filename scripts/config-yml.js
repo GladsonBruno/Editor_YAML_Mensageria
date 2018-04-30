@@ -28,7 +28,7 @@ const Erro_Criptografia = "Segredo Incorreto!";
 //Mensagens de Sucesso
 const sucesso_carregamento_informacoes = "Configurações Carregadas com Sucesso";
 const SucessoCadastroEmpregador = "Configurações do novo Empregador cadastradas com Sucesso!";
-const SucessoCadastroSerpro = "Configuração do certificado serpro realizada com sucesso!";
+const SucessoCadastroSerpro = "Configuração do certificado serpro atualizada com sucesso!";
 const SucessoSalvarConfiguracoesDB = "Configurações de Banco de Dados Salvas com Sucesso!";
 
 
@@ -1405,7 +1405,7 @@ function abrirModalCadastroSerpro(){
     var erro = "";
 
     if(caminhoSerpro == ""){
-        erro += "Especifique o caminho do Certificado\n";
+        erro += "Especifique o caminho do Certificado </br>";
     }
     if(senhaSerpro == ""){
         erro += "Preencha o campo Senha Serpro";
