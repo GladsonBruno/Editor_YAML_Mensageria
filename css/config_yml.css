@@ -15,6 +15,15 @@ a.flow-text{
     width: 100%;
 }
 
+
+#tipo_transmissor{
+    height: 150px;
+}
+
+tr[name='EmpregadorEditar']{
+    height: 150px;
+}
+
 #Texto_Botoes {
     margin-top: -5px !important;
 }

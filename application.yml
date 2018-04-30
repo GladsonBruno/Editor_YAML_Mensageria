@@ -33,8 +33,10 @@ logging:
   file: esocial.log
 certificado:
   servidor:
-    chave: ./02_2018.jks
-    senha: 123456
+    chave: >-
+      C:\Users\Lenovo\Documents\Estudos
+      Electron\CopiaElectron_YAML_TESTE\readme.md
+    senha: GeF6/aEOfyRar6DPW641Yg==
 serpro:
   url_producao:
     envio: >-
@@ -59,7 +61,7 @@ esocial:
       chave: 'C:\Users\Lenovo\Downloads\apache-activemq-5.15.3-bin.zip'
       senha: fmVAlXiEcsx8Mh+YcAeDnA==
       tipo-transmissor: '2'
-      numero-transmissor: '10251900681234'
+      numero-transmissor: '10251900681'
     - codigo: '11111111'
       chave: 'C:\Users\Lenovo\Desktop\Certificado.cer'
       senha: O5KxP8QnwTspZz2YC5Dm8g==

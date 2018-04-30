@@ -464,9 +464,9 @@ function carregarInformacoes(arquivo){
                                 tabela += "<input type='password' name='SenhaCertificado' value='"+ empregadores[i].senha +"'/>";
                                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
                             tabela += "</td>";
-                            tabela += "<td class='col m2 s2'>";
+                            tabela += "<td class='col m2 s2' id='tipo_transmissor'>";
                                 tabela += "<select name='tipo-transmissor'>";
-                                    tabela += "<option value=''></option>";
+                                    tabela += "<option value='' disabled></option>";
                                     tabela += "<option value='2'>CPF</option>";
                                     tabela += "<option value='1'>CNPJ</option>";
                                 tabela += "</select>";
@@ -1288,8 +1288,8 @@ function CadastrarEmpregador(){
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<select name='tipo-transmissor'>";
-                    tabela += "<option value=''></option>";
+                tabela += "<select name='' id='tipo_transmissor'>";
+                    tabela += "<option value='' disabled></option>";
                     tabela += "<option value='2'>CPF</option>";
                     tabela += "<option value='1'>CNPJ</option>";
                 tabela += "</select>";
