@@ -19,8 +19,8 @@ var caminhoMensageria = configuracoes.CaminhoMensageria;
 caminhoMensageria = caminhoMensageria  + "\\";
 
 //Mensagens de Erro
-const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
-const erro_abrir_application_watchdog_yml = "Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que o programa!";
+const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que foi especificada na configuração";
+const erro_abrir_application_watchdog_yml = "Arquivo application-watchdog.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que foi especificada na configuração!";
 const info_erro_abrir_application_yml = "Falha ao Carregar as Informações - Arquivo application.yml não encontrado.";
 const info_erro_abrir_application_watchdog_yml = "Falha ao Carregar as Informações - Arquivo application-watchdog.yml não encontrado.";
 const Erro_Criptografia = "Segredo Incorreto!";
@@ -589,7 +589,7 @@ function carregarInformacoes(arquivo){
             if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                 $("#modalErro").modal("open");
                 $(".conteudo-erro").html('');
-                if(arquivo_yml == "application.yml"){
+                if(arquivo == "application"){
                     $(".conteudo-erro").append(erro_abrir_application_yml);
                     $(".Status_Carregamento_Arquivo").html("").html(info_erro_abrir_application_yml);
                 } else {
@@ -726,7 +726,7 @@ function configurar_db(arquivo){
                 if(e.toString().substring(0, 40) == "Error: ENOENT: no such file or directory"){
                     $("#modalErro").modal("open");
                     $(".conteudo-erro").html('');
-                    if(arquivo_yml == "application.yml"){
+                    if(arquivo == "application"){
                         $(".conteudo-erro").append(erro_abrir_application_yml);
                     } else {
                         $(".conteudo-erro").append(erro_abrir_application_watchdog_yml);
