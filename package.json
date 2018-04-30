@@ -28,10 +28,12 @@
       "license": "LICENSE",
       "runAfterFinish": true,
       "allowToChangeInstallationDirectory": true,
-      "oneClick": false
+      "oneClick": false,
+      "artifactName": "Configurador_Mensageria_${version}.${ext}"
     },
     "portable": {
-      "requestExecutionLevel": "user"
+      "requestExecutionLevel": "user",
+      "artifactName": "Configurador_Mensageria_Portable_${version}.${ext}"
     },
     "linux": {
       "category": "Utils",
@@ -52,7 +54,8 @@
         "libappindicator1",
         "libxtst6",
         "libnss3"
-      ]
+      ],
+      "artifactName": "Configurador_Mensageria_${version}.${ext}"
     },
     "rpm": {
       "depends": [
@@ -62,7 +65,8 @@
         "libindicator7",
         "libappindicator",
         "libXtst"
-      ]
+      ],
+      "artifactName": "Configurador_Mensageria_${version}.${ext}"
     },
     "snap": {
       "publish": [
@@ -74,6 +78,7 @@
           "owner": "gladson"
         }
       ],
+      "artifactName": "Configurador_Mensageria_${version}.${ext}",
       "confinement": "strict",
       "summary": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
       "grade": "stable",
@@ -119,7 +124,8 @@
           "type": "link",
           "path": "/Applications"
         }
-      ]
+      ],
+      "artifactName": "Configurador_Mensageria_${version}.${ext}"
     }
   },
   "scripts": {
