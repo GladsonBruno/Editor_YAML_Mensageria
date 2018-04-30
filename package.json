@@ -1,5 +1,5 @@
 {
-  "name": "configurador_mensageria_arkhi",
+  "name": "configurador_mensageria",
   "version": "1.0.1",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
   "author": "Gladson Bruno",
@@ -8,7 +8,6 @@
   "build": {
     "appId": "com.example.configuradorMensageriaArkhi",
     "productName": "EditorVisualYML",
-    "artifactName": "Configurador_Mensageria_${version}.${ext}",
     "publish": [
       {
         "provider": "github",
@@ -29,12 +28,10 @@
       "license": "LICENSE",
       "runAfterFinish": true,
       "allowToChangeInstallationDirectory": true,
-      "oneClick": false,
-      "artifactName": "Configurador_Mensageria_${version}.${ext}"
+      "oneClick": false
     },
     "portable": {
-      "requestExecutionLevel": "user",
-      "artifactName": "Configurador_Mensageria_Portable_${version}.${ext}"
+      "requestExecutionLevel": "user"
     },
     "linux": {
       "category": "Utils",
@@ -55,8 +52,7 @@
         "libappindicator1",
         "libxtst6",
         "libnss3"
-      ],
-      "artifactName": "Configurador_Mensageria_${version}.${ext}"
+      ]
     },
     "rpm": {
       "depends": [
@@ -66,8 +62,7 @@
         "libindicator7",
         "libappindicator",
         "libXtst"
-      ],
-      "artifactName": "Configurador_Mensageria_${version}.${ext}"
+      ]
     },
     "snap": {
       "publish": [
@@ -125,8 +120,7 @@
           "type": "link",
           "path": "/Applications"
         }
-      ],
-      "artifactName": "Configurador_Mensageria_${version}.${ext}"
+      ]
     }
   },
   "scripts": {
