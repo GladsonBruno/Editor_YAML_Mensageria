@@ -77,11 +77,6 @@ esocial:
       senha: PyBH2cnmaGEjO3a04/WWbg==
       tipo-transmissor: '1'
       numero-transmissor: '11111111111'
-    - codigo: '11111111'
-      chave: 'C:\Users\Lenovo\Downloads\512x512.png.ico'
-      senha: O5KxP8QnwTspZz2YC5Dm8g==
-      tipo-transmissor: '1'
-      numero-transmissor: '11111111111'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
