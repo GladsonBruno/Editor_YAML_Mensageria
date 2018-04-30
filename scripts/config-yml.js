@@ -951,7 +951,16 @@ function EditarEmpregador(i){
     //Como não posso atribuir um ID fixo na chamada de função
     //Atribuo um ID aos botões que não irá mudar e não irá 
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
-    i = $(i).prop("id");
+    var indexEmpregador = $(i).prop("id");
+
+    var totalEmpregadores = $("[name=EmpregadorEditar]").length;
+
+    for(var j = 0; j < totalEmpregadores; j++){
+        if(parseInt($("[name='EmpregadorEditar']:eq(" + j + ")").find("button").eq(0).attr("id")) == indexEmpregador){
+            //Indice do empregador que será editado
+            i = j;
+        }
+    }
 
     var arquivo_yml = caminhoMensageria + "application.yml";
 
@@ -1264,17 +1273,19 @@ function CadastrarEmpregador(){
 
             //Verifica quantos empregadores tem cadastrados
             var empregadoresCadastrados = parseInt($("[name='Empregador']").length);
-            var IndexNovoEmpregador;
+            var IndexNovoEmpregador = empregadoresCadastrados;
+            var IndexParaEdicaoOuExclusao;
             if(empregadoresCadastrados == 0){
-                IndexNovoEmpregador = 0;
+                IndexParaEdicaoOuExclusao = 0;
             } else {
                 //Index do ultimo empregador cadastrado
             var indexUltimoEmpregador = empregadoresCadastrados - 1;
+
                 //Com base no id do botão de edição do ultimo empregador eu adiciono mais 1 e terei um novo
                 //id.
                 //Feito desta forma pois se um empregador for cadastrado e outro for cadastrado sem recarregar
                 //a aplicação ele ficará com um index duplicado e assim gerando bug ao deletar algum empregador 
-                IndexNovoEmpregador = 1 + parseInt($("[name='EmpregadorEditar']:eq(" + indexUltimoEmpregador + ")").find("button").eq(0).attr("id"));
+                IndexParaEdicaoOuExclusao = 1 + parseInt($("[name='EmpregadorEditar']:eq(" + indexUltimoEmpregador + ")").find("button").eq(0).attr("id"));
             }
             
 
@@ -1289,8 +1300,8 @@ function CadastrarEmpregador(){
             tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ Transmissor_Extenso +"</td>";
             tabela += "<td class='col m2 s2' name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='AbrirModalChaveCriptografiaEdicao(this)'><span class='material-icons'>edit</span></button>";
-                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
+                tabela += "<button class='btn' id='" + IndexParaEdicaoOuExclusao + "' onclick='AbrirModalChaveCriptografiaEdicao(this)'><span class='material-icons'>edit</span></button>";
+                tabela += "<button class='btn' id='" + IndexParaEdicaoOuExclusao + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
             tabela += "</td>";
         tabela += "</tr>";
         tabela += "<tr class='hide col m12 s12' name='EmpregadorEditar'>";
@@ -1301,14 +1312,14 @@ function CadastrarEmpregador(){
             tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='text' class='col m8' name='CaminhoCertificado' value='"+ NovoEmpregador.chave +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
-                tabela += "<a class='btn col m4' id='" + IndexNovoEmpregador + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></a>"
+                tabela += "<a class='btn col m4' id='" + IndexParaEdicaoOuExclusao + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></a>"
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
                 tabela += "<input type='password' name='SenhaCertificado' value='"+ NovoEmpregador.senha +"'/>";
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<select name='' id='tipo_transmissor'>";
+                tabela += "<select name='tipo-transmissor' id='tipo_transmissor'>";
                     tabela += "<option value='' disabled></option>";
                     tabela += "<option value='2'>CPF</option>";
                     tabela += "<option value='1'>CNPJ</option>";
@@ -1319,8 +1330,8 @@ function CadastrarEmpregador(){
                 tabela += "<span class='helper-text' data-error='' data-success=''></span>";
             tabela += "</td>";
             tabela += "<td class='col m2 s2'>";
-                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='EditarEmpregador(this)'><span class='material-icons'>check</span></button>";
-                tabela += "<button class='btn' id='" + IndexNovoEmpregador + "' onclick='CancelarEdicao(this)'><span class='material-icons'>cancel</span></button>";
+                tabela += "<button class='btn' id='" + IndexParaEdicaoOuExclusao + "' onclick='EditarEmpregador(this)'><span class='material-icons'>check</span></button>";
+                tabela += "<button class='btn' id='" + IndexParaEdicaoOuExclusao + "' onclick='CancelarEdicao(this)'><span class='material-icons'>cancel</span></button>";
             tabela += "</td>";
         tabela += "</tr>";  
         
