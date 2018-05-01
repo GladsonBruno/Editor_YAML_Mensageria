@@ -741,6 +741,93 @@ function configurar_db(arquivo){
         }
 }
 
+function recarregarEmpregadores(doc){
+    var tabela = "";
+    
+    var QuantidadeDeEmpregadores = doc.esocial.empregadores.length;
+    
+    var empregadores = doc.esocial.empregadores;
+    var transmissor;
+    
+    for(var i = 0; i < QuantidadeDeEmpregadores; i++){
+        //empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
+        transmissor = empregadores[i]["tipo-transmissor"];
+        if(transmissor == 1){
+            transmissor = "CPF";
+        } else {
+            transmissor = "CNPJ"
+        }
+    
+        //Retorna o Número de Transmissor formatado com CPF ou CNPJ.
+        var TransmissorComMascara = MascararCamposDaTabela(empregadores[i]["numero-transmissor"], empregadores[i]["tipo-transmissor"]);
+    
+     
+        tabela += "<tr name='Empregador' class='col m12 s12'>";
+            tabela += "<td class='col m2 s2' name='TableCodigoEmpregador'>"+ empregadores[i].codigo +"</td>";
+            tabela += "<td class='col m2 s2' name='TableCaminhoCertificado'>"+ empregadores[i].chave +"</td>";
+            tabela += "<td class='col m2 s2' name='TableSenhaCertificado'>"+ empregadores[i].senha +"</td>";
+            tabela += "<td class='col m2 s2' name='TableTipoTransmissor'>"+ transmissor +"</td>";
+            tabela += "<td class='col m2 s2'name='TableNumeroTransmissor'>"+ TransmissorComMascara +"</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<button class='btn' id='" + i + "' onclick='AbrirModalChaveCriptografiaEdicao(this)'><span class='material-icons'>edit</span></button>";
+                tabela += "<button class='btn' id='" + i + "' onclick='abrirModalExclusao(this)'><span class='material-icons'>delete</span></button>"
+            tabela += "</td>";
+        tabela += "</tr>";
+        tabela += "<tr class='hide col m12 s12' name='EmpregadorEditar'>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<input type='text' name='CodigoTransmissor' value='"+ empregadores[i].codigo +"'/>";
+                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+            tabela += "</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<input type='text' name='CaminhoCertificado' class='col m8' value='"+ empregadores[i].chave +"'/>";
+                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+                tabela += "<a class='btn col m4' id='" + i + "' onclick='carregarCertificadoEdicao(this)'><span class='material-icons'>folder_open</span></a>"
+            tabela += "</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<input type='password' name='SenhaCertificado' value='"+ empregadores[i].senha +"'/>";
+                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+            tabela += "</td>";
+            tabela += "<td class='col m2 s2' id='tipo_transmissor'>";
+                tabela += "<select name='tipo-transmissor'>";
+                    tabela += "<option value='' disabled></option>";
+                    tabela += "<option value='2'>CPF</option>";
+                    tabela += "<option value='1'>CNPJ</option>";
+                tabela += "</select>";
+            tabela += "</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<input type='text' name='NumeroEmpregador' value='"+ empregadores[i]['numero-transmissor'] +"'/>";
+                tabela += "<span class='helper-text' data-error='' data-success=''></span>";
+            tabela += "</td>";
+            tabela += "<td class='col m2 s2'>";
+                tabela += "<button class='btn' id='" + i + "' onclick='EditarEmpregador(this)'><span class='material-icons'>check</span></button>";
+                tabela += "<button class='btn' id='" + i + "' onclick='CancelarEdicao(this)'><span class='material-icons'>cancel</span></button>";
+            tabela += "</td>";
+        tabela += "</tr>";
+    }
+    
+    $(".conteudo-empregadores").html("");
+    $(".conteudo-empregadores").append(tabela);
+    
+    
+    for(var i = 0; i < QuantidadeDeEmpregadores; i++){
+        //Função utilizada para mudar o valor do select_
+        if(doc.esocial.empregadores[i]["tipo-transmissor"] == "2"){
+            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CPF");
+            $("[name='tipo-transmissor']:eq(" + i + ")").val(2);
+            $("[name='NumeroEmpregador']:eq(" + i + ")").mask('000.000.000-00');
+        } else {
+            mudarValorSelect($("[name='tipo-transmissor']:eq(" + i + ")"), "CNPJ");
+            $("[name='tipo-transmissor']:eq(" + i + ")").val(1);
+            $("[name='NumeroEmpregador']:eq(" + i + ")").mask('00.000.000/0000-00');
+        }
+        $("[name='tipo-transmissor']:eq(" + i + ")").formSelect();
+
+        //Validação Campo CodigoTransmissor
+        ValidarTamanhoCodigoEmpregador($("[name='CodigoTransmissor']:eq(" + i + ")"));
+        ValidarTamanhoNumeroEmpregador($("[name='NumeroEmpregador']:eq(" + i + ")"), $("[name='tipo-transmissor']:eq(" + i + ")"));
+    }    
+}
+
 function abrirModalExclusao(indexEmpregador){
     //Pegando ID do botão.
     //Como não posso atribuir um ID fixo na chamada de função
@@ -783,14 +870,14 @@ function excluirEmpregador() {
                 </div>
                 `;
 
-                var totalEmpregadores = $("[name=EmpregadorEditar]").length;
+                /*var totalEmpregadores = $("[name=EmpregadorEditar]").length;
                 var indiceExcluido;
                 for(var i = 0; i < totalEmpregadores; i++){
                     if(parseInt($("[name='EmpregadorEditar']:eq(" + i + ")").find("button").eq(0).attr("id")) == indexEmpregador){
                         indiceExcluido = i;
                     }
-                }
-                $("[name=Empregador]:eq(" + indiceExcluido + ")").css("background-color", "#ff8a80");
+                }*/
+                $("[name=Empregador]:eq(" + indexEmpregador + ")").css("background-color", "#ff8a80");
 
         M.toast({
             html: loader,
@@ -798,8 +885,9 @@ function excluirEmpregador() {
             displayLength: 1000,
             classes: 'container center transparent',
             completeCallback: () => {
-                $("[name=Empregador]:eq(" + indiceExcluido + ")").remove();
-                $("[name=EmpregadorEditar]:eq(" + indiceExcluido + ")").remove();
+                $("[name=Empregador]:eq(" + indexEmpregador + ")").remove();
+                $("[name=EmpregadorEditar]:eq(" + indexEmpregador + ")").remove();
+                recarregarEmpregadores(doc);
             }
         });
 
