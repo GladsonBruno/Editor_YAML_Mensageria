@@ -54,17 +54,7 @@ esocial:
     extraidoparaconsulta: C
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
-  empregadores:
-    - codigo: '33333333'
-      chave: 'C:\Users\Lenovo\Desktop\Certificado.cer'
-      senha: 7Q8x43/MgPhmk1Su+ShqqQ==
-      tipo-transmissor: '1'
-      numero-transmissor: '33333333333333'
-    - codigo: '33333333'
-      chave: 'C:\Users\Lenovo\Desktop\ConsultarLoteEventos.cer'
-      senha: 7Q8x43/MgPhmk1Su+ShqqQ==
-      tipo-transmissor: '1'
-      numero-transmissor: '33333333333333'
+  empregadores: []
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
