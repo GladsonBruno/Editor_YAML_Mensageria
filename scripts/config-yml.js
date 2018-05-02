@@ -137,20 +137,20 @@ function Decrypt(SenhaCriptografada, Segredo){
 function verificarPreenchimentoChaveCriptografia(seletor, botaoConfirmacao){
     seletor.on("focus", function(){
         if(seletor.val() == ""){
-            botaoConfirmacao.prop("disabled", true);
+            botaoConfirmacao.attr("disabled", true);
             seletor.addClass("invalid");
         } else {
-            botaoConfirmacao.prop("disabled", false);
+            botaoConfirmacao.attr("disabled", false);
             seletor.removeClass("invalid");
         }
     });
 
     seletor.on("keyup", function(){
         if(seletor.val() == ""){
-            botaoConfirmacao.prop("disabled", true);
+            botaoConfirmacao.attr("disabled", true);
             seletor.addClass("invalid");
         } else {
-            botaoConfirmacao.prop("disabled", false);
+            botaoConfirmacao.attr("disabled", false);
             seletor.removeClass("invalid");
         }
     });
@@ -1242,7 +1242,7 @@ function carregarCertificadoEdicao(i){
 }
 
 function abrirModalCadastroEmpregador(){
-    $("#btn-cadastrar-com-chave").prop("disabled", true);
+    $("#btn-cadastrar-com-chave").attr("disabled", true);
     //Informações Certificado 
     var codigo_empregador = $("#novo-codigo_empregador").val().toString();
     var path_certificado = $("#novo-caminho-certificado").val();
@@ -1291,20 +1291,21 @@ function abrirModalCadastroEmpregador(){
         $("#modalErro").modal("open");
         $(".conteudo-erro").html('');
         $(".conteudo-erro").append(error);
-        $("#btn-cadastrar").prop("disabled", false);
+        $("#btn-cadastrar").attr("disabled", false);
     } else{
         $("#SegredoNovoCertificado").val("");
+        $("#btn-cadastrar-com-chave").attr("disabled", true);
         $("#modalChaveCriptografiaCadastro").modal("open");
-        
+        $("#btn-cadastrar").attr("disabled", false);
     }
 }
 
 
 function CadastrarEmpregador(){
     var SegredoCertificado = $("#SegredoNovoCertificado").val();
-    $("#btn-cadastrar-com-chave").prop("disabled", true);
+    $("#btn-cadastrar-com-chave").attr("disabled", true);
 
-    $("#btn-cadastrar").prop("disabled", true);
+    $("#btn-cadastrar").attr("disabled", true);
 
     
 
@@ -1355,7 +1356,7 @@ function CadastrarEmpregador(){
             var IndexNovoEmpregador = empregadoresCadastrados;
             var IndexParaEdicaoOuExclusao;
             if(empregadoresCadastrados == 0){
-                
+
                 IndexParaEdicaoOuExclusao = 0;
 
             } else {
@@ -1452,10 +1453,10 @@ function CadastrarEmpregador(){
                 classes: 'container center transparent',
                 completeCallback: () => {
                     //Reativar botão de cadastro.
-                    $("#btn-cadastrar").prop("disabled", false);
+                    $("#btn-cadastrar").attr("disabled", false);
                     //Função para limpar os campos de cadastro.
                     CancelarCadastro();
-                    $("#btn-cadastrar-com-chave").prop("disabled", false);
+                    $("#btn-cadastrar-com-chave").attr("disabled", false);
                     $("#modalChaveCriptografiaCadastro").modal("close");
                 }
             });

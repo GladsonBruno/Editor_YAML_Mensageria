@@ -1,8 +1,8 @@
 db:
-  url: 'jdbc:sqlserver://192.168.0.1:1521;databaseName=Teste'
+  url: 'jdbc:sqlserver://192.168.0.4:1010;databaseName=Testes'
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  username: system
-  password: U2FsdGVkX184Ghxvol+rSZ1Aqy/uOps0SYMO5ZjTuRI=
+  username: sql
+  password: arterh
   datasource:
     initial-size: 5
     max-active: 10
