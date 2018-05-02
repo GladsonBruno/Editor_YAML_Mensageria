@@ -835,7 +835,6 @@ function abrirModalExclusao(indexEmpregador){
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
     indexEmpregador = $(indexEmpregador).prop("id");
 
-    var empregador_a_ser_excluido = parseInt(indexEmpregador) + 1;
     localStorage.setItem("Index_Empregador_A_Excluir", indexEmpregador);
 
     $(".conteudo-exclusao").html("").append("Deseja excluir o Empregador selecionado ?");
@@ -1039,23 +1038,15 @@ function EditarEmpregador(i){
     //Como não posso atribuir um ID fixo na chamada de função
     //Atribuo um ID aos botões que não irá mudar e não irá 
     //Gerar falhas nas exclusões fazendo com que itens errados sejam excluidos.
-    var indexEmpregador = $(i).prop("id");
+    i = $(i).prop("id");
 
-    var totalEmpregadores = $("[name=EmpregadorEditar]").length;
-
-    for(var j = 0; j < totalEmpregadores; j++){
-        if(parseInt($("[name='EmpregadorEditar']:eq(" + j + ")").find("button").eq(0).attr("id")) == indexEmpregador){
-            //Indice do empregador que será editado
-            i = j;
-        }
-    }
 
     var arquivo_yml = caminhoMensageria + "application.yml";
 
     var variavelSegredo = "SegredoCorretoEdicao_" + i;
     var segredo = localStorage.getItem(variavelSegredo);
 
-    var EmpregadorEditado = parseInt(i) + 1;
+    
 
         //Informações Certificado 
         var codigo_empregador = $("[name='CodigoTransmissor']:eq(" + i + ")").val().toString();
@@ -1364,16 +1355,13 @@ function CadastrarEmpregador(){
             var IndexNovoEmpregador = empregadoresCadastrados;
             var IndexParaEdicaoOuExclusao;
             if(empregadoresCadastrados == 0){
+                
                 IndexParaEdicaoOuExclusao = 0;
-            } else {
-                //Index do ultimo empregador cadastrado
-            var indexUltimoEmpregador = empregadoresCadastrados - 1;
 
-                //Com base no id do botão de edição do ultimo empregador eu adiciono mais 1 e terei um novo
-                //id.
-                //Feito desta forma pois se um empregador for cadastrado e outro for cadastrado sem recarregar
-                //a aplicação ele ficará com um index duplicado e assim gerando bug ao deletar algum empregador 
-                IndexParaEdicaoOuExclusao = 1 + parseInt($("[name='EmpregadorEditar']:eq(" + indexUltimoEmpregador + ")").find("button").eq(0).attr("id"));
+            } else {
+
+                IndexParaEdicaoOuExclusao = empregadoresCadastrados
+
             }
             
 

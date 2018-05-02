@@ -54,12 +54,7 @@ esocial:
     extraidoparaconsulta: C
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
-  empregadores:
-    - codigo: '22222222'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
-      senha: TjMcJ6A9VjB213TL0LPQIg==
-      tipo-transmissor: '1'
-      numero-transmissor: '22222222222222'
+  empregadores: []
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
