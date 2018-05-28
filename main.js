@@ -11,7 +11,7 @@
     //Definindo ambiente de Produção ou de Desenvolvimento.
     // production = Produção
     //development = Desenvolvimento
-    process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
 
 
 

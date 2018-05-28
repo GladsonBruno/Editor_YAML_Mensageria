@@ -60,6 +60,11 @@ esocial:
       senha: L3wOZBn+vA3a/so1QfmwXA==
       tipo-transmissor: '1'
       numero-transmissor: '22222222222222'
+    - codigo: '12345679'
+      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
+      senha: 4+mWP0GJHJp7mkQ5HPR0eQ==
+      tipo-transmissor: '2'
+      numero-transmissor: '12345679111'
   consulta.governo: 0 */1 * * * *
   envio.governo: '*/30 * * * * * '
   s1000: '*/30 * * * * *'
