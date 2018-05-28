@@ -55,11 +55,6 @@ esocial:
   tamanhoMaximoPacote: 750
   maximoEventosPorPacote: 50
   empregadores:
-    - codigo: '11111111'
-      chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\.travis.yml'
-      senha: EfelIy9tNW1xGnH2/WMW5g==
-      tipo-transmissor: '2'
-      numero-transmissor: '12333333333'
     - codigo: '22222222'
       chave: 'C:\Users\glads\Documents\Arkhi\Editor_YAML_Mensageria\application.yml'
       senha: L3wOZBn+vA3a/so1QfmwXA==

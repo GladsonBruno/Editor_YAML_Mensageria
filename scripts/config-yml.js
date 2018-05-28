@@ -752,7 +752,7 @@ function recarregarEmpregadores(doc){
     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
         //empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
         transmissor = empregadores[i]["tipo-transmissor"];
-        if(transmissor == 1){
+        if(transmissor == 2){
             transmissor = "CPF";
         } else {
             transmissor = "CNPJ"
