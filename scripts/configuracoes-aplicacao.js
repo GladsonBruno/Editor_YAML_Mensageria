@@ -174,7 +174,7 @@ function ConfigurarCaminhoMensageria(){
                                 displayLength: 2000,
                                 classes: 'green accent-3',
                                 completeCallback: () => {
-                                    //window.location.assign("config_application_yml.html");
+                                    window.location.assign("config_application_yml.html");
                                 }
                             });
 
