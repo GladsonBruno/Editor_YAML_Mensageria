@@ -1,6 +1,6 @@
 {
   "name": "configurador_mensageria",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
   "author": "Gladson Bruno",
   "license": "Apache-2.0",
@@ -128,33 +128,24 @@
     "dist": "build -- arch all",
     "postinstall": "install-app-deps",
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "dev": "webpack webpack.config.js -d --watch"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "cryptlib": "^1.0.3",
-    "formidable": "^1.2.1",
     "jquery": "^3.3.1",
+    "material-icons": "^0.2.3",
     "materialize-css": "^1.0.0-beta",
     "node-yaml": "^3.1.1",
     "write-yaml": "^1.0.0"
   },
   "devDependencies": {
     "7zip-bin": "^3.1.0",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
-    "css-loader": "^0.28.11",
     "devtron": "^1.4.0",
     "electron": "^2.0.0-beta.7",
     "electron-builder": "^18.0.1",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.3",
     "electron-packager": "^9.1.0",
-    "electron-rebuild": "^1.7.3",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "style-loader": "^0.20.3",
-    "uglify-js": "^3.3.22",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15"
+    "electron-rebuild": "^1.7.3"
   }
 }

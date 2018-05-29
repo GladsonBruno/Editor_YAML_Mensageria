@@ -229,11 +229,42 @@ function ValidarTamanhoCodigoEmpregador(seletor){
         }
     });
 
+    seletor.on("paste", function(e){
+        e.preventDefault();
+        var textoColado = e.originalEvent.clipboardData.getData('Text');
+        var textoApenasNumero = textoColado.replace(/[^0-9\.]+/g, '').replace(/[^\d]+/g, "");
+        if( textoApenasNumero.length > 8 ){
+            textoApenasNumero = textoApenasNumero.substr(0,8);
+
+            if(textoApenasNumero.length == 8){
+                seletor.removeClass("invalid");
+                seletor.addClass("valid");
+                seletor.val(textoApenasNumero);
+            }
+            
+        } else {
+            
+            if(textoApenasNumero.length == 8){
+                seletor.removeClass("invalid");
+                seletor.addClass("valid");
+                seletor.val(textoApenasNumero);
+            } else {
+                seletor.removeClass("valid");
+                seletor.addClass("invalid");
+                seletor.val(textoApenasNumero);
+            }
+
+        }
+    });
+
 }
 
 function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
     
-
+    if(seletorTransmissor.val() == null || seletorTransmissor.val() == ""){
+        seletorCampo.prop("disabled", true);
+    }
+    
 
     seletorCampo.on("focus", function(){
         if(this.value.length == 0){
@@ -311,19 +342,87 @@ function ValidarTamanhoNumeroEmpregador(seletorCampo, seletorTransmissor){
     seletorTransmissor.on("change", function(){
         tamanhoSeletorCampo = seletorCampo.val().replace(".", "").replace("-", "").replace("/", "").replace(".", "").length;
 
-        if(this.value == "2"){
+        if(this.value == null){
+            seletorCampo.prop("disabled", true);
+        } else if(this.value == "2"){
+            seletorCampo.prop("disabled", false);
             seletorCampo.mask('000.000.000-00');
             if(tamanhoSeletorCampo == 11){
                 seletorCampo.removeClass("invalid").addClass("valid");
             }
             seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CPF deve conter 11 dígitos");
         } else {
+            seletorCampo.prop("disabled", false);
             seletorCampo.mask('00.000.000/0000-00');
             if(tamanhoSeletorCampo < 14){
                 seletorCampo.removeClass("valid").addClass("invalid");
                 seletorCampo.parent().find("span").attr("data-error", "O número de transmissor do tipo CNPJ deve conter 14 dígitos");
             }
         }
+    });
+
+    seletorCampo.on("paste", function(e){
+        e.preventDefault();
+        var textoColado = e.originalEvent.clipboardData.getData('Text');
+        var textoApenasNumero = textoColado.replace(/[^0-9\.]+/g, '').replace(/[^\d]+/g, "");
+        console.log(seletorTransmissor.val())
+        if( seletorTransmissor.val() == 1 ){
+
+            if(textoApenasNumero.length > 14){
+                textoApenasNumero = textoApenasNumero.substr(0,14);
+
+                if(textoApenasNumero.length == 14){
+                    seletorCampo.removeClass("invalid");
+                    seletorCampo.addClass("valid");
+                    seletorCampo.val(textoApenasNumero);
+                }
+
+            } else {
+            
+                if(textoApenasNumero.length == 14){
+                    seletorCampo.removeClass("invalid");
+                    seletorCampo.addClass("valid");
+                    seletorCampo.val(textoApenasNumero);
+                } else if( textoApenasNumero.length < 14 ) {
+                    seletorCampo.removeClass("valid");
+                    seletorCampo.addClass("invalid");
+                    seletorCampo.val(textoApenasNumero);
+                }
+
+            }
+
+            seletorCampo.mask('00.000.000/0000-00');
+
+        } else if( seletorTransmissor.val() == 2 ) {
+
+            if(textoApenasNumero.length > 11){
+                textoApenasNumero = textoApenasNumero.substr(0,11);
+
+                if(textoApenasNumero.length == 11){
+                    seletorCampo.removeClass("invalid");
+                    seletorCampo.addClass("valid");
+                    seletorCampo.val(textoApenasNumero);
+                }
+
+            } else {
+            
+                if(textoApenasNumero.length == 11){
+                    seletorCampo.removeClass("invalid");
+                    seletorCampo.addClass("valid");
+                    seletorCampo.val(textoApenasNumero);
+                } else {
+                    seletorCampo.removeClass("valid");
+                    seletorCampo.addClass("invalid");
+                    seletorCampo.val(textoApenasNumero);
+                }
+
+            }
+
+            seletorCampo.mask('000.000.000-00');
+
+        }
+
+        console.log(textoApenasNumero);
     });
 
 }
@@ -429,7 +528,7 @@ function carregarInformacoes(arquivo){
                     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
                         //empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
                         transmissor = empregadores[i]["tipo-transmissor"];
-                        if(transmissor == 1){
+                        if(transmissor == "2"){
                             transmissor = "CPF";
                         } else {
                             transmissor = "CNPJ"
@@ -752,7 +851,7 @@ function recarregarEmpregadores(doc){
     for(var i = 0; i < QuantidadeDeEmpregadores; i++){
         //empregadores[i].senha = cryptoJS.AES.decrypt(empregadores[i].senha.toString(), chave_de_criptografia).toString(cryptoJS.enc.Utf8)
         transmissor = empregadores[i]["tipo-transmissor"];
-        if(transmissor == 1){
+        if(transmissor == 2){
             transmissor = "CPF";
         } else {
             transmissor = "CNPJ"
