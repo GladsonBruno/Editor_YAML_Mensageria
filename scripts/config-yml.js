@@ -1,8 +1,8 @@
 var fs = require('fs');
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
-const os = require("ok");
-
+const os = require("os");
+console.log(os.platform());
 //Biblioteca de criptografia
 var cryptoLib = require('cryptlib');
 
@@ -17,10 +17,11 @@ const boxDialog = electron_config_yml.dialog;
 //Pasta dos arquivos da Mensageria
 var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
 var caminhoMensageria = configuracoes.CaminhoMensageria;
-if( os.platform() == "linux" || os.platform() == "darwin"){
+var SistemaOperacional = os.platform().toString();
+if( SistemaOperacional == "linux" || SistemaOperacional == "darwin"){
     caminhoMensageria = caminhoMensageria  + "/";    
-} else if( os.platform() == "win32" || os.platform().substr(0,3) == "win" ){
-
+} else if( SistemaOperacional == "win32" || SistemaOperacional.substr(0,3) == "win" ){
+    caminhoMensageria = caminhoMensageria  + "\\";
 } else {
     caminhoMensageria = caminhoMensageria  + "/";
 }
