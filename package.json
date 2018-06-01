@@ -38,11 +38,15 @@
       "icon": "assets/icons/linux",
       "packageCategory": "utils",
       "maintainer": "Gladson Bruno",
-      "target": [
-        "rpm",
-        "deb"
-      ],
-      "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
+      "target": [{
+        "target": "rpm",
+        "arch": ["ia32", "x64"]
+      },{
+        "target": "deb",
+        "arch": ["ia32", "x64"]
+      }
+    ],
+    "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
     },
     "deb": {
       "depends": [
