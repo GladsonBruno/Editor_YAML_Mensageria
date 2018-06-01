@@ -17,6 +17,7 @@ const boxDialog = electron_config_yml.dialog;
 //Pasta dos arquivos da Mensageria
 var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
 var caminhoMensageria = configuracoes.CaminhoMensageria;
+//Tratamento do Sistema Operacional em que a aplicação será executada.
 var SistemaOperacional = os.platform().toString();
 if( SistemaOperacional == "linux" || SistemaOperacional == "darwin"){
     caminhoMensageria = caminhoMensageria  + "/";    
