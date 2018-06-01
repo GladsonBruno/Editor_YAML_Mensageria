@@ -1,6 +1,7 @@
 var fs = require('fs');
 const yaml = require('js-yaml');
 const yaml_writer = require('write-yaml');
+const os = require("ok");
 
 //Biblioteca de criptografia
 var cryptoLib = require('cryptlib');
@@ -16,7 +17,14 @@ const boxDialog = electron_config_yml.dialog;
 //Pasta dos arquivos da Mensageria
 var configuracoes = JSON.parse(localStorage.getItem("Configuracoes"));
 var caminhoMensageria = configuracoes.CaminhoMensageria;
-caminhoMensageria = caminhoMensageria  + "\\";
+if( os.platform() == "linux" || os.platform() == "darwin"){
+    caminhoMensageria = caminhoMensageria  + "/";    
+} else if( os.platform() == "win32" || os.platform().substr(0,3) == "win" ){
+
+} else {
+    caminhoMensageria = caminhoMensageria  + "/";
+}
+
 
 //Mensagens de Erro
 const erro_abrir_application_yml = "Arquivo application.yml não encontrado. </br> Favor verificar se o arquivo se encontra na mesma pasta que foi especificada na configuração";
