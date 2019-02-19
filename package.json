@@ -38,15 +38,23 @@
       "icon": "assets/icons/linux",
       "packageCategory": "utils",
       "maintainer": "Gladson Bruno",
-      "target": [{
-        "target": "rpm",
-        "arch": ["ia32", "x64"]
-      },{
-        "target": "deb",
-        "arch": ["ia32", "x64"]
-      }
-    ],
-    "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
+      "target": [
+        {
+          "target": "rpm",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        }
+      ],
+      "synopsis": "Software Fazer alterações em arquivos YML da Mensageria graficamente."
     },
     "deb": {
       "depends": [
@@ -137,10 +145,10 @@
   "dependencies": {
     "cryptlib": "^1.0.3",
     "jquery": "^3.3.1",
+    "js-yaml": "^3.12.1",
+    "json2yaml": "^1.1.0",
     "material-icons": "^0.2.3",
-    "materialize-css": "^1.0.0-beta",
-    "node-yaml": "^3.1.1",
-    "write-yaml": "^1.0.0"
+    "materialize-css": "^1.0.0-beta"
   },
   "devDependencies": {
     "7zip-bin": "^3.1.0",

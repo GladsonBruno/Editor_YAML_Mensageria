@@ -1,11 +1,10 @@
 var fs = require('fs');
 const yaml = require('js-yaml');
-const yaml_writer = require('write-yaml');
 const os = require("os");
 console.log(os.platform());
 //Biblioteca de criptografia
 var cryptoLib = require('cryptlib');
-
+var yaml_converter = require('json2yaml');
 
 
 //Usados para abrir caixa de dialogo para carregar arquivo
@@ -795,7 +794,9 @@ function configurar_db(arquivo){
                 //password_db = cryptoJS.AES.encrypt(password_db, chave_de_criptografia).toString();
                 doc.db.password = password_db;
     
-                yaml_writer.sync(arquivo_yml, doc);
+                var ymlText = yaml_converter.stringify(doc);
+
+                fs.writeFileSync(arquivo_yml, ymlText);
 
                 var loader = `<div class='container center'>
                 <div class="preloader-wrapper big active">
@@ -959,7 +960,9 @@ function excluirEmpregador() {
         var arquivo_yml = caminhoMensageria + "application.yml";
         var doc = yaml.safeLoad(fs.readFileSync(arquivo_yml, 'utf8'));
         doc.esocial.empregadores.splice(indexEmpregador, 1);
-        yaml_writer.sync(arquivo_yml, doc);
+        
+        var ymlText = yaml_converter.stringify(doc);
+        fs.writeFileSync(arquivo_yml, ymlText);
 
         var loader = `<div class='container center'>
                 <div class="preloader-wrapper big active">
@@ -1232,7 +1235,8 @@ function EditarEmpregador(i){
                 //Numero Transmissor
                 doc.esocial.empregadores[i]["numero-transmissor"] = numero_transmissor;
     
-                yaml_writer.sync(arquivo_yml, doc);
+                var ymlText = yaml_converter.stringify(doc);
+                fs.writeFileSync(arquivo_yml, ymlText);
 
                 var TabelaCodEmpregador = $("[name=TableCodigoTransmissor]:eq(" + i + ")");
                 var TabelaCaminhoCertificado = $("[name=TableCaminhoCertificado]:eq(" + i + ")");
@@ -1450,7 +1454,9 @@ function CadastrarEmpregador(){
             //Adicionando novo Empregador ao Objeto
             doc.esocial.empregadores.push(NovoEmpregador);
 
-            yaml_writer.sync(arquivo_yml, doc);
+            var ymlText = yaml_converter.stringify(doc);
+
+            fs.writeFileSync(arquivo_yml, ymlText);
 
             var Transmissor_Extenso = "";
 
@@ -1653,7 +1659,8 @@ function cadastrarSerpro(){
         doc.certificado.servidor.chave = caminhoSerpro;
         doc.certificado.servidor.senha = Encrypt(senhaSerpro, segredo);
 
-        yaml_writer.sync(arquivo_yml, doc);      
+        var ymlText = yaml_converter.stringify(doc);
+        fs.writeFileSync(arquivo_yml, ymlText);
 
 
         var loader = `<div class='container center'>
@@ -1722,7 +1729,8 @@ try {
     var doc = yaml.safeLoad(fs.readFileSync('application.yml', 'utf8'));
     doc.esocial.empregadores[0].codigo = 12345678;
     doc.esocial.empregadores[1].codigo = 87654321;
-    yaml_writer.sync('application.yml', doc);
+    var ymlText = yaml_converter.stringify(doc);
+    fs.writeFileSync(arquivo_yml, ymlText);
     doc.db.datasource.validation-query
     
 } catch(e) {
