@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "configurador_mensageria",
   "version": "1.0.4",
   "description": "Software Fazer alterações em arquivos YML da Mensageria graficamente.",
@@ -148,7 +148,8 @@
     "js-yaml": "^3.12.1",
     "json2yaml": "^1.1.0",
     "material-icons": "^0.2.3",
-    "materialize-css": "^1.0.0-beta"
+    "materialize-css": "^1.0.0-beta",
+    "write-yaml": "^1.0.0"
   },
   "devDependencies": {
     "7zip-bin": "^3.1.0",
