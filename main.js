@@ -1,4 +1,4 @@
-const electron = require('electron');
+﻿const electron = require('electron');
 const { BrowserWindow, Menu, app } = electron;
 const url = require('url');
 const path = require('path');
@@ -11,7 +11,7 @@ let TelaInicial;
 //Definindo ambiente de Produção ou de Desenvolvimento.
 // production = Produção
 //development = Desenvolvimento
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'production';
 
 let menuTemplate = [
     {
