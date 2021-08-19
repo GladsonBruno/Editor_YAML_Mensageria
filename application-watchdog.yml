@@ -1,51 +1,137 @@
+﻿#Configuracao do microsservico de watchdog
+server:
+  port: 9999
+
+# Configuracao do banco de dados Oracle
+# URL do Oracle: jdbc:oracle:thin:@127.0.0.1:1521:XE
+# Driver Oracle:  oracle.jdbc.OracleDriver
+# Configuração do banco de daados SQL Server
+# URL do SQL Server:  jdbc:sqlserver://127.0.0.1:1433
+# Driver do SQL Server:  com.microsoft.sqlserver.jdbc.SQLServerDriver
+
 db:
-  url: 'jdbc:oracle:thin:@192.168.0.55:8080:ARKHI'
+  #URL INTERNA
+  url: jdbc:oracle:thin:@localhost:49161:XE
+  #URL EXTERNA GLADSON
+  #url: jdbc:oracle:thin:@35.231.171.146:49161:XE
+  #URL EXTERNA PC ARTHUR
+  #url: jdbc:oracle:thin:@192.168.0.61:49161:XE
+  #DRIVER ORACLE
   driver: oracle.jdbc.OracleDriver
-  username: Master
-  password: arkhi
+  #AcessoOracle
+  username: system
+  password: oracle
+    
+  #URL POSTGRE
+  #url: jdbc:postgresql://35.231.146.171:5432/admin
+  #DRIVER POSTGREE
+  #driver: org.postgresql.Driver
+  #Acesso Postgre
+  #username: admin
+  #password: admin
+
+  
+  #Usuario Gladson SQL Server
+  #url: jdbc:sqlserver://35.231.171.146:1433;database=esocial
+  #url: jdbc:sqlserver://localhost:1433;database=master
+  #driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #username: sa
+  #password: 9u9TtfXQ
   datasource:
-    initial-size: 5
-    max-active: 10
-    max-idle: 5
-    min-idle: 1
-    max-wait: 20000
-    test-while-idle: true
-    test-on-borrow: true
+    #Validation Query ORACLE
     validation-query: SELECT 1 FROM DUAL
-    time-between-eviction-runs-millis: 5000
-    min-evictable-idle-time-millis: 60000
-    remove-abandoned: true
-    remove-abandoned-timeout: 30
-    abandon-when-percentage-full: 50
-    jdbcInterceptors: ResetAbandonedTimer
+    #Validation Query SQL Server e Postgres
+    #validation-query: SELECT 1
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: HikariPoolArkhi
+      connectionTimeout: 120000
+      maximumPoolSize: 5
+      minimumIdle: 1
+      maxLifetime: 300000
+      
+# Parametros de log
+# Log de eventos da fila de mensagens: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
 logging:
   level:
-    com.arterh.esocial: INFO
-    com.arkhi.esocial.util: INFO
-    org.apache.activemq: FATAL
+    com.arterh.esocial: DEBUG
+    com.arkhi.esocial.util: DEBUG
+    org.apache.activemq: WARN
+    com.zaxxer.hikari: DEBUG
+  path: './'
+  pathArquivoMensagensDoSistema: './src/main/resources/mensagens-mensageria.yml'
+
+  
+  #Periodicidade de consulta ao SERPRO 
+  
+  #Sintax CronTab
+  #* * * * * *
+  #| | | | | |
+  #| | | | | +-- Dia da semana  (faixa: 1-7 ou três primeiras letras do dia da semana em inglês)
+  #| | | | +---- Mes  (faixa: 1-12 ou três primeiras letras do mês em inglês)
+  #| | | +------ Dia (faixa: 1-30)
+  #| | +-------- Hora  (faixa: 0-23)
+  #| +---------- Minuto              (faixa: 0-23)
+  #+------------ Segundo            (faixa: 0-59)
+  # Tempo
+  # Exemplos uteis:
+  # A cada 30 segundos: */30 * * * * *
+  # Cada 1 minuto: 0 */1 * * * *
+  # Cada 5 minutos: 0 */5 * * * *
+  # Cada 30 minutos: 0 */30 * * * *
+  # Toda hora: 0 0 * * * *
+  # Cada 3 horas: 0 0 */3 * * *
+  # Exatamento 10 horas da manha: 0 0 10 * * *
+  # Exatamento 22 horas da noite: 0 0 22 * * * 
+  # Referência completa para Cron - http://docs.netkernel.org/book/view/book:mod:cron/doc:mod:cron:cronexpression
+
 watchdog:
   frequencia:
-    db: '*/30 * * * * *'
-    mensageria: '*/30 * * * * *'
-    esocial: '*/30 * * * * *'
-    serpro: '*/30 * * * * *'
+    db: "*/30 * * * * *"
+    mensageria: "*/30 * * * * *"
+    esocial: "*/30 * * * * *"
+    serpro: "*/30 * * * * *"
+
+
+#Enderecos para monitorar e parametro de timeout para o estabelecimento de conexoes HTTP
 esocial:
-  leitor.endereco: 'http://localhost:5555/healthcheck'
-  integrador.endereco: 'http://localhost:5556/healthcheck'
-  mensagens.endereco: 'http://localhost:8161/'
+  leitor.endereco: http://localhost:5555/healthcheck
+  integrador.endereco: http://localhost:5556/healthcheck
+  mensagens.endereco: http://35.231.73.50:8161/
   serpro:
-    producao:
-      envio: >-
-        https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
-      consulta: >-
-        https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
-    pre_producao:
-      envio: >-
-        https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
-      consulta: >-
-        https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
-  http_timeout: 1000
+     producao:
+       envio: https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+       consulta: https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+     pre_producao:
+       envio: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+       consulta: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+ 
+  http_timeout: 1000  
+ 
+ #URl do ReInf para envio e consulta dos lotes
+reinf:
+  ativo: true
+  
+  producao: # Codigo 1 no banco de dados 
+    envio:  https://reinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc 
+    consulta: https://reinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc
+
+  pre_producao: # Codigo 2 no banco de dados 
+    envio: https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc
+    consulta: https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc 
+  
 spring:
   output:
-    ansi:
+    ansi: 
       enabled: always
+#  profiles:
+#    active: chaos-monkey
+#chaos:
+#  monkey:
+#    enabled: true 
+#    assaults:
+#      latencyActive: true
+#      latencyRangeStart: 15000
+#      latencyRangeEnd: 30000
+      
+      

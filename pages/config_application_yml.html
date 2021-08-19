@@ -88,7 +88,9 @@
                     </div>
                 </div>
                 <div class="input-field col m12">
-                    <button onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3">Salvar Configurações Base de Dados
+                    <button id="salvar-config-db" onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3">Salvar Configurações Base de Dados
+                    </button>
+                    <button id="editar-config-db" onclick="AbrirModalChaveCriptografiaDB()" class="waves-effect waves-light btn green accent-3">Editar Configurações da Base de Dados
                     </button>
                 </div>                    
             </div>
@@ -277,6 +279,33 @@
             </div>
         </div>
         <!-- Fim Inicio ChaveCriptografia Edição -->
+
+    <!-- Inicio ChaveCriptografia DB -->
+    <div id="modalChaveCriptografiaDB" class="modal container">
+        <div class="modal-content blue-grey lighten-4">
+            <!-- Cabeçalho Modal -->
+            <div class="modal-header">
+                    <h5><i class="material-icons">error</i> Aviso</h5>
+                </div>
+            <div class="modal-body blue-grey lighten-5">
+                <div class="col m12 s12">
+                    <div class="card-panel red accent-2" id="InformacaoModalChaveCriptografia">
+                        <span class="white-text">O Segredo de criptografia não é guardado na aplicação.
+                        <br/>Favor guardar o segredo para uso futuro.</span>
+                    </div>
+                </div>
+                <div class="input-field col m12 s12">
+                    <label for="SegredoSenhaDB" class=" black-text">Segredo de Criptografia</label>
+                    <input type="text" placeholder="Segredo de Criptografia" id="SegredoSenhaDB" required>
+                </div>
+            </div>
+            <div class="modal-footer transparent">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
+                <button onclick="PegarChaveCriptografiaDB()" id="btn-editar-com-chave" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Inicio ChaveCriptografia DB -->
 
     <!-- Inicio Modal Erro -->
     <div id="modalErro" class="modal container">

@@ -47,6 +47,7 @@ $(document).ready(function(){
     //que é obrigatório para conexão com o banco de dados Oracle
     //Se for SQL Server não precisa do campo db_sid e o campo é desabilitado e habilitando o campo nome-base-de-dados
     //que é obrigatório para conexão com o banco de dados SQL Server
+    $("#salvar-config-db").hide();
 
     $("#driver-base-de-dados").on('change', function(){
 
@@ -61,6 +62,13 @@ $(document).ready(function(){
         }
     });
 
+    $("#url-base-de-dados").prop("disabled", true);
+    $("#porta-base-de-dados").prop("disabled", true);
+    $("#nome-base-de-dados").prop("disabled", true);
+    $("#db_sid").prop("disabled", true);
+    //$("#driver-base-de-dados").prop("disabled", true);
+    $("#username").prop("disabled", true);
+    $("#password").prop("disabled", true);
 
     //Validando campo URL Base de Dados
     var url_db = $("#url-base-de-dados");
@@ -714,6 +722,55 @@ function carregarInformacoes(arquivo){
 }
 
 
+function editarConfiguracoesDB() {
+    $("#salvar-config-db").show();
+    $("#editar-config-db").hide();
+
+    var segredo = localStorage.getItem('SegredoSenhaDB');
+    var senha_db_criptografada = $("#password").val();
+    var senha_db_decriptografada = Decrypt(senha_db_criptografada, segredo);
+
+    if(senha_db_decriptografada == "error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt") {
+        M.toast({
+            html: Erro_Criptografia,
+            timeRemaining: 200,
+            displayLength: 3000,
+            classes: 'red accent-2'
+        });
+        $("#salvar-config-db").hide();
+        $("#editar-config-db").show();
+    } else if (senha_db_decriptografada == "error:0606506D:digital envelope routines:EVP_DecryptFinal_ex:wrong final block length") {
+        // Provavelmente a senha informada não foi criptografada
+        databaseInputsIsDisabled(false);
+        $("#password").val(senha_db_criptografada);
+    } else {
+        databaseInputsIsDisabled(false);
+        $("#password").val(senha_db_decriptografada);
+    }
+}
+
+function databaseInputsIsDisabled(isVisible) {
+    $("#url-base-de-dados").prop("disabled", isVisible);
+    $("#porta-base-de-dados").prop("disabled", isVisible);
+    $("#nome-base-de-dados").prop("disabled", isVisible);
+    $("#db_sid").prop("disabled", isVisible);
+    $("#username").prop("disabled", isVisible);
+    $("#password").prop("disabled", isVisible);
+    
+    var driver_db = $("#driver-base-de-dados").val();
+
+    if(driver_db == "oracle.jdbc.OracleDriver"){
+        $("#nome-base-de-dados").removeClass("valid").removeClass("invalid");
+        $("#nome-base-de-dados").prop("disabled", true);
+        $("#db_sid").prop("disabled", isVisible);
+    } else if(driver_db == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
+        $("#db_sid").removeClass("valid").removeClass("invalid");
+        $("#db_sid").prop("disabled", true);
+        $("#nome-base-de-dados").prop("disabled", isVisible);
+    }
+
+}
+
 function configurar_db(arquivo){
     //Arquivo a ser configurado
     var arquivo_yml;
@@ -727,6 +784,9 @@ function configurar_db(arquivo){
         arquivo_yml = caminhoMensageria + "application-watchdog.yml";
 
     }
+
+    databaseInputsIsDisabled(false);
+
      //Informações Base de Dados
         var url_db = $("#url-base-de-dados").val();
         var porta_db = $("#porta-base-de-dados").val();
@@ -792,7 +852,10 @@ function configurar_db(arquivo){
                 //Senha base de dados
                 
                 //password_db = cryptoJS.AES.encrypt(password_db, chave_de_criptografia).toString();
-                doc.db.password = password_db;
+                var segredo = localStorage.getItem('SegredoSenhaDB');
+                var senha_db_criptografada = Encrypt(password_db, segredo);
+                doc.db.password = senha_db_criptografada
+                $("#password").val(senha_db_criptografada);
     
                 var ymlText = yaml_converter.stringify(doc);
 
@@ -849,6 +912,11 @@ function configurar_db(arquivo){
                 }
             }
         }
+
+        databaseInputsIsDisabled(true);
+        $("#salvar-config-db").hide();
+        $("#editar-config-db").show();
+
 }
 
 function recarregarEmpregadores(doc){
@@ -1044,6 +1112,18 @@ function PegarChaveCriptografiaEdicao(){
     localStorage.setItem(variavelSegredo, segredo);
     $("#modalChaveCriptografiaEdicao").modal('close');
     IniciarEdicao(i);
+}
+
+function AbrirModalChaveCriptografiaDB(){
+    $("#modalChaveCriptografiaDB").modal('open');
+}
+
+function PegarChaveCriptografiaDB(){
+    var segredo = $("#SegredoSenhaDB").val();
+    localStorage.setItem('SegredoSenhaDB', segredo);
+    $('#SegredoSenhaDB').val("");
+    $("#modalChaveCriptografiaDB").modal('close');
+    editarConfiguracoesDB();
 }
 
 function IniciarEdicao(i){
