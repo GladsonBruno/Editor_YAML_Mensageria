@@ -491,23 +491,10 @@ function carregarInformacoes(arquivo){
                 $("#nome-base-de-dados").prop("disable", false);
                 $("#nome-base-de-dados").val(databaseName);
                 $("#db_sid").val("");
-                $("#db_sid").prop("disabled", true);
-                //Função utilizada para mudar o valor do select_
-                if(doc.db.driver == "oracle.jdbc.OracleDriver"){
-                    mudarValorSelect($("#driver-base-de-dados"), "Oracle");
-                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
-
-                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
-                    mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
-                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                } else {
-                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
-                    $("#driver-base-de-dados").val("org.postgresql.Driver");
-                }
-                
+                $("#db_sid").prop("disabled", true);                
                 $("#username").val(doc.db.username);
                 $("#password").val(doc.db.password);
-                //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+
             } else if (doc.db.driver == "oracle.jdbc.OracleDriver") {
                 //Informações Oracle Driver 
                 var sid_db;
@@ -523,22 +510,9 @@ function carregarInformacoes(arquivo){
                 $("#nome-base-de-dados").val("");
                 $("#nome-base-de-dados").prop("disabled", true);
                 $("#db_sid").val(sid_db);
-
-                //Função utilizada para mudar o valor do select_
-                if(doc.db.driver == "oracle.jdbc.OracleDriver"){
-                    mudarValorSelect($("#driver-base-de-dados"), "Oracle");
-                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
-                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
-                    mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
-                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                } else {
-                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
-                    $("#driver-base-de-dados").val("org.postgresql.Driver");
-                }
-
                 $("#username").val(doc.db.username);
                 $("#password").val(doc.db.password);
-                //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+                
             } else {
                 var databaseName;
     
@@ -554,23 +528,22 @@ function carregarInformacoes(arquivo){
                 $("#nome-base-de-dados").val(databaseName);
                 $("#db_sid").val("");
                 $("#db_sid").prop("disabled", true);
-                //Função utilizada para mudar o valor do select_
-                if(doc.db.driver == "oracle.jdbc.OracleDriver"){
-                    mudarValorSelect($("#driver-base-de-dados"), "Oracle");
-                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
-
-                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
-                    mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
-                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                } else {
-                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
-                    $("#driver-base-de-dados").val("org.postgresql.Driver");
-                }
-                
                 $("#username").val(doc.db.username);
                 $("#password").val(doc.db.password);
             }
     
+            //Função utilizada para mudar o valor do select_
+            if(doc.db.driver == "oracle.jdbc.OracleDriver"){
+                mudarValorSelect($("#driver-base-de-dados"), "Oracle");
+                $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
+            } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
+                mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
+                $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            } else {
+                mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
+                $("#driver-base-de-dados").val("org.postgresql.Driver");
+            }
+
             if(arquivo == "application"){
 
                 var tabela = "";
