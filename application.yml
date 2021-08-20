@@ -1,95 +1,204 @@
----
-  server: 
-    port: 5555
-  spring: 
-    activemq: 
-      broker-url: "failover://(tcp://34.75.184.160:61616)?nested.wireFormat.maxInactivityDuration=0&nested.wireFormat.maxInactivityDurationInitalDelay=30000&warnAfterReconnectAttempts=5"
-      user: "admin"
-      password: "admin"
-      in-memory: false
-    profiles: 
-      active: "IntegrationTest"
-  db: 
-    url: "jdbc:sqlserver://localhost:1433;databaseName=master"
-    driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-    username: "sa"
-    password: "2kMlGjVPzuzuCR2MQh3Pkg=="
-    datasource: 
-      validation-query: "SELECT 1"
-      type: "com.zaxxer.hikari.HikariDataSource"
-      hikari: 
-        poolName: "HikariPoolArkhi"
-        connectionTimeout: 120000
-        maximumPoolSize: 5
-        minimumIdle: 1
-        maxLifetime: 300000
-  logging: 
-    level: 
-      com.arterh.esocial: "DEBUG"
-      com.arkhi.esocial.util: "DEBUG"
-      org.apache.activemq: "WARN"
-      org.springframework.jdbc: "TRACE"
-      com.zaxxer.hikari: "DEBUG"
-    path: "./"
-    pathArquivoMensagensDoSistema: "./src/main/resources/mensagens-mensageria.yml"
-  servidorNTP: 
-    url: "a.st1.ntp.br"
-    maximoTentativasDeAcesso: 5
-    intervaloEntreTentativasDeAcesso: 15000
-  certificado: 
-    servidor: 
-      chave: "./src/test/resources/serpro.jks"
-      senha: "5CjURCei2z5IcU1iAJNSJA=="
-  serpro: 
-    url_producao: 
-      envio: "https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc"
-      consulta: "https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc"
-    url_pre_producao: 
-      envio: "https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc"
-      consulta: "https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc"
-  reinf: 
-    ativo: true
-    url_producao: 
-      envio: "https://reinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc"
-      consulta: "https://reinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc"
-    url_pre_producao: 
-      envio: "https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc"
-      consulta: "https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc"
-  esocial: 
-    evento: 
-      verificado: "V"
-      naoprocessado: "L,Q,W,S"
-      extraidoparaenvio: "X"
-      recebidopelogoverno: "R"
-      extraidoparaconsulta: "D"
-      falhaInfraestrutura: "I"
-      falhaDeXML: "E"
-      finalizado: "C"
-    tamanhoMaximoPacote: 750
-    maximoEventosPorPacote: 2
-    versaoLayoutProducao: "02_04_02,02_05_00"
-    versaoLayoutPreProducao: "02_04_02,02_05_00"
-    empregadores: 
-      - 
-        codigo: "23246515"
-        chave: "./src/main/resources/ARTE INFORMATICA LTDA23246515000171NOVO.pfx"
-        senha: "J9IixVpLNA4bC0nCuTHc4g=="
-        tipo-transmissor: "1"
-        numero-transmissor: "23246515000171"
-      - 
-        codigo: "05319244"
-        chave: "./src/main/resources/ARTE INFORMATICA LTDA23246515000171NOVO.pfx"
-        senha: "J9IixVpLNA4bC0nCuTHc4g=="
-        tipo-transmissor: 1
-        numero-transmissor: "05319244000171"
-      - 
-        codigo: "22151806"
-        chave: "./src/main/resources/CertificadoCPFParaFinsDeTeste.pfx"
-        senha: "5CjURCei2z5IcU1iAJNSJA=="
-        tipo-transmissor: 2
-        numero-transmissor: "22151806685"
-    consulta.governo: "0 0 0 25 2 *"
-    envio.governo: "0 0 0 25 2 *"
-    atualizaInfoCertificados: "0 0 1 * * *"
-    atualizaInfoLicencas: "0 0 1 * * *"
-    s1000: "0 0 0 25 2 *"
+#Configuracao do servidor eSocial
+server:
+  port: 5556
+
+#Configuracao do servidor de fila de mensagens ActiveMQ
+#Parametros de tolerancia a falhas estao documentados aqui: 
+#   http://activemq.apache.org/failover-transport-reference.html
+spring:
+  activemq:
+    #Broker url execução padrão
+    #broker-url: failover://(tcp://localhost:61616,tcp://localhost:61617)?warnAfterReconnectAttempts=5
+    #Broker url execução em container
+    broker-url: failover://(tcp://localhost:61616)?nested.wireFormat.maxInactivityDuration=0&nested.wireFormat.maxInactivityDurationInitalDelay=30000&warnAfterReconnectAttempts=5
+    user: admin
+    password: admin
+    in-memory: false
+  profiles:
+    active: IntegrationTest
+# Configuracao do banco de dados Oracle
+# URL do Oracle: jdbc:oracle:thin:@127.0.0.1:1521:XE
+# Driver Oracle:  oracle.jdbc.OracleDriver
+# Configuração do banco de daados SQL Server
+# URL do SQL Server:  jdbc:sqlserver://127.0.0.1:1433
+# Driver do SQL Server:  com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+db:
+  #URL INTERNA
+  #url: jdbc:oracle:thin:@localhost:49161:XE
+  #URL EXTERNA GLADSON
+  #url: jdbc:oracle:thin:@35.231.171.146:49161:XE
+  #URL EXTERNA PC ARTHUR
+  #url: jdbc:oracle:thin:@192.168.0.61:49161:XE
+  #DRIVER ORACLE
+  #driver: oracle.jdbc.OracleDriver
+  #AcessoOracle
+  #username: system
+  #password: oracle
+    
+  #URL POSTGRE
+  url: jdbc:postgresql://localhost:5432/mensageria
+  #url: jdbc:postgresql://35.231.146.171:5432/esocial
+  #DRIVER POSTGREE
+  driver: org.postgresql.Driver
+  #Acesso Postgre
+  username: admin
+  # Senha com criptografia
+  password: testefsd
+  # Senha sem criptografia
+  #password: admin
+
+  
+  #Usuario Gladson SQL Server
+  #url: jdbc:sqlserver://35.231.171.146:1433;database=esocial
+  #url: jdbc:sqlserver://localhost:1433;database=master
+  #driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  #username: sa
+  #password: 9u9TtfXQ
+  datasource:
+    #Validation Query ORACLE
+    #validation-query: SELECT 1 FROM DUAL
+    #Validation Query SQL Server e Postgres
+    validation-query: SELECT 1
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: HikariPoolArkhi
+      connectionTimeout: 120000
+      maximumPoolSize: 5
+      minimumIdle: 1
+      maxLifetime: 300000
+
+# Log de eventos da fila de mensagens: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+logging:
+  level:
+    com.arterh.esocial: DEBUG
+    com.arkhi.esocial.util: DEBUG
+    org.apache.activemq: WARN
+    org.springframework.jdbc: TRACE
+    com.zaxxer.hikari: DEBUG
+  path: './'
+  pathArquivoMensagensDoSistema: './src/main/resources/mensagens-mensageria.yml'
+
+servidorNTP:
+  url: 'a.st1.ntp.br'
+  maximoTentativasDeAcesso: 5
+  intervaloEntreTentativasDeAcesso: 15000
+
+# Credenciais
+certificado:
+  servidor: 
+    chave: ./src/test/resources/serpro.jks
+    senha: 5CjURCei2z5IcU1iAJNSJA==
+
+#URl do Serpro para envio e consulta dos lotes
+serpro:
+  url_producao: # Codigo 1 no banco de dados 
+ #   envio: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+ #   consulta: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+
+
+    envio: https://webservices.envio.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+    consulta: https://webservices.consulta.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+
+
+  url_pre_producao: # Codigo 2 no banco de dados 
+    envio: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/enviarloteeventos/WsEnviarLoteEventos.svc
+    consulta: https://webservices.producaorestrita.esocial.gov.br/servicos/empregador/consultarloteeventos/WsConsultarLoteEventos.svc
+
+#URl do ReInf para envio e consulta dos lotes
+reinf:
+  ativo: true
+
+  url_producao: # Codigo 1 no banco de dados 
+    envio:  https://reinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc 
+    consulta: https://reinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc
+
+  url_pre_producao: # Codigo 2 no banco de dados 
+    envio: https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/RecepcaoLoteReinf.svc
+    consulta: https://preprodefdreinf.receita.fazenda.gov.br/WsREINF/ConsultasReinf.svc
+    
+
+#Configuracao de temporizacao de eventos S
+
+
+# Parametros para extracao e gravacao de dados nas tabelas do banco de dados da ArteRH
+esocial:
+  evento:
+    verificado: V
+    naoprocessado: L,Q,W,S
+    extraidoparaenvio: X
+    recebidopelogoverno: R
+    extraidoparaconsulta: D
+    falhaInfraestrutura: I
+    falhaDeXML: E
+    finalizado: C
+
+
+  tamanhoMaximoPacote: 750
+  maximoEventosPorPacote: 2
+  
+  versaoLayoutProducao: "02_04_02"
+  versaoLayoutPreProducao: "02_05_00"
+
+
+  # Aqui voce configura a lista dos empregadores com o codigo, certificado digital, senha de acesso e transmissores      
+  empregadores:  
+    - codigo: "23246515"
+  #    chave: ./src/main/resources/ARTE INFORMATICA LTDA23246515000171.pfx
+  #    senha: sPy17sodyh/Wl9RUi99G4w==
+      chave: ./src/main/resources/ARTE INFORMATICA LTDA23246515000171NOVO.pfx
+      senha: J9IixVpLNA4bC0nCuTHc4g==
+      tipo-transmissor: 1
+      numero-transmissor: "23246515000171" 
+      
+    - codigo: "05319244"
+  #    chave: ./src/main/resources/ARTE INFORMATICA LTDA23246515000171.pfx
+  #    senha: sPy17sodyh/Wl9RUi99G4w==
+      chave: ./src/main/resources/ARTE INFORMATICA LTDA23246515000171NOVO.pfx
+      senha: J9IixVpLNA4bC0nCuTHc4g==
+  
+      tipo-transmissor: 1
+      numero-transmissor: "05319244000171"  
+
+
+  #Periodicidade de consulta ao SERPRO 
+  
+  #Sintax CronTab
+  #* * * * * *
+  #| | | | | |
+  #| | | | | +-- Dia da semana  (faixa: 1-7 ou três primeiras letras do dia da semana em inglês)
+  #| | | | +---- Mes  (faixa: 1-12 ou três primeiras letras do mês em inglês)
+  #| | | +------ Dia (faixa: 1-30)
+  #| | +-------- Hora  (faixa: 0-23)
+  #| +---------- Minuto              (faixa: 0-23)
+  #+------------ Segundo            (faixa: 0-59)
+  # Tempo
+  # Exemplos uteis:
+  # A cada 30 segundos: */30 * * * * *
+  # Cada 1 minuto: 0 */1 * * * *
+  # Cada 5 minutos: 0 */5 * * * *
+  # Cada 30 minutos: 0 */30 * * * *
+  # Toda hora: 0 0 * * * *
+  # Cada 3 horas: 0 0 */3 * * *
+  # Exatamento 10 horas da manha: 0 0 10 * * *
+  # Exatamento 22 horas da noite: 0 0 22 * * * 
+
+  # Temporizacao default para a consulta de eventos S ao governo 
+  
+  consulta.governo: "*/30 * * * * * "
+
+  # Temporizacao default para o envio de eventos S ao governo 
+  # Caso nao exista uma parametrizacao especifica para um S, este parametro sera usado. 
+  envio.governo: "*/30 * * * * * "
+
+  #Cron para atualizar todos os dias as informações dos certificados às 1 hora da Manhã
+  atualizaInfoCertificados: "0 0 1 * * *"
+  
+  #Cron para atualizar todos os dias as informações de licenças às 1 hora da Manhã
+  atualizaInfoLicencas: "0 0 1 * * *"
+  
+   # Caso seja necessário, é possivel parametrizar cada evento individualmente, 
+  #   redefinindo o valor default do parametro envio.governo
+  # O exemplo abaixo mostra como fazer isso para o evento s1000  
+  #S-1000 - Informacoes do Empregador/Contribuinte (temporizado para cada 30 segundos)
+  s1000: "*/30 * * * * *" 

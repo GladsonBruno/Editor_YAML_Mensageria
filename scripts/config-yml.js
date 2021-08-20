@@ -55,7 +55,8 @@ $(document).ready(function(){
             $("#nome-base-de-dados").removeClass("valid").removeClass("invalid");
             $("#nome-base-de-dados").prop("disabled", true);
             $("#db_sid").prop("disabled", false);
-        } else if($("#driver-base-de-dados").val() == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
+        } else if($("#driver-base-de-dados").val() == "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        || $("#driver-base-de-dados").val() == "org.postgresql.Driver") {
             $("#db_sid").removeClass("valid").removeClass("invalid");
             $("#db_sid").prop("disabled", true);
             $("#nome-base-de-dados").prop("disabled", false);
@@ -496,15 +497,18 @@ function carregarInformacoes(arquivo){
                     mudarValorSelect($("#driver-base-de-dados"), "Oracle");
                     $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
 
-                } else {
+                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
                     mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
                     $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                } else {
+                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
+                    $("#driver-base-de-dados").val("org.postgresql.Driver");
                 }
                 
                 $("#username").val(doc.db.username);
                 $("#password").val(doc.db.password);
                 //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
-            } else {
+            } else if (doc.db.driver == "oracle.jdbc.OracleDriver") {
                 //Informações Oracle Driver 
                 var sid_db;
                 url_db_completa = doc.db.url.toString().substr(18, doc.db.url.toString().length);
@@ -524,14 +528,47 @@ function carregarInformacoes(arquivo){
                 if(doc.db.driver == "oracle.jdbc.OracleDriver"){
                     mudarValorSelect($("#driver-base-de-dados"), "Oracle");
                     $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
-                } else {
+                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
                     mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
                     $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                } else {
+                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
+                    $("#driver-base-de-dados").val("org.postgresql.Driver");
                 }
 
                 $("#username").val(doc.db.username);
                 $("#password").val(doc.db.password);
                 //$("#password").val(cryptoJS.AES.decrypt(doc.db.password, chave_de_criptografia).toString(cryptoJS.enc.Utf8));
+            } else {
+                var databaseName;
+    
+                url_db_completa = doc.db.url.toString().substr(18, doc.db.url.toString().length);
+                
+                url_banco = url_db_completa.split(";")[0].split(":")[0];
+                porta_banco = url_db_completa.split(":")[1].split("/")[0]
+                databaseName = url_db_completa.split(":")[1].split("/")[1]
+    
+                $("#url-base-de-dados").val(url_banco);
+                $("#porta-base-de-dados").val(porta_banco);
+                $("#nome-base-de-dados").prop("disable", false);
+                $("#nome-base-de-dados").val(databaseName);
+                $("#db_sid").val("");
+                $("#db_sid").prop("disabled", true);
+                //Função utilizada para mudar o valor do select_
+                if(doc.db.driver == "oracle.jdbc.OracleDriver"){
+                    mudarValorSelect($("#driver-base-de-dados"), "Oracle");
+                    $("#driver-base-de-dados").val("oracle.jdbc.OracleDriver");
+
+                } else if (doc.db.driver == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
+                    mudarValorSelect($("#driver-base-de-dados"), "SQL Server");
+                    $("#driver-base-de-dados").val("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                } else {
+                    mudarValorSelect($("#driver-base-de-dados"), "Postgre SQL");
+                    $("#driver-base-de-dados").val("org.postgresql.Driver");
+                }
+                
+                $("#username").val(doc.db.username);
+                $("#password").val(doc.db.password);
             }
     
             if(arquivo == "application"){
@@ -763,7 +800,8 @@ function databaseInputsIsDisabled(isVisible) {
         $("#nome-base-de-dados").removeClass("valid").removeClass("invalid");
         $("#nome-base-de-dados").prop("disabled", true);
         $("#db_sid").prop("disabled", isVisible);
-    } else if(driver_db == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
+    } else if(driver_db == "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    || driver_db == "org.postgresql.Driver") {
         $("#db_sid").removeClass("valid").removeClass("invalid");
         $("#db_sid").prop("disabled", true);
         $("#nome-base-de-dados").prop("disabled", isVisible);
@@ -806,6 +844,9 @@ function configurar_db(arquivo){
         } 
         if(nome_db == "" && driver_db == "com.microsoft.sqlserver.jdbc.SQLServerDriver"){
             error += "Preencha o Campo Nome DB, este campo é obrigatório para o driver SQL SERVER  </br>";
+        }
+        if(nome_db == "" && driver_db == "org.postgresql.Driver"){
+            error += "Preencha o Campo Nome DB, este campo é obrigatório para o driver Postgre SQL  </br>";
         } 
         if(user_name_db == ""){
             error += "Preencha o campo Username  </br>";
@@ -838,8 +879,11 @@ function configurar_db(arquivo){
                 if(driver_db == "oracle.jdbc.OracleDriver"){
                     doc.db.url = "jdbc:oracle:thin:@" + url_db + ":" + porta_db + ":" + sid_db;
                     doc.db.datasource["validation-query"] = "SELECT 1 FROM DUAL";
-                } else {
+                } else if (driver_db == "com.microsoft.sqlserver.jdbc.SQLServerDriver") {
                     doc.db.url = "jdbc:sqlserver://" + url_db + ":" + porta_db + ";databaseName=" + nome_db + "";
+                    doc.db.datasource["validation-query"] = "SELECT 1";
+                } else {
+                    doc.db.url = "jdbc:postgresql://" + url_db + ":" + porta_db + "/" + nome_db + "";
                     doc.db.datasource["validation-query"] = "SELECT 1";
                 }
                 
@@ -911,12 +955,10 @@ function configurar_db(arquivo){
                     $(".Status_Carregamento_Arquivo").html("").html(e.toString());    
                 }
             }
+            databaseInputsIsDisabled(true);
+            $("#salvar-config-db").hide();
+            $("#editar-config-db").show();
         }
-
-        databaseInputsIsDisabled(true);
-        $("#salvar-config-db").hide();
-        $("#editar-config-db").show();
-
 }
 
 function recarregarEmpregadores(doc){
