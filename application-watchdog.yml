@@ -5,7 +5,7 @@
     url: "jdbc:postgresql://localhost:5432/mensageria"
     driver: "org.postgresql.Driver"
     username: "admin"
-    password: "GNqCl6rhr4jv9NHjyQzFXA=="
+    password: "ZPzYp6HYRE/uL5KMmXluwQ=="
     datasource: 
       validation-query: "SELECT 1"
       type: "com.zaxxer.hikari.HikariDataSource"

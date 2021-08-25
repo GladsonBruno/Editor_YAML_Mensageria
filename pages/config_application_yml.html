@@ -91,7 +91,7 @@
                 <div class="input-field col m12">
                     <button id="salvar-config-db" onclick="configurar_db('application')" class="waves-effect waves-light btn green accent-3">Salvar Configurações Base de Dados
                     </button>
-                    <button id="editar-config-db" onclick="AbrirModalChaveCriptografiaDB()" class="waves-effect waves-light btn green accent-3">Editar Configurações da Base de Dados
+                    <button id="editar-config-db" onclick="AbrirModalChaveCriptografiaDB()" class="waves-effect waves-light btn">Editar Configurações da Base de Dados
                     </button>
                 </div>                    
             </div>
@@ -283,7 +283,7 @@
 
     <!-- Inicio ChaveCriptografia DB -->
     <div id="modalChaveCriptografiaDB" class="modal container">
-        <div class="modal-content blue-grey lighten-4">
+        <div class="modal-content blue-grey lighten-4 chaveCriptografiaDB" style="display: block">
             <!-- Cabeçalho Modal -->
             <div class="modal-header">
                     <h5><i class="material-icons">error</i> Aviso</h5>
@@ -292,7 +292,8 @@
                 <div class="col m12 s12">
                     <div class="card-panel red accent-2" id="InformacaoModalChaveCriptografia">
                         <span class="white-text">O Segredo de criptografia não é guardado na aplicação.
-                        <br/>Favor guardar o segredo para uso futuro.</span>
+                            <br/>Favor guardar o segredo para uso futuro.
+                        </span>
                     </div>
                 </div>
                 <div class="input-field col m12 s12">
@@ -302,7 +303,33 @@
             </div>
             <div class="modal-footer transparent">
                 <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
-                <button onclick="PegarChaveCriptografiaDB()" id="btn-editar-com-chave" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+                <button onclick="abrirModalResetarSegredoCriptografiaDB()" id="btn-resetar-segredo" class="waves-effect waves-light btn-flat yellow accent-4 white-text">Resetar Segredo</button>
+                <button onclick="PegarChaveCriptografiaDB(false)" id="btn-segredo-senha-db" disabled class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Segredo</button>
+            </div>
+        </div>
+        <div class="modal-content blue-grey lighten-4 resetarChaveCriptografiaDB" style="display: none">
+            <!-- Cabeçalho Modal -->
+            <div class="modal-header">
+                    <h5><i class="material-icons">error</i> Aviso</h5>
+                </div>
+            <div class="modal-body blue-grey lighten-5">
+                <div class="col m12 s12">
+                    <div class="card-panel yellow accent-4" id="InformacaoModalChaveCriptografia">
+                        <span class="white-text"><b>O segredo de criptografia será resetado.
+                            <br/>Com isso a senha da base de dados terá que ser configurada novamente.
+                            <br/>O Segredo de criptografia não é guardado na aplicação.
+                            <br/>Favor guardar o novo segredo para uso futuro.</b>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-field col m12 s12">
+                    <label for="NovoSegredoSenhaDB" class=" black-text">Segredo de Criptografia</label>
+                    <input type="text" placeholder="Segredo de Criptografia" id="NovoSegredoSenhaDB" required>
+                </div>
+            </div>
+            <div class="modal-footer transparent">
+                <a href="#!" onclick="cancelarResetSegredoCriptografia()" class="modal-action modal-close waves-effect waves-light btn-flat  blue-grey lighten-2 white-text">Cancelar</a>
+                <button onclick="PegarChaveCriptografiaDB(true)" disabled id="btn-resetar-segredo-criptografia" class="waves-effect waves-light btn-flat green accent-3 white-text">Confirmar Novo Segredo</button>
             </div>
         </div>
     </div>

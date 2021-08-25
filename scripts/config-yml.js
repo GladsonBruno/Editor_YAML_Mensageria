@@ -118,6 +118,10 @@ $(document).ready(function(){
 
     verificarPreenchimentoChaveCriptografia($("#SegredoNovoCertificadoSerpro"), $("#btn-cadastrar-com-chave-serpro"));
 
+    verificarPreenchimentoChaveCriptografia($("#SegredoSenhaDB"), $("#btn-segredo-senha-db"));
+
+    verificarPreenchimentoChaveCriptografia($("#NovoSegredoSenhaDB"), $("#btn-resetar-segredo-criptografia"));
+
 });
 
 function Encrypt(SenhaOriginal, Segredo){
@@ -1121,6 +1125,7 @@ function AbrirModalChaveCriptografiaEdicao(i){
 }
 
 function PegarChaveCriptografiaEdicao(){
+    $("#btn-editar-com-chave").attr("disabled", true);
     var segredo = $("#SegredoEditarCertificado").val();
     var i = localStorage.getItem("ItemEditado");
     var variavelSegredo = "SegredoEdicao_" + i;
@@ -1133,12 +1138,36 @@ function AbrirModalChaveCriptografiaDB(){
     $("#modalChaveCriptografiaDB").modal('open');
 }
 
-function PegarChaveCriptografiaDB(){
-    var segredo = $("#SegredoSenhaDB").val();
-    localStorage.setItem('SegredoSenhaDB', segredo);
-    $('#SegredoSenhaDB').val("");
+function PegarChaveCriptografiaDB(resetarSegredo){
+    var segredo = "";
+    if (resetarSegredo === true) {
+        segredo = $("#NovoSegredoSenhaDB").val();
+        $("#password").val("");
+        $('#NovoSegredoSenhaDB').val("");
+        $('.chaveCriptografiaDB').show();
+        $('.resetarChaveCriptografiaDB').hide();
+    } else {
+        segredo = $("#SegredoSenhaDB").val();
+        $('#SegredoSenhaDB').val("");
+    }
     $("#modalChaveCriptografiaDB").modal('close');
+    localStorage.setItem('SegredoSenhaDB', segredo); 
     editarConfiguracoesDB();
+}
+
+function abrirModalResetarSegredoCriptografiaDB() {
+    $('.chaveCriptografiaDB').hide();
+    $('#SegredoSenhaDB').val("");
+    $("#btn-segredo-senha-db").attr("disabled", true);
+    $('.resetarChaveCriptografiaDB').show();
+    $('#btn-resetar-segredo-criptografia').attr('disabled', true);
+}
+
+function cancelarResetSegredoCriptografia() {
+    $('.chaveCriptografiaDB').show();
+    $('.resetarChaveCriptografiaDB').hide();
+    $('#NovoSegredoSenhaDB').val("");
+    $('#btn-resetar-segredo-criptografia').attr('disabled', true);
 }
 
 function IniciarEdicao(i){
